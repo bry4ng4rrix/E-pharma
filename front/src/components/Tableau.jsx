@@ -9,7 +9,7 @@ const Tableau = () =>{
                  <li className="bg-green-600 rounded-lg h-48">
                   <div className="justify-center p-10 items-center">
                       <RxRocket  className="text-4xl text-white"/>
-                      <p className="text-white lg:text-3xl mt-5 font-semibold "> Produit Total</p>
+                      <p className="text-white lg:text-3xl mt-4 font-semibold "> Produit Total</p>
                   </div>
                  </li>
                  <li className="bg-red-600 rounded-lg h-48"></li>
