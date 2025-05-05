@@ -1,15 +1,21 @@
+import { useState } from "react";
 import { RxPinRight } from "react-icons/rx"; 
 import { RxSun } from "react-icons/rx"; 
 
+
+
+
 const Sidebard = () => {
+	const [isOpen,setIsOpen] = useState(false);
+
     return (
-        <div className=" flex flex-col justify-between items-center w-16 md:w-48   h-5/6 py-5 m-5  fixed overflow-hidden text-gray-400 bg-gray-900 rounded">
+        <div className={`  flex-col  items-center  justify-between md:w-48 mt-24  h-5/6 py-5 m-5  fixed overflow-hidden text-slate-200 bg-slate-950 opacity-80 rounded ${isOpen ? 'md:w-48 justify-between' :'w-20' } `}>
 		<a className="flex items-center w-full px-3 mt-3" href="#">
 			<RxSun className="w-6 h-6"/>
-			<span className="ml-2 text-2xl font-bold">MAHQ<span className="text-green-500 text-lg font-semibold">UAFY</span></span>
+			<span className={` ml-2  font-bold ${isOpen ? 'hidden' : 'text-2xl'} `}>MAHQ<span className="text-green-500 text-lg font-semibold">UAFY</span></span>
 		</a>
 		<div className="w-full px-3">
-			<div className="flex flex-col items-center justify-center w-full mt-3 border-t  border-gray-700">
+			<div className="flex flex-col justify-center w-full mt-3 border-t  border-gray-700">
 				<a className="flex items-center w- h-12 px-3 mt-2 rounded hover:bg-gray-700 hover:text-gray-300" href="#">
 					<svg className="w-6 h-6 stroke-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
