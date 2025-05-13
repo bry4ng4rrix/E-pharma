@@ -1,5 +1,4 @@
-import Navbar from "../components/Navbar";
-import Conte from "../components/conte"
+import Navbar from "../components/Navbar"
 
 const App = () => {
     return (
@@ -13,7 +12,7 @@ const App = () => {
               {/* contenu */}
 
               
-                <Conte />
+                
               
         </div>
   

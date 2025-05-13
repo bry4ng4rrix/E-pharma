@@ -9,13 +9,13 @@ const Tableau = () =>{
           <div>
              <main className="max-w-full h-full flex-col relative overflow-y-hidden">
                   
-                  <div className="h-full flex flex-wrap items-start justify-start rounded-tl grid-flow-col auto-cols-max  overflow-y-scroll">
+                  <div className="mt-5 h-full flex flex-wrap items-start justify-start rounded-tl grid-flow-col auto-cols-max  overflow-y-scroll">
                     
                     {/* <div className="w-96 h-60 justify-center items-center rounded-lg  flex-shrink-0 flex-grow bg-green-400 grid-flow-col auto-cols-max">
                           
                     </div>  */}
 
-                       <div className=" m-5 p-3 rounded-lg flex-shrink-0 flex-grow bg-yellow-300">
+                       <div className="   rounded-lg flex-shrink-0 flex-grow bg-yellow-300">
                         <div className=" m-5 p-3 flex justify-between">
                           <p className="text-2xl text-start font-bold ">Recommendations</p>
                             <ul className="text-end grid grid-cols-2 gap-3">
