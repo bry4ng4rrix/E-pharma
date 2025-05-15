@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+  .fd {
+    background: url(assets/img/norm.jpg );
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
