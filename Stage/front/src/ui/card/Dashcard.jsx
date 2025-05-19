@@ -62,7 +62,7 @@ export const Dashcard = () => {
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: index * 0.1 }}
-                                            className={` bg-green-100 dark:bg-green-400 rounded-lg p-4 shadow-xl hover:shadow-md transition-shadow duration-300 text-green-950 dark:text-white dark:hover:bg-green-100 hover:bg-green-900 hover:text-green-100 dark:hover:text-green-900 ${
+                                            className={` bg-green-100 dark:bg-vertsombre rounded-lg p-4 shadow-xl hover:shadow-md transition-shadow duration-300 text-green-950 dark:text-white dark:hover:bg-green-100 hover:bg-vertsombre hover:text-green-100 dark:hover:text-fonddark ${
                                             stat.onClick
                                                 ? " cursor-pointer hover:bg-gray-50"
                                                 : " "

@@ -1,7 +1,9 @@
 import React from 'react'
-import { useFetchers, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState , useEffect } from 'react';
+import MuiChart from '../Chart/RadarChart';
+import LineChart from '../Chart/linechart';
 
 const table = () => {
 
@@ -51,9 +53,22 @@ const table = () => {
     ];
   return (
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-5">
+    <div className="bg-green-100 dark:bg-vertsombre p-2  dark:text-green-950 rounded-lg shadow-xl"
+        >
+         
+
+          
+              <div  className="flex bg-white shadow-md text-green-600 rounded-lg  hover:text-green-100">
+              <LineChart />
+              </div>
+            
+         
+       
+           
+        </div>
         {/* Répartition Par semaine */}
-        <div  className="bg-green-100 dark:bg-green-400 dark:text-green-950 p-6 rounded-xl shadow-xl">
-          <h3 className="text-xl text-center font-medium text-green-950 mb-4">
+        <div  className="bg-green-100 dark:bg-vertsombre text-vertsombre dark:text-vertblanc p-6 rounded-xl shadow-xl">
+          <h3 className="text-xl text-center font-medium  mb-4">
            Produit vendue en une Semaine 
           </h3>
           <div className="grid grid-cols-2 gap-4">
@@ -65,7 +80,7 @@ const table = () => {
                 transition={{ delay: index * 0.1 }}
               >
 
-                  <div className="flex items-center justify-between p-3 bg-white text-green-600 shadow-md rounded-lg hover:bg-green-900 hover:text-green-100">
+                  <div className="flex items-center justify-between p-3 bg-white hover:shadow-2xl text-green-600 shadow-md rounded-lg hover:bg-vertdark hover:text-green-100">
                       <span className="font-semibold text-sm">{stat.title}</span>
                       <span className="font-bold  text-lg">{stat.value}</span>
             </div>
@@ -77,27 +92,7 @@ const table = () => {
           </div>
 
         {/* Répartition géographique */}
-        <div className="bg-green-100 dark:bg-green-400 dark:text-green-950 p-6 rounded-lg shadow-xl"
-        >
-          <h3 className="text-xl font-medium text-center text-green-950 mb-4">Produits Vendue par Type </h3>
-          <div className="space-y-3">
-            
-
-          {vente.map((vente) => (
-              <div key={vente.id} className="flex items-center justify-between p-3 bg-white shadow-md text-green-600 rounded-lg hover:bg-green-900 hover:text-green-100">
-                <span className=" font-semibold text-sm ">
-                  {vente.produit_nom}
-                </span>
-                <span className="font-bold text-lg">
-                  {vente.quantite}
-                </span>
-              </div>
-            ))}
-         
-       
-             
-          </div>
-        </div>
+        
 
         
       </div>

@@ -11,6 +11,11 @@
     "postinstall": "flowbite-react patch"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@mui/x-charts": "^8.3.1",
     "animate.css": "^4.1.1",
     "apexcharts": "^4.7.0",
     "axios": "^1.7.7",
@@ -19,6 +24,7 @@
     "framer-motion": "^12.6.5",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
+    "react-apexcharts": "^1.7.0",
     "react-chartjs-2": "^5.3.0",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.55.0",

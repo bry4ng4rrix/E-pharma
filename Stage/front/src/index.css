@@ -11,3 +11,9 @@
     background-size: cover;
   }
 
+  .login {
+    background: url(assets/img/login.png );
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+

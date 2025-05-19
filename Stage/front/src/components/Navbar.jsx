@@ -23,10 +23,10 @@ const Navbar = (props) => {
             </button>
 
             <div className={`sm:flex hidden gap-6 text-sm  font-bold  items-center justify-center   ${isOpen ? 'block' : 'block'}`}>
-                <li className='flex relative group cursor-pointer hover:text-green-400'><BiHomeAlt2 className="h-6 w-6 mr-2"/><a href="/">Home</a></li>
-                <li className='flex relative group cursor-pointer hover:text-green-400'><BiBody className="h-6 w-6 mr-2"/> About</li>
-                <li className='flex relative group cursor-pointer hover:text-green-400'><BiCalendarEdit className="h-6 w-6 mr-2"/> <a href="/service">Service</a></li>
-                <li className='flex relative group cursor-pointer hover:text-green-400'><BiChat className="h-6 w-6 mr-2"/> Contact</li>
+                <li className='flex relative group cursor-pointer hover:text-green-400 hover:text-lg'><BiHomeAlt2 className="h-6 w-6 mr-2"/><a href="/">Home</a></li>
+                <li className='flex relative group cursor-pointer hover:text-green-400 hover:text-lg'><BiBody className="h-6 w-6 mr-2"/> About</li>
+                <li className='flex relative group cursor-pointer hover:text-green-400 hover:text-lg'><BiCalendarEdit className="h-6 w-6 mr-2"/> <a href="/service">Service</a></li>
+                <li className='flex relative group cursor-pointer hover:text-green-400 hover:text-lg'><BiChat className="h-6 w-6 mr-2"/> Contact</li>
             </div>
 
            
