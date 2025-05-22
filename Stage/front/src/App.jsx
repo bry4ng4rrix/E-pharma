@@ -10,6 +10,8 @@ import Login from './pages/Auth/login'
 import Register from './pages/Auth/register'
 import Landing from './pages/landing/Acc'
 import Error from './pages/Error'
+import Chatbot from './pages/chatbot'
+import Imc from './pages/imc'
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Landing />} />
           <Route path="*" element={<Error />} />
+          <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/imc" element={<Imc />} />
 
           
 

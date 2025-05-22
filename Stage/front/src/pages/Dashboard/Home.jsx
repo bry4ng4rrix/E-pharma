@@ -4,10 +4,12 @@ import Sidebar from "../../components/SideNav/Sidebard"
 import Dashcard from "../../ui/card/Dashcard";
 import Table from "../../ui/card/Table";
 import Fixednav from "../../components/SideNav/Fixednav"
-import Linechart from "../../ui/Chart/linechart";
 
 
 const App = () => {
+    const [lien,setLien] = useState('Home')
+
+   
 
     const [darkMode,setDarkMode] = useState(false);
     const toogleDark = () =>{
@@ -23,7 +25,7 @@ const App = () => {
             
           
               {/* sidebard */}
-              <Sidebar />  
+              <Sidebar  setLien={setLien}/>  
               
               {/* navbar */}
 

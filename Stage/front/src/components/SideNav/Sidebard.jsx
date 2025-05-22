@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 const Sidebard = () => {
 
-  const [open,setOpen] = useState(true)
+  const [open,setOpen] = useState(false)
 
  function handleOpen(){
   setOpen(!open);
@@ -28,7 +28,7 @@ const Sidebard = () => {
   ];
 
   return (
-    <div className={`dark:bg-fonddark bg-vertblanc min-h-screen  relative ${open ? 'w-72' :'w-16'} text-green-950 dark:text-green-100 px-4 backdrop-blur-sm `}>
+    <div className={`dark:bg-fonddark bg-vertblanc min-h-screen relative ${open ? 'w-72' :'w-16'} text-green-950 dark:text-green-100 px-4 backdrop-blur-sm `}>
       <div className={`py-3 flex justify-end`}>
         <HiMenuAlt3 size={26} className="cursor-pointer" onClick={handleOpen}/>
       </div>
