@@ -7,6 +7,10 @@ class User(AbstractUser):
     nom = models.CharField(max_length=50)
     email = models.EmailField( max_length=254,unique=True)
     username = models.CharField( max_length=50)
+    is_superuser = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=False)
+    is_employe = models.BooleanField(default=False)
+    is_vendeur = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

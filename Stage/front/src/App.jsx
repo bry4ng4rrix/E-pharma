@@ -12,6 +12,7 @@ import Landing from './pages/landing/Acc'
 import Error from './pages/Error'
 import Chatbot from './pages/chatbot'
 import Imc from './pages/imc'
+import Tb from './pages/Dashboard/test/Tb'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="*" element={<Error />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/imc" element={<Imc />} />
+          <Route path="tb" element={<Tb />} />
 
           
 
