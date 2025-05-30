@@ -163,7 +163,8 @@ class VenteS(serializers.ModelSerializer):
 class StatisticS(serializers.Serializer):
      produit = serializers.IntegerField()
      vente = serializers.IntegerField()
-     user = serializers.IntegerField
+     user = serializers.IntegerField()
+     profile = serializers.IntegerField()
 
 class MembreSerialiser(serializers.ModelSerializer):
     model = Profile

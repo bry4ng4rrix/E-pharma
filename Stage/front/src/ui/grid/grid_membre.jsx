@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DataGrid, GridToolbarContainer, GridToolbarExport, GridToolbarQuickFilter } from '@mui/x-data-grid';
 import { frFR } from '@mui/x-data-grid/locales';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Box, TextField, Button, Alert } from '@mui/material';
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -35,70 +34,114 @@ const gridkoa = () => {
             }
         }
     })
-    const [produits, setProduits] = React.useState([]);
-    const [loading, setLoading] = React.useState(true); // Added to fix undefined setLoading
-    const [error, setError] = React.useState(null); // Added for form validation
-    const [newProduct, setNewProduct] = React.useState({
-        Nom: '',
-        Description: '',
-        Bv: '',
-        Dollard: '',
-        prix_distributeur: '',
-        Prix_en_detail: '',
-    });
+    const [profile, setProfile] =useState([]);
+    const [loading, setLoading] = useState(true); 
+  
 
-    React.useEffect(() => {
+ 
+    useEffect(() => {
+        const token = localStorage.getItem('access_token');
+    
+        if (!token) {
+          toast.error('Aucun token trouvé. Veuillez vous connecter.');
+          setLoading(false);
+          return;
+        }
+    
         const fetchProduits = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/api/produits');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch produits');
-                }
-                const data = await response.json();
-                const formattedData = data.map((item, index) => ({
-                    ...item,
-                    id: item.id || index,
-                }));
-                setProduits(formattedData);
-                setLoading(false);
-            } catch (error) {
-                toast.error('Erreur lors du chargement des produits');
-                setLoading(false);
+          try {
+            const response = await fetch('http://localhost:8000/profiles', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            });
+    
+            if (!response.ok) {
+              throw new Error(`Erreur serveur (${response.status})`);
             }
+    
+            const data = await response.json();
+    
+            // Vérifie si on a un tableau ou un objet
+            const formattedData = Array.isArray(data)
+              ? data.map((item, index) => ({
+                  ...item,
+                  id: item.id || index,
+                }))
+              : [{ ...data, id: data.id || 0 }];
+    
+            setProfile(formattedData);
+          } catch (error) {
+            console.error('Erreur API:', error);
+            toast.error('Erreur lors du chargement des produits');
+          } finally {
+            setLoading(false);
+          }
         };
-
+    
         fetchProduits();
-    }, []);
+      }, []);
 
     const columns = [
         {
-            field: 'Nom',
-            headerName: 'Nom',
+            field: 'member_code',
+            headerName: 'Member Code',
             flex: 1,
         },
         {
-            field: 'Description',
-            headerName: 'Description',
-            flex: 2,
-        },
-        {
-            field: 'Bv',
-            headerName: 'BV',
+            field: 'member_name',
+            headerName: 'Member Name',
             flex: 1,
         },
         {
-            field: 'Dollard',
-            headerName: '$',
+            field: 'depth',
+            headerName: 'Depth',
             flex: 1,
         },
         {
-            field: 'prix_distributeur',
-            headerName: 'Prix Distributeur',
+            field: 'directline',
+            headerName: 'Directline',
             flex: 1,
         },
         {
-            field: 'Prix_en_detail',
-            headerName: 'Prix Détail',
+            field: 'registration_date',
+            headerName: 'Registration Date',
+            flex: 1,
+        },
+        {
+            field: 'grade',
+            headerName: 'Grade',
+            flex: 1,
+        },
+        {
+            field: 'gbv',
+            headerName: 'Gbv',
+            flex: 1,
+        },
+        {
+            field: 'cpbv',
+            headerName: 'Cpbv',
+            flex: 1,
+        },
+        {
+            field: 'cnbv',
+            headerName: 'Cnbv',
+            flex: 1,
+        },
+        {
+            field: 'pbv',
+            headerName: 'Pbv',
+            flex: 1,
+        },
+        {
+            field: 'tnbv',
+            headerName: 'Tnbv',
+            flex: 1,
+        },
+        {
+            field: 'branch',
+            headerName: 'Branch',
             flex: 1,
         }
     ];
@@ -113,30 +156,8 @@ const gridkoa = () => {
     }
 
     // Form handling
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewProduct((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleAddProduct = (e) => {
-        e.preventDefault();
-        if (!newProduct.Nom || !newProduct.Description) {
-            toast.error('Nom et Description sont requis');
-            return;
-        }
-        const newId = produits.length > 0 ? Math.max(...produits.map((p) => p.id)) + 1 : 0;
-        setProduits((prev) => [...prev, { ...newProduct, id: newId }]);
-        setNewProduct({
-            Nom: '',
-            Description: '',
-            Bv: '',
-            Dollard: '',
-            prix_distributeur: '',
-            Prix_en_detail: '',
-        });
-        toast.success('Produit Ajoutée');
-        setError(null);
-    };
+  
+   
 
     return (
         <ThemeProvider theme={theme}>
@@ -159,76 +180,23 @@ const gridkoa = () => {
                 
                 <DataGrid
                     localeText={{...frFR.components.MuiDataGrid.defaultProps.localeText}}
-                    rows={produits}
+                    rows={profile}
                     columns={columns}
                     initialState={{
                         pagination: {
                             paginationModel: {
-                                pageSize: 5, page: 0
+                                pageSize: 10, page: 0
                             },
                         }
                     }}
-                    pageSizeOptions={[5, 10]}
+                    pageSizeOptions={[10, 20,50]}
                     slots={{ toolbar: CustomToolbar }}
                     showToolbar
                     disableRowSelectionOnClick
                     disableColumnResize
                     disableColumnSelector
                 />
-                <Box component="form" onSubmit={handleAddProduct} sx={{ mt: 2, display: 'flex', flexWrap: 'nowrap', gap: 1, overflowX: 'auto' }}>
-                    <TextField
-                        name="Nom"
-                        label="Nom"
-                        value={newProduct.Nom}
-                        onChange={handleInputChange}
-                        size="small"
-                       
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Description"
-                        label="Description"
-                        value={newProduct.Description}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Bv"
-                        label="BV"
-                        value={newProduct.Bv}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Dollard"
-                        label="$"
-                        value={newProduct.Dollard}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="prix_distributeur"
-                        label="Prix Distributeur"
-                        value={newProduct.prix_distributeur}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Prix_en_detail"
-                        label="Prix Détail"
-                        value={newProduct.Prix_en_detail}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <Button type="submit" variant="contained" color="primary" className='' sx={{ px: 2 }}>
-                        Ajouter
-                    </Button>
-                </Box>
+             
             </div>
         </ThemeProvider>
     );

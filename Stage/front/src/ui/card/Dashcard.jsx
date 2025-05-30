@@ -2,7 +2,7 @@
 import { useState , useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
-  FaUsers, FaDollarSign,FaShopify,FaPagelines
+  FaUsers, FaUsersCog,FaShopify,FaPagelines
 }
 from 'react-icons/fa';
 
@@ -27,22 +27,23 @@ export const Dashcard = () => {
     const [stats, setStats] = useState(null);
      const statsConfig = [
         { 
-          title: "Membre", 
-          value: stats?.user || 0,
+          title: "Membres", 
+          value: stats?.profile || 0,
           icon: <FaUsers className="text-3xl  flex items-center text-blue-500"/>,
           color: 'blue-500'
         },
+     
         { 
+          title: "Employer", 
+          value: stats?.user || 0,
+          icon: <FaUsersCog className="text-3xl flex items-center text-yellow-500"/>,
+          color: 'green'
+        },
+           { 
           title: "Produits", 
           value: stats?.produit || 0,
           icon: <FaPagelines className="text-3xl text-green-500"/>,
           color: 'purple'
-        },
-        { 
-          title: "Caisse", 
-          value: stats?.total_ventes || 0,
-          icon: <FaDollarSign  className="text-3xl flex items-center text-yellow-500"/>,
-          color: 'green'
         },
         { 
           title: "Vente", 

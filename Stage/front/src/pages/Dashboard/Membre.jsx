@@ -1,6 +1,7 @@
 import Sidebar from "../../components/SideNav/Sidebard";
 import { useState } from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
+import Dgrid from '../../ui/grid/grid_membre'
 
 const Membre = () => {
         const [darkMode,setDarkMode] = useState(false);
@@ -25,8 +26,11 @@ const Membre = () => {
                
                 <Fixednav toogleDark={toogleDark} darkMode={darkMode}/>
                 
-
+                    <div className="p-3">
+                <Dgrid />
                
+              </div>
+
             </div>
             
                 

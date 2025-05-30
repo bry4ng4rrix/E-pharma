@@ -34,8 +34,7 @@ const Login = () => {
       if (response.ok) {
         localStorage.setItem('access_token', result.access);
         localStorage.setItem('refresh_token', result.refresh);
-        localStorage.setItem('email',result.email);
-        localStorage.setItem('member_code',result.member_code);
+        localStorage.setItem('member_code',result.Member_code);
         localStorage.setItem('is_active', result.user.is_active ? 'true' : 'false');
         localStorage.setItem('is_superuser', result.user.is_superuser ? 'true' : 'false');
 

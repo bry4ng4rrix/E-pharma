@@ -157,7 +157,8 @@ class Staview(APIView):
         data = {
                 "produit": Produits.objects.count(),
                 "vente" : Vente.objects.count(),
-                "user" : User.objects.count()
+                "user" : User.objects.count(),
+                "profile": Profile.objects.count()
                 }
         serializer = StatisticS(data)
         return Response(serializer.data)

@@ -1,6 +1,4 @@
 import { BiUserCircle } from "react-icons/bi"; 
-import { BiRocket } from "react-icons/bi"; 
-import Navbar from '../../components/SideNav/landingnav'
 import wosh from '../../assets/img/womanshoping.png'
 import logo from '../../assets/img/logo.png'
 import Chat from './chat'
@@ -11,10 +9,11 @@ const Landing = () => {
 const navigate = useNavigate();
 const [text, setText] = useState("");
 const is_active = localStorage.getItem("is_active");
+const is_superuser = localStorage.getItem("is_superuser");
 const member_code = localStorage.getItem("member_code");
+console.log(member_code)
 
 
-console.log(is_active ,'dezfzef')
 const speakt = () => {
     if (!text.trim()) {
         console.warn("No text provided for speech synthesis");
@@ -93,7 +92,7 @@ const speakt = () => {
                                            <div>
                                                <img src={logo} alt="" className='h-16' />
                                            </div>
-                                           <div className="w-20"></div>
+                                           <div className={`${!is_superuser ? "hidden" : "w-20"} `}></div>
                        
                                            <div>
                                                <ul className='hidden justify-start  md:flex gap-10 font-inter  text-vertsombre font-semibold' >
@@ -101,13 +100,13 @@ const speakt = () => {
                                                    <li><a href="#About ">About</a></li>
                                                    <li><a href="/Chat"></a>Chat</li>
                                                    <li><a href="/"></a>Contact</li>
-                                                   <li><a href="/admin">Tableau de bord</a></li>
+                                                   <li><a href="/admin" className={`${!is_superuser ? "hidden" : "block"} `}>Tableau de bord</a></li>
                                                    
                                                </ul>
                                            </div>
                        
                                            <div className='gap-2 flex items-center'>
-                                                    <div className={`bg-vertdark text-white px-5 py-2 rounded font-bold font-inter flex items-center gap-2 ${is_active ? 'block':'hidden'}`}><BiUserCircle /> {member_code}</div>
+                                                    <div className={`bg-vertdark text-white px-5 py-2 rounded font-bold font-inter flex items-center gap-2 ${is_active ? 'block':'hidden'}`}><BiUserCircle /> </div>
                                                <button
                                                  className={`bg-vertdark shadow-2xl text-lime-50 px-5 py-2 rounded font-bold font-inter ${is_active ? 'hidden':'block'}`}>
                                                 <a href="/login" className="flex gap-2">Se connecter </a>
