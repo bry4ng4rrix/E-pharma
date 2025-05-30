@@ -1,3 +1,4 @@
+import { BiUserCircle } from "react-icons/bi"; 
 import { BiRocket } from "react-icons/bi"; 
 import Navbar from '../../components/SideNav/landingnav'
 import wosh from '../../assets/img/womanshoping.png'
@@ -10,6 +11,9 @@ const Landing = () => {
 const navigate = useNavigate();
 const [text, setText] = useState("");
 const is_active = localStorage.getItem("is_active");
+const member_code = localStorage.getItem("member_code");
+
+
 console.log(is_active ,'dezfzef')
 const speakt = () => {
     if (!text.trim()) {
@@ -33,7 +37,7 @@ const speakt = () => {
             console.log("Selected voice:", frenchVoices[0].name);
             speechSynthesis.speak(sp);
         } else if (voices.length > 0) {
-            sp.voice = voices[0]; // Fallback to first available voice
+            sp.voice = voices[0]; 
             console.log("No French voice found, using:", voices[0].name);
             speechSynthesis.speak(sp);
         } else {
@@ -49,7 +53,7 @@ const speakt = () => {
         console.log("Voices not loaded yet, waiting for onvoiceschanged");
         speechSynthesis.onvoiceschanged = () => {
             setVoiceAndSpeak();
-            speechSynthesis.onvoiceschanged = null; // Clean up listener
+            speechSynthesis.onvoiceschanged = null; 
         };
     }
 };
@@ -83,23 +87,27 @@ const speakt = () => {
 
  
     return (
-            <div className="h-screen  w-full bg-vertblanc  justify-center items-center ">
-                     <div className=" flex  h-16 relative bg-white justify-between items-center p-5 gap-6">
+            <div className="h-screen  w-full   justify-center items-center ">
+                     <div className=" flex  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
                        
                                            <div>
                                                <img src={logo} alt="" className='h-16' />
                                            </div>
+                                           <div className="w-20"></div>
                        
                                            <div>
-                                               <ul className='hidden   md:flex gap-10 font-inter  text-vertsombre font-semibold' >
+                                               <ul className='hidden justify-start  md:flex gap-10 font-inter  text-vertsombre font-semibold' >
                                                    <li><a href="/"></a>Home</li>
                                                    <li><a href="#About ">About</a></li>
                                                    <li><a href="/Chat"></a>Chat</li>
                                                    <li><a href="/"></a>Contact</li>
+                                                   <li><a href="/admin">Tableau de bord</a></li>
+                                                   
                                                </ul>
                                            </div>
                        
-                                           <div className='gap-2 flex'>
+                                           <div className='gap-2 flex items-center'>
+                                                    <div className={`bg-vertdark text-white px-5 py-2 rounded font-bold font-inter flex items-center gap-2 ${is_active ? 'block':'hidden'}`}><BiUserCircle /> {member_code}</div>
                                                <button
                                                  className={`bg-vertdark shadow-2xl text-lime-50 px-5 py-2 rounded font-bold font-inter ${is_active ? 'hidden':'block'}`}>
                                                 <a href="/login" className="flex gap-2">Se connecter </a>
@@ -114,8 +122,8 @@ const speakt = () => {
                        
                                        </div>
 
-                <section className='h-screen flex justify-center  items-center  bg-vertblanc p-10  '>
-                    <div className='  h-screen justify-start flex flex-col p-20 '>
+                <section className='h-screen flex justify-center  items-center  bg-gradient-to-tr from-vertblanc via-teal-400 to-vertblanc p-10  '>
+                    <div className='  h-screen justify-center flex flex-col p-20 items-start '>
                         {/* gauche */}
                         <div className='text-5xl font-bold font-istok text-vertsombre'>
                             TONGASOA IANAO !
@@ -124,29 +132,19 @@ const speakt = () => {
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, tempore. Autem tempora error facere qui vitae eos atque, dolore itaque ex eveniet porro 
                         </div>
                         <div>
-                        <textarea type="text" onChange={(e) => setText(e.target.value)}/>
                             <button className='h-12 m-2 bg-vert mt-20 px-10 rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
                             onClick={speakt}>Voire plus</button>
                         </div>
                     </div>
-                    <div className=' w-screen justify-center items-center flex'>
+                    <div className=' w-screen justify-center items-center flex p-10'>
 
                         {/* droite */}
-                        <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4' />
+                        <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4 ' />
                     </div>
                 </section>
                 
                 
-                 <section className='h-48 flex bg-vert'>
-                    <div className='flex flex-row w-full gap-10  p-5 justify-center '>
-                        <div className='w-56 bg-gray-600 rounded-xl'></div>
-                        <div className='w-56 bg-gray-600 rounded-xl'></div>
-                        <div className='w-56 bg-gray-600 rounded-xl'></div>
-                        <div className='w-56 bg-gray-600 rounded-xl'></div>
-                        <div className='w-56 bg-gray-600 rounded-xl'></div>
-
-                    </div>
-                </section> 
+                
                 <section id='#About' className='h-screen flex bg-white'>
                     <Chat />
                 </section>

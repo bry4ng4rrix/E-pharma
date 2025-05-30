@@ -35,11 +35,14 @@ const Login = () => {
         localStorage.setItem('access_token', result.access);
         localStorage.setItem('refresh_token', result.refresh);
         localStorage.setItem('email',result.email);
+        localStorage.setItem('member_code',result.member_code);
         localStorage.setItem('is_active', result.user.is_active ? 'true' : 'false');
         localStorage.setItem('is_superuser', result.user.is_superuser ? 'true' : 'false');
 
         toast.success('Connexion réussie !');
+        setTimeout(() => {
         navigate(result.user.redirect_url);
+        }, 2000);
 
       } else {
         // Vérifier si c'est une erreur de serializer

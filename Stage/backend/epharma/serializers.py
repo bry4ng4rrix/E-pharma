@@ -29,15 +29,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # Check if passwords match
         if data.get('password') != data.get('password1'):
-            raise serializers.ValidationError({"password1": "Passwords do not match."})
+            raise serializers.ValidationError({"password1": "Les deux mots de passe ne correspondent pas"})
 
         # Check for unique email
         if User.objects.filter(email=data.get('email')).exists():
-            raise serializers.ValidationError({"email": "This email is already in use."})
+            raise serializers.ValidationError({"email": "Cette adresse email est déjà utilisée"})
 
         # Check for unique member_code
         if Profile.objects.filter(member_code=data.get('member_code')).exists():
-            raise serializers.ValidationError({"member_code": "This member code already exists."})
+            raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
 
         return data
 
@@ -95,9 +95,9 @@ class UserLoginSerializer(serializers.Serializer):
                 User.objects.get(email=email)
                 raise serializers.ValidationError({"password": "Mot de passe incorrect"})
             except User.DoesNotExist:
-                raise serializers.ValidationError({"email": "Email non reconnu"})
+                raise serializers.ValidationError({"email": "Adresse email non reconnue"})
         if not user.is_active:
-            raise serializers.ValidationError("Compte désactivé")
+            raise serializers.ValidationError("Ce compte a été désactivé")
             
         return user
 
@@ -124,11 +124,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     def validate(self, data):
         # Check for unique member_code
         if Profile.objects.filter(member_code=data.get('member_code')).exists():
-            raise serializers.ValidationError({"member_code": "This member code already exists."})
+            raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
 
         # Check for unique member_name
         if Profile.objects.filter(member_name=data.get('member_name')).exists():
-            raise serializers.ValidationError({"member_name": "This member name already exists."})
+            raise serializers.ValidationError({"member_name": "Ce nom de membre est déjà utilisé"})
 
         return data
 
@@ -136,7 +136,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         # The user is set from the authenticated user in the view
         user = self.context['request'].user
         if Profile.objects.filter(user=user).exists():
-            raise serializers.ValidationError({"user": "A profile already exists for this user."})
+            raise serializers.ValidationError({"user": "Un profil existe déjà pour cet utilisateur"})
         
         return Profile.objects.create(user=user, **validated_data)
     
