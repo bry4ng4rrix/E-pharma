@@ -1,8 +1,23 @@
-import React from 'react'
-import { Outlet } from 'react-router'
+import { Navigate, Outlet } from "react-router-dom";
 
-function protectedroute(){
-    
-}
+const ProtectedRoute = ({ requireSuperuser = false }) => {
+  const isAuthenticated = !!localStorage.getItem("access_token");
+  const isActive = localStorage.getItem("is_active") === "true";
+  const isSuperuser = localStorage.getItem("is_superuser") === "true";
 
-export default protectedroute
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!isActive) {
+    return <Navigate to="/inactive" replace />;
+  }
+
+  if (requireSuperuser && !isSuperuser) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

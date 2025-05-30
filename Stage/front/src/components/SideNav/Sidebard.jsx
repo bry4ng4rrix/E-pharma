@@ -35,7 +35,8 @@ const Sidebard = () => {
         // Clear localStorage
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('is_superuser');
+        localStorage.removeItem('is_active');
         navigate('/login');
         // Show success toast and redirect to login page
         
