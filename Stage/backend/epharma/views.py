@@ -1,16 +1,31 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import viewsets
-from .models import Vente,Produits
+from rest_framework import viewsets , generics
+from .models import Vente,Produits,User,Profile
 from django.contrib.auth import get_user_model
-from .serializers import StatisticS,VenteS,ProduitsSerializer
+from .serializers import StatisticS,VenteS,ProduitsSerializer ,UserRegisterSerializer, UserLoginSerializer,MembreSerialiser
 
-
-from rest_framework import status
-from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth.models import User
+from rest_framework import views, status
+
+#############
+#test 
+#
+#
+from .models import User
+from rest_framework.decorators import api_view
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny ,IsAuthenticated
+
+
+#
+#
+#############
+
+
+
+
 
 
 import google.generativeai as genai
@@ -35,6 +50,126 @@ class ChatbotAPIView(APIView):
 
         if not user_message:
             return Response({"error": "Message requis."}, status=400)
+
+
+##################
+from rest_framework import views, status
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserRegisterSerializer, UserLoginSerializer, ProfileSerializer
+
+class RegisterView(views.APIView):
+    def post(self, request):
+        serializer = UserRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': {
+                    'email': user.email,
+                    "username": user.username,
+                    "is_active": user.is_active,
+                    "is_staff":user.is_staff,
+                    "is_superuser":user.is_superuser,
+                }
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginView(views.APIView):
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data
+            refresh = RefreshToken.for_user(user)
+            
+            # Déterminer la redirection en fonction du rôle
+            if user.is_superuser or user.is_staff:
+                redirect_url = '/admin'
+            else:
+                redirect_url = '/'
+            
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': {
+                    'email': user.email,
+                    "username": user.username,
+                    "is_active": user.is_active,
+                    "is_staff": user.is_staff,
+                    "is_superuser": user.is_superuser,
+                    "redirect_url": redirect_url
+                }
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ProfileCreateView(views.APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ProfileSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            profile = serializer.save()
+            return Response({
+                'member_code': profile.member_code,
+                'member_name': profile.member_name,
+                'depth': profile.depth,
+                'directline': profile.directline,
+                'sponsor': profile.sponsor,
+                'grade': profile.grade,
+                'gbv': profile.gbv,
+                'cpbv': profile.cpbv,
+                'cnbv': profile.cnbv,
+                'pbv': profile.pbv,
+                'tnbv': profile.tnbv,
+                'branch': profile.branch,
+                'registration_date': profile.registration_date,
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+################
+
+class VoireMembre(viewsets.ModelViewSet):
+    serializer_class = MembreSerialiser
+    queryset = Profile.objects.all()
+    permission_classes = (AllowAny,)
+
+class ProfileListView(generics.ListAPIView):
+    """
+    Vue pour lister tous les profils avec pagination.
+    Accessible uniquement aux utilisateurs authentifiés.
+    """
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    pagination_class = None  # Retire la pagination pour avoir tous les résultats
+
+
+
+class VoireVente(viewsets.ModelViewSet):
+    serializer_class = VenteS
+    queryset = Vente.objects.all()
+
+class Staview(APIView):
+    def get(self,request):
+        User = get_user_model()
+        data = {
+                "produit": Produits.objects.count(),
+                "vente" : Vente.objects.count(),
+                "user" : User.objects.count()
+                }
+        serializer = StatisticS(data)
+        return Response(serializer.data)
+    
+
+class VoiresProduits(viewsets.ModelViewSet):
+    serializer_class = ProduitsSerializer
+    queryset = Produits.objects.all()
+    
+
+
+
 
 class IMCCalculatorAPIView(APIView):
     def post(self, request):
@@ -114,53 +249,3 @@ class IMCCalculatorAPIView(APIView):
 # Create your views here.*
 
 
-
-
-class VoireVente(viewsets.ModelViewSet):
-    serializer_class = VenteS
-    queryset = Vente.objects.all()
-
-class Staview(APIView):
-    def get(self,request):
-        User = get_user_model()
-        data = {
-                "produit": Produits.objects.count(),
-                "vente" : Vente.objects.count(),
-                "user" : User.objects.count()
-                }
-        serializer = StatisticS(data)
-        return Response(serializer.data)
-    
-
-class VoiresProduits(viewsets.ModelViewSet):
-    serializer_class = ProduitsSerializer
-    queryset = Produits.objects.all()
-    
-
-
-
-
-
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class LoginView(APIView):
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

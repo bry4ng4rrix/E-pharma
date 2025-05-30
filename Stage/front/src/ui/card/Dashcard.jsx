@@ -27,7 +27,7 @@ export const Dashcard = () => {
     const [stats, setStats] = useState(null);
      const statsConfig = [
         { 
-          title: "Utilisateurs", 
+          title: "Membre", 
           value: stats?.user || 0,
           icon: <FaUsers className="text-3xl  flex items-center text-blue-500"/>,
           color: 'blue-500'

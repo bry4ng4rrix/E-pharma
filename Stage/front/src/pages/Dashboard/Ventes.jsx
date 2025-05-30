@@ -6,8 +6,6 @@ const Vente = () => {
     const [darkMode, setDarkMode] = useState(false);
     const [ventes, setVentes] = useState([]);
     const [stats, setStats] = useState({});
-    const [dateDebut, setDateDebut] = useState('');
-    const [dateFin, setDateFin] = useState('');
     const [loading, setLoading] = useState(true);
 
     const toogleDark = () => {
@@ -45,33 +43,7 @@ const Vente = () => {
         }
     };
 
-    const handleDateFilter = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:8000/api/vente/?date_debut=${dateDebut}&date_fin=${dateFin}`);
-            const data = await response.json();
-            setVentes(data);
-            
-            // Recalculer les statistiques pour la période filtrée
-            const totalVentes = data.length;
-            const totalMontant = data.reduce((sum, vente) => sum + vente.prixtotale, 0);
-            const ventesParProduit = data.reduce((acc, vente) => {
-                acc[vente.produit.Nom] = (acc[vente.produit.Nom] || 0) + vente.quantite;
-                return acc;
-            }, {});
-
-            setStats({
-                totalVentes,
-                totalMontant,
-                ventesParProduit
-            });
-            setLoading(false);
-        } catch (error) {
-            console.error('Erreur lors du filtrage des ventes:', error);
-            setLoading(false);
-        }
-    };
-
+  
     return (
         <section className={` ${darkMode && 'dark'} flex gap-1 bg-vertblanc bg-gradient-to-bl from-green-500 to-cyan-400`}>
             <Sidebar />
@@ -89,26 +61,7 @@ const Vente = () => {
                                 <h2 className="text-xl font-semibold mb-4">Ventes par Date</h2>
 
                                 {/* Filtre par date */}
-                                <div className="flex gap-4 mb-4">
-                                    <input
-                                        type="date"
-                                        value={dateDebut}
-                                        onChange={(e) => setDateDebut(e.target.value)}
-                                        className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                    />
-                                    <input
-                                        type="date"
-                                        value={dateFin}
-                                        onChange={(e) => setDateFin(e.target.value)}
-                                        className="flex-1 p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                                    />
-                                    <button
-                                        onClick={handleDateFilter}
-                                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                                    >
-                                        Filtrer
-                                    </button>
-                                </div>
+
 
                                 <table className="w-full">
                                     <thead>
@@ -127,7 +80,6 @@ const Vente = () => {
                                         ) : (
                                             ventes.map((vente) => (
                                                 <tr key={vente.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                                    <td className="px-4 py-2">{format(new Date(vente.date), 'dd/MM/yyyy')}</td>
                                                     <td className="px-4 py-2">{vente.produit_nom}</td>
                                                     <td className="px-4 py-2">{vente.quantite}</td>
                                                     <td className="px-4 py-2">${vente.prixtotale}</td>
@@ -155,17 +107,7 @@ const Vente = () => {
                                         <p className="text-2xl">${stats.totalMontant}</p>
                                     </div>
 
-                                    <div className="p-4 bg-green-100 dark:bg-green-900 rounded">
-                                        <h3 className="font-semibold">Ventes par Produit</h3>
-                                        <div className="space-y-2">
-                                            {Object.entries(stats.ventesParProduit || {}).map(([produit, quantite]) => (
-                                                <div key={produit} className="flex justify-between">
-                                                    <span>{produit}</span>
-                                                    <span>{quantite}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>

@@ -2,7 +2,7 @@ import Sidebar from "../../components/SideNav/Sidebard";
 import { useState } from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
 
-const Utilisateur = () => {
+const Membre = () => {
         const [darkMode,setDarkMode] = useState(false);
     const toogleDark = () =>{
         setDarkMode(!darkMode)
@@ -35,4 +35,4 @@ const Utilisateur = () => {
           )
 }
 
-export default Utilisateur 
+export default Membre 

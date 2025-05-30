@@ -5,7 +5,6 @@ import { useState,useEffect } from "react";
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import  {jwtDecode}  from "jwt-decode";
 
 const Login = () => {
 
@@ -22,7 +21,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8000/api/auth/login/', {
+      const response = await fetch('http://localhost:8000/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,37 +30,28 @@ const Login = () => {
       });
 
       const result = await response.json();
-      console.log(result);
-      const { access, refresh } = result;
-      const decodedToken = jwtDecode(access);
-      console.log(decodedToken);
-      const isAdmin = decodedToken.is_superuser;
-
-
+      console.log(result)
 
       if (response.ok) {
-        localStorage.setItem('access_token', access);
-        localStorage.setItem('refresh_token', refresh);
-        localStorage.setItem('isAdmin', isAdmin ? 'true' : 'false');
-        localStorage.setItem('userRole', isAdmin ? 'admin' : 'client');
+        localStorage.setItem('access_token', result.access);
+        localStorage.setItem('refresh_token', result.refresh);
+        localStorage.setItem('email',result.email);
+        localStorage.setItem('is_active', result.user.is_active ? 'true' : 'false');
+        localStorage.setItem('is_superuser', result.user.is_superuser ? 'true' : 'false');
 
         toast.success('Connexion réussie !');
-        
-        // Redirection en fonction du rôle
-        if (isAdmin) {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+        navigate(result.user.redirect_url);
 
       } else {
-        // Gestion des erreurs spécifiques du serializer
-        if (result.email) {
-
-            toast.error('Aucun utilisateur trouvé avec cet email.');
-
+        // Vérifier si c'est une erreur de serializer
+        if (result.non_field_errors) {
+          toast.error(result.non_field_errors[0]);
+        } else if (result.detail) {
+          toast.error(result.detail);
+        } else if (result.email) {
+          toast.error('Email non reconnu');
         } else if (result.password) {
-          toast.error('Mot de passe incorrect.');
+          toast.error('Mot de passe incorrect');
         } else {
           toast.error('Identifiants incorrects');
         }

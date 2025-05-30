@@ -7,7 +7,7 @@ const Register = () => {
          
             <div className="flex sm:w-full min-w-96 xl:max-w-4xl   bg-[#A3D6E5] shadow-xl rounded-xl">
             {/* gauche */}
-            <div className=" bg-white  h-[90vh] flex-1 p-8 rounded-l-md">
+            <div className=" bg-white  h-[90vh] flex-1 p-6 rounded-l-md">
                     <div className="w-full max-w-md mx-auto p-5">
                         <div className='font-inter font-bold text-4xl mb-5'>Enregistre</div>
                         <div className='font-inter text-md opacity-50 mb-2'>Cher Client ! Veuiller remplire tous les <br />champs</div>
