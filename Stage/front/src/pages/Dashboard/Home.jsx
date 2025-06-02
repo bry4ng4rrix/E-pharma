@@ -14,6 +14,7 @@ const App = () => {
     const [darkMode,setDarkMode] = useState(false);
     const toogleDark = () =>{
         setDarkMode(!darkMode)
+        localStorage.setItem('darkMode', darkMode);
 
     }
   

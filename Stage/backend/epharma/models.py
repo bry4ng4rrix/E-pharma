@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True) 
     member_code = models.CharField(max_length=50,unique=True)
     member_name = models.CharField(max_length=250,unique=True)
     depth = models.CharField(max_length=50)

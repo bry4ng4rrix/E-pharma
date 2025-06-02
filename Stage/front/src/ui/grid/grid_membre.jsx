@@ -190,7 +190,6 @@ const gridkoa = () => {
                         }
                     }}
                     pageSizeOptions={[10, 20,50]}
-                    slots={{ toolbar: CustomToolbar }}
                     showToolbar
                     disableRowSelectionOnClick
                     disableColumnResize

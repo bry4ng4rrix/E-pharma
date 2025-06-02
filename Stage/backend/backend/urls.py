@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from epharma import views
-from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView, VoireMembre, ProfileListView
+from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView , VoireUtilisateur
 from rest_framework import routers
 from django.conf.urls.static import static
 from django.conf import settings
@@ -15,7 +15,6 @@ router = routers.DefaultRouter()
 router.register('/vente',views.VoireVente,'vente')
 router.register('/produits',views.VoiresProduits,'produits')
 router.register('/membre',views.VoireMembre,'voire_membre')
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api',include(router.urls)),
@@ -29,6 +28,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
     path('profiles/', ProfileListView.as_view(), name='profile_list'),
+    path('utilisateur/', VoireUtilisateur.as_view(), name='utilisateur_list'),
 
     path("api/chat/", ChatbotAPIView.as_view(), name="chatbot"),
     path('api/imc/', IMCCalculatorAPIView.as_view(), name='imc-calculator'),

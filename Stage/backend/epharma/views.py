@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets , generics
 from .models import Vente,Produits,User,Profile
 from django.contrib.auth import get_user_model
-from .serializers import StatisticS,VenteS,ProduitsSerializer ,UserRegisterSerializer, UserLoginSerializer,MembreSerialiser
+from .serializers import StatisticS,VenteS,ProduitsSerializer ,UserRegisterSerializer, UserLoginSerializer,MembreSerialiser,UtilisateurSerialiser
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import views, status
@@ -130,10 +130,24 @@ class ProfileCreateView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 ################
 
+
+
+
+
+
+
+
 class VoireMembre(viewsets.ModelViewSet):
     serializer_class = MembreSerialiser
     queryset = Profile.objects.all()
     permission_classes = (AllowAny,)
+
+
+class VoireUtilisateur(generics.ListAPIView):
+    serializer_class = UtilisateurSerialiser
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    pagination_class = None 
 
 class ProfileListView(generics.ListAPIView):
     """

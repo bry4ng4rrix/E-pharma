@@ -52,6 +52,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'depth': '0',
             'directline': '',
             'sponsor': '',
+            'registration_date': '',
             'grade': '',
             'gbv': '0',
             'cpbv': '0',
@@ -104,7 +105,7 @@ class UserLoginSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('member_code', 'member_name', 'depth', 'directline', 'sponsor', 
+        fields = ('member_code', 'member_name', 'depth', 'directline', 'sponsor', 'registration_date',
                   'grade', 'gbv', 'cpbv', 'cnbv', 'pbv', 'tnbv', 'branch')
         extra_kwargs = {
             'member_code': {'required': True},
@@ -112,6 +113,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'depth': {'required': False, 'default': '0'},
             'directline': {'required': False, 'default': ''},
             'sponsor': {'required': False, 'default': ''},
+            'registration_date': {'required': False},
             'grade': {'required': False, 'default': ''},
             'gbv': {'required': False, 'default': '0'},
             'cpbv': {'required': False, 'default': '0'},
@@ -169,5 +171,10 @@ class StatisticS(serializers.Serializer):
 class MembreSerialiser(serializers.ModelSerializer):
     model = Profile
     fields = '__all__'
+
+class UtilisateurSerialiser(serializers.ModelSerializer):
+    model = User
+    fields = '__all__'
+
 
 

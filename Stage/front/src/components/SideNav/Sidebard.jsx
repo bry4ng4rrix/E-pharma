@@ -28,6 +28,7 @@ const Sidebard = () => {
                     body: JSON.stringify({ refresh: refreshToken }),
                 });
             }
+            localStorage.setItem('message','Deconnection Success');
         } catch (error) {
             console.error('Logout error:', error);
         }

@@ -3,8 +3,6 @@ import { useState } from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
 import Dgrid from '../../ui/grid/grid'
 
-
-
 const Produits = () => {
         const [darkMode,setDarkMode] = useState(false);
     const toogleDark = () =>{
@@ -23,18 +21,16 @@ const Produits = () => {
               <Sidebar />  
               
               {/* navbar */}
-
-                  {/* contenue */}
-            <div className=" m-3 text-xl  font-semibold  w-full  rounded-lg bg-vertblanc shadow-lg bg-opacity-80 dark:bg-fonddark dark:text-green-100 transition-colors">
+       {/* contenue */}
+            <div className=" m-3 text-xl  font-semibold  w-full rounded-lg bg-vertblanc shadow-lg bg-opacity-80 dark:bg-fonddark dark:text-green-100 transition-colors">
                
                 <Fixednav toogleDark={toogleDark} darkMode={darkMode}/>
                 
-              <div className="p-3">
-                <Dgrid />
+                    <div className=" min-h-screen p-3">
+                     <Dgrid />
                
-              </div>
+                     </div>
 
-            
             </div>
             
                 

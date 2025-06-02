@@ -1,8 +1,4 @@
-import { GrMail } from "react-icons/gr"; 
-import { HiMail } from "react-icons/hi"; 
-import { BsShopWindow } from "react-icons/bs"; 
-import { RxEnvelopeClosed } from "react-icons/rx"; 
-import { RxAvatar } from "react-icons/rx"; 
+
 import { BsFillMoonFill } from "react-icons/bs"; 
 import { BsFillSunFill } from "react-icons/bs"; 
 import { MdOutlinePermPhoneMsg } from "react-icons/md"; 

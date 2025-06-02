@@ -4,14 +4,21 @@ import logo from '../../assets/img/logo.png'
 import Chat from './chat'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
+import { toast, ToastContainer ,Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Landing = () => {
 const navigate = useNavigate();
-const [text, setText] = useState("");
+// const [text, setText] = useState("");
+const text = 'bonjour '
 const is_active = localStorage.getItem("is_active");
 const is_superuser = localStorage.getItem("is_superuser");
-const member_code = localStorage.getItem("member_code");
-console.log(member_code)
+const message = localStorage.getItem('message')
+console.log(is_active,'active')
+console.log(is_superuser,'superuser')
+
+toast.success(message)
+localStorage.removeItem('message')
 
 
 const speakt = () => {
@@ -70,6 +77,10 @@ const speakt = () => {
                     body: JSON.stringify({ refresh: refreshToken }),
                 });
             }
+       
+    localStorage.setItem('message','deconnection succée');
+
+            
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -87,12 +98,24 @@ const speakt = () => {
  
     return (
             <div className="h-screen  w-full   justify-center items-center ">
+                 <ToastContainer
+                            position="top-right"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            theme="dark"
+                            pauseOnHover
+                            transition={Bounce}
+                          />
                      <div className=" flex  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
                        
                                            <div>
                                                <img src={logo} alt="" className='h-16' />
                                            </div>
-                                           <div className={`${!is_superuser ? "hidden" : "w-20"} `}></div>
                        
                                            <div>
                                                <ul className='hidden justify-start  md:flex gap-10 font-inter  text-vertsombre font-semibold' >
@@ -100,14 +123,14 @@ const speakt = () => {
                                                    <li><a href="#About ">About</a></li>
                                                    <li><a href="/Chat"></a>Chat</li>
                                                    <li><a href="/"></a>Contact</li>
-                                                   <li><a href="/admin" className={`${!is_superuser ? "hidden" : "block"} `}>Tableau de bord</a></li>
+                                                   <li><a href="/profile" className={`${is_active ? "block":"hidden"} `}>Profile</a></li>
+                                                   <li><a href="/admin" className={`${is_superuser ? "block" : "hidden"} `}>Tableau de bord</a></li>
                                                    
                                                </ul>
                                            </div>
                        
                                            <div className='gap-2 flex items-center'>
-                                                    <div className={`bg-vertdark text-white px-5 py-2 rounded font-bold font-inter flex items-center gap-2 ${is_active ? 'block':'hidden'}`}><BiUserCircle /> </div>
-                                               <button
+                                                       <button
                                                  className={`bg-vertdark shadow-2xl text-lime-50 px-5 py-2 rounded font-bold font-inter ${is_active ? 'hidden':'block'}`}>
                                                 <a href="/login" className="flex gap-2">Se connecter </a>
                                                 </button>
@@ -124,7 +147,7 @@ const speakt = () => {
                 <section className='h-screen flex justify-center  items-center  bg-gradient-to-tr from-vertblanc via-teal-400 to-vertblanc p-10  '>
                     <div className='  h-screen justify-center flex flex-col p-20 items-start '>
                         {/* gauche */}
-                        <div className='text-5xl font-bold font-istok text-vertsombre'>
+                        <div className='text-5xl font-bold font-istok text-green-900'>
                             TONGASOA IANAO !
                         </div>
                         <div className='flex w-1/2 mt-3 m-2 font-inter'>

@@ -79,7 +79,7 @@ const gridkoa = () => {
         {
             field: 'Description',
             headerName: 'Description',
-            flex: 2,
+            flex: 1,
         },
         {
             field: 'Bv',
@@ -140,7 +140,7 @@ const gridkoa = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ width: '100%' }} className='py-2'>
+            <div style={{width: "100%"}}  className='w-full p-2'>
                  <ToastContainer
                             position="top-right"
                             autoClose={3000}
@@ -174,6 +174,7 @@ const gridkoa = () => {
                     disableRowSelectionOnClick
                     disableColumnResize
                     disableColumnSelector
+                    isRowSelectable={false}
                 />
                 <Box component="form" onSubmit={handleAddProduct} sx={{ mt: 2, display: 'flex', flexWrap: 'nowrap', gap: 1, overflowX: 'auto' }}>
                     <TextField
