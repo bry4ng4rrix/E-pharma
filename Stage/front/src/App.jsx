@@ -14,6 +14,7 @@ import Chatbot from './pages/chatbot';
 import Imc from './pages/imc';
 import Td from './pages/test';
 import ProtectedRoute from './pages/Dashboard/protectedroute';
+import Profile from './pages/landing/profile'
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/imc" element={<Imc />} />
           <Route path="/td" element={<Td />} />
+          <Route path="/profile" element={<Profile />}/>
         </Route>
 
         {/* Public routes */}

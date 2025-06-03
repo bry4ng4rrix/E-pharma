@@ -1,11 +1,15 @@
 import { BiUserCircle } from "react-icons/bi"; 
 import wosh from '../../assets/img/womanshoping.png'
-import logo from '../../assets/img/logo.png'
+import review from '../../assets/img/reviewstar.png'
 import Chat from './chat'
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {motion} from 'framer-motion'
+import Navbar from '../../components/SideNav/navbarmodern'
+import spline from '@splinetool/react-spline'
+import Conseile from "./Conseile";
 
 const Landing = () => {
 const navigate = useNavigate();
@@ -77,7 +81,7 @@ const speakt = () => {
                     body: JSON.stringify({ refresh: refreshToken }),
                 });
             }
-       
+    toast.dismiss()
     localStorage.setItem('message','deconnection succée');
 
             
@@ -111,64 +115,92 @@ const speakt = () => {
                             pauseOnHover
                             transition={Bounce}
                           />
-                     <div className=" flex  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
+                     <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
+                 <Navbar is_active={is_active} is_superuser={is_superuser} handlelogout={handleLogout}/>
                        
-                                           <div>
-                                               <img src={logo} alt="" className='h-16' />
-                                           </div>
-                       
-                                           <div>
-                                               <ul className='hidden justify-start  md:flex gap-10 font-inter  text-vertsombre font-semibold' >
-                                                   <li><a href="/"></a>Home</li>
-                                                   <li><a href="#About ">About</a></li>
-                                                   <li><a href="/Chat"></a>Chat</li>
-                                                   <li><a href="/"></a>Contact</li>
-                                                   <li><a href="/profile" className={`${is_active ? "block":"hidden"} `}>Profile</a></li>
-                                                   <li><a href="/admin" className={`${is_superuser ? "block" : "hidden"} `}>Tableau de bord</a></li>
-                                                   
-                                               </ul>
-                                           </div>
-                       
-                                           <div className='gap-2 flex items-center'>
-                                                       <button
-                                                 className={`bg-vertdark shadow-2xl text-lime-50 px-5 py-2 rounded font-bold font-inter ${is_active ? 'hidden':'block'}`}>
-                                                <a href="/login" className="flex gap-2">Se connecter </a>
-                                                </button>
-                                                <button
-                                                 className={`bg-vertdark shadow-2xl text-lime-50 px-5 py-2 rounded font-bold font-inter ${!is_active ? 'hidden':'block'}`} onClick={handleLogout}>
-                                                    Se deconnecter
-                                                </button>
-                                            </div>
+                                         
                                            
+                       
+                                         
                                            
+                                          
                        
                                        </div>
 
-                <section className='h-screen flex justify-center  items-center  bg-gradient-to-tr from-vertblanc via-teal-400 to-vertblanc p-10  '>
+                <section className='h-screen flex justify-center  items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10  '>
                     <div className='  h-screen justify-center flex flex-col p-20 items-start '>
                         {/* gauche */}
-                        <div className='text-5xl font-bold font-istok text-green-900'>
+                        <motion.div
+                             initial={{ opacity:0 ,x:-100 }}
+                            animate={{opacity : 1 , x: 0}}
+                        transition ={{
+                            type : "spring",
+                            stiffness : 100,
+                            damping: 25,
+                            delay : 0.3,
+                            duration:1.2
+                        }}
+                         className='text-5xl font-bold font-istok text-green-900'>
                             TONGASOA IANAO !
-                        </div>
-                        <div className='flex w-1/2 mt-3 m-2 font-inter'>
+                        </motion.div>
+                        <motion.div
+                         initial={{ opacity:0 ,y:100 }}
+                        animate={{opacity : 1 , y: 0}}
+                        transition ={{
+                            type : "spring",
+                            stiffness : 100,
+                            damping: 25,
+                            delay : 0.3,
+                            duration:1.2
+                        }}
+                        className='flex w-1/2 mt-3 m-2 font-inter'>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, tempore. Autem tempora error facere qui vitae eos atque, dolore itaque ex eveniet porro 
-                        </div>
-                        <div>
+                        </motion.div>
+                        <motion.div
+                         initial={{ opacity:0 ,y:100 }}
+                        animate={{opacity : 1 , y: 0}}
+                        transition ={{
+                            type : "spring",
+                            stiffness : 100,
+                            damping: 25,
+                            delay : 0.3,
+                            duration:1.2
+                        }}
+                        >
                             <button className='h-12 m-2 bg-vert mt-20 px-10 rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
                             onClick={speakt}>Voire plus</button>
-                        </div>
+                        </motion.div>
                     </div>
                     <div className=' w-screen justify-center items-center flex p-10'>
 
                         {/* droite */}
-                        <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4 ' />
+                        <motion.div
+                        initial={{ opacity:0 ,x:100 }}
+                        animate={{opacity : 1 , x: 0}}
+                        transition ={{
+                            type : "spring",
+                            stiffness : 100,
+                            damping: 25,
+                            delay : 0.3,
+                            duration:1.2
+                        }}
+                        
+                        >
+                            <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4 ' />
+                        </motion.div>
                     </div>
                 </section>
                 
                 
                 
-                <section id='#About' className='h-screen flex bg-white'>
-                    <Chat />
+                <section id='#About' className='h-screen flex p-10 justify-center bg-white'>
+                  
+                        <img src={review} alt="" />
+
+                </section>
+
+                <section className="">
+                    <Conseile/>
                 </section>
                 
             </div>

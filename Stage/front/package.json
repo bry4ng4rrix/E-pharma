@@ -19,6 +19,7 @@
     "@mui/x-data-grid": "^8.4.0",
     "@mui/x-data-grid-generator": "^8.4.0",
     "@reduxjs/toolkit": "^2.8.2",
+    "@splinetool/react-spline": "^4.0.0",
     "animate.css": "^4.1.1",
     "apexcharts": "^4.7.0",
     "axios": "^1.7.7",
