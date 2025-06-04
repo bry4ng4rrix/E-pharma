@@ -13,6 +13,7 @@ import spline from '@splinetool/react-spline'
 import Conseile from "./Conseile";
 import { useState } from "react";
 import logo from '../../assets/img/logo.png'
+import robot from '../../assets/img/robot.jpg'
 
 const Landing = () => {
 const navigate = useNavigate();
@@ -148,6 +149,7 @@ const speakt = () => {
                             
       {/* En-tête du chat */}
       <div className="flex  items-center justify-between p-3  shadow-sm rounded">
+
         <img src={logo} alt=""  className="h-12 w-auto"/>
         <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-600"/></button>
         
@@ -157,18 +159,12 @@ const speakt = () => {
       <div className="flex-1  p-4 overflow-y-auto">
         <div className="flex flex-col space-y-4">
           {/* Message reçu */}
-          <div className="max-w-xs bg-vert rounded-lg p-3 shadow">
-            <p className="text-white">12:45 Good morning!</p>
+          <div className="max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow">
+            <p className="text-white">Bonjour ! , demande moi a propos de votre sante</p>
           </div>
           {/* Message envoyé */}
           <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
             <p className="text-white">12:55 I just wanted to see if you wanted to hang out tomorrow</p>
-          </div>
-          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
-            <p className="text-white">12:58 Sure, what did you want to do?</p>
-          </div>
-          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
-            <p className="text-white">12:58 Sure, what did you want to do?</p>
           </div>
         </div>
       </div>
