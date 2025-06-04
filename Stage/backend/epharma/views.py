@@ -49,7 +49,20 @@ class ChatbotAPIView(APIView):
 
         if not user_message:
             return Response({"error": "Message requis."}, status=400)
+        if not any(word in user_message for word in MEDICAL_KEYWORDS):
+            return Response({
+                "response": "Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement."
+            })
 
+        # Sinon, envoie la question à Gemini
+
+        prompt = f"en phrase de 7 ligne et de ne pas metre en liste  {user_message}"
+
+        try:
+            response = model.generate_content(prompt)
+            return Response({"response": response.text})
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
 
 ##################
 from rest_framework import views, status
@@ -248,17 +261,7 @@ class IMCCalculatorAPIView(APIView):
             return Response({"error": str(e)}, status=400)
 
         # Vérifie si le message est médical
-        if not any(word in user_message for word in MEDICAL_KEYWORDS):
-            return Response({
-                "response": "Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement."
-            })
-
-        # Sinon, envoie la question à Gemini
-        try:
-            response = model.generate_content(user_message)
-            return Response({"response": response.text})
-        except Exception as e:
-            return Response({"error": str(e)}, status=500)
+       
 # Create your views here.*
 
 

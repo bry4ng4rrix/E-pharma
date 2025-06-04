@@ -17,20 +17,15 @@ import robot from '../../assets/img/robot.jpg'
 
 const Landing = () => {
 const navigate = useNavigate();
-// const [text, setText] = useState("");
-const text = 'bonjour '
 const is_active = localStorage.getItem("is_active");
 const is_superuser = localStorage.getItem("is_superuser");
-const message = localStorage.getItem('message')
-console.log(is_active,'active')
-console.log(is_superuser,'superuser')
 
-toast.success(message)
-localStorage.removeItem('message')
 
 // momban le message kely mafinaritra
 const [Profile,setProfile] = useState(false)
 const [Bot,setBot] = useState(false)
+const [message,setMessage] = useState("");
+const [response, setResponse] = useState('');
 const [Imc,setImc] = useState(false)
 
 
@@ -40,48 +35,19 @@ const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
 const closeProfile = () => setProfile(true)
 
-const speakt = () => {
-    if (!text.trim()) {
-        console.warn("No text provided for speech synthesis");
-        alert("Veuillez entrer du texte pour la synthèse vocale.");
-        return;
-    }
+const Envoyer = async () =>{
+    const res = await fetch('http://localhost:8000/api/chat/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message }),
+    });
 
-    const sp = new SpeechSynthesisUtterance(text);
-    sp.lang = 'fr-FR'; // Set to French
-    sp.volume = 1; // Ensure volume is audible
-    sp.rate = 1; // Normal speed
-    sp.pitch = 1; // Normal pitch
-
-    const setVoiceAndSpeak = () => {
-        const voices = speechSynthesis.getVoices();
-        console.log("Available voices:", voices); // Debug: List voices
-        const frenchVoices = voices.filter(voice => voice.lang.includes('fr'));
-        if (frenchVoices.length > 0) {
-            sp.voice = frenchVoices[0]; // Use first French voice
-            console.log("Selected voice:", frenchVoices[0].name);
-            speechSynthesis.speak(sp);
-        } else if (voices.length > 0) {
-            sp.voice = voices[0]; 
-            console.log("No French voice found, using:", voices[0].name);
-            speechSynthesis.speak(sp);
-        } else {
-            console.error("No voices available for speech synthesis");
-            alert("Aucune voix disponible pour la synthèse vocale. Vérifiez les paramètres de votre navigateur.");
-        }
-    };
-
-    const voices = speechSynthesis.getVoices();
-    if (voices.length > 0) {
-        setVoiceAndSpeak();
-    } else {
-        console.log("Voices not loaded yet, waiting for onvoiceschanged");
-        speechSynthesis.onvoiceschanged = () => {
-            setVoiceAndSpeak();
-            speechSynthesis.onvoiceschanged = null; 
-        };
-    }
-};
+    const data = await res.json();
+    setResponse(data.response || data.error);
+    
+}
 
  const handleLogout = async () => {
         try {
@@ -145,10 +111,10 @@ const speakt = () => {
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <div className="bg-black/20 shadow-2xl border border-white max-w-md w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
+                        <div className="bg-black/20 shadow-2xl border border-white max-w-xl w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
                             
       {/* En-tête du chat */}
-      <div className="flex  items-center justify-between p-3  shadow-sm rounded">
+      <div className="flex  items-center justify-between p-3   shadow-sm rounded">
 
         <img src={logo} alt=""  className="h-12 w-auto"/>
         <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-600"/></button>
@@ -160,28 +126,33 @@ const speakt = () => {
         <div className="flex flex-col space-y-4">
           {/* Message reçu */}
           <div className="max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow">
-            <p className="text-white">Bonjour ! , demande moi a propos de votre sante</p>
+            <p className="text-white">Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
           </div>
           {/* Message envoyé */}
           <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
-            <p className="text-white">12:55 I just wanted to see if you wanted to hang out tomorrow</p>
+            <p className="text-white">Par exemple : symptômes du grippe</p>
+          </div>
+
+          <div className={`max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow ${response ? 'block':'hidden'} `}>
+            <p className="text-white">{response}</p>
           </div>
         </div>
       </div>
 
       {/* Zone de saisie */}
       <div className="p-4 rounded-md shadow-xl">
-        <div className="flex items-center space-x-2">
+        <div  className="flex items-center space-x-2">
           <input
             type="text"
             placeholder="Votre demande "
             className="flex-1 p-3  rounded-l-lg focus:outline-none "
+            onChange={(e) => setMessage(e.target.value)}
           />
-          <button className="p-3 bg-teal-500 text-white rounded-r-lg">
-           <BsFillRocketTakeoffFill  className="h-6 w-auto"/>
+          <button className="p-3 bg-teal-500 text-white rounded-r-lg hover:bg-vertlight" onClick={Envoyer}>
+           <BsFillRocketTakeoffFill  className="h-6 w-auto " />
             
           </button>
-        </div>
+        </div >
       </div>
     </div>
 
@@ -235,7 +206,7 @@ const speakt = () => {
                         }}
                         >
                             <button className='h-12 m-2 bg-vert mt-20 px-10 rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
-                            onClick={speakt}>Voire plus</button>
+                            >Voire plus</button>
                         </motion.div>
                     </div>
                     <div className=' w-screen justify-center items-center flex p-10'>
