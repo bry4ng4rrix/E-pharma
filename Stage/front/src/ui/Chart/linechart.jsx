@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import Chart from "react-apexcharts";
 
 class Linechart extends Component {
+  
   constructor(props) {
+const a = 10
+const b = 30
     super(props);
 
     this.state = {
@@ -11,13 +14,13 @@ class Linechart extends Component {
           id: "basic-bar"
         },
         xaxis: {
-          categories: ["L", "M", "M", "J", "V", "S"]
+          categories: ["1", "2", "3", "4", "5", "6"]
         }
       },
       series: [
         {
-          name: "series-1",
-          data: [30, 40, 45, 50, 49, 20,]
+          name:"Nombre",
+          data: [a, b, 45, 50, 49, 20,]
         }
       ]
     };
@@ -26,7 +29,7 @@ class Linechart extends Component {
   render() {
     return (
       <div className="app">
-        <div className="row flex w-full">
+        <div className="">
           <div className="mixed-chart">
             <Chart
               options={this.state.options}

@@ -1,8 +1,9 @@
+import { BsFillRocketTakeoffFill } from "react-icons/bs"; 
+import { AiFillCloseCircle } from "react-icons/ai"; 
+import { CgCloseO } from "react-icons/cg"; 
 import { BiUserCircle } from "react-icons/bi"; 
 import wosh from '../../assets/img/womanshoping.png'
 import review from '../../assets/img/reviewstar.png'
-import Chat from './chat'
-import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +11,8 @@ import {motion} from 'framer-motion'
 import Navbar from '../../components/SideNav/navbarmodern'
 import spline from '@splinetool/react-spline'
 import Conseile from "./Conseile";
+import { useState } from "react";
+import logo from '../../assets/img/logo.png'
 
 const Landing = () => {
 const navigate = useNavigate();
@@ -24,6 +27,17 @@ console.log(is_superuser,'superuser')
 toast.success(message)
 localStorage.removeItem('message')
 
+// momban le message kely mafinaritra
+const [Profile,setProfile] = useState(false)
+const [Bot,setBot] = useState(false)
+const [Imc,setImc] = useState(false)
+
+
+
+const openBot = () => setBot(true)
+const closeBot = () => setBot(false)
+const openProfile = () => setProfile(true)
+const closeProfile = () => setProfile(true)
 
 const speakt = () => {
     if (!text.trim()) {
@@ -116,13 +130,70 @@ const speakt = () => {
                             transition={Bounce}
                           />
                      <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
-                 <Navbar is_active={is_active} is_superuser={is_superuser} handlelogout={handleLogout}/>
+                 <Navbar is_active={is_active} is_superuser={is_superuser} handlelogout={handleLogout}  openProfile={openProfile} openBot={openBot}/>
                        
                                          
                                            
                        
-                                         
-                                           
+                {Bot && (
+                    <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        <div className="bg-black/20 shadow-2xl border border-white max-w-md w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
+                            
+      {/* En-tête du chat */}
+      <div className="flex  items-center justify-between p-3  shadow-sm rounded">
+        <img src={logo} alt=""  className="h-12 w-auto"/>
+        <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-600"/></button>
+        
+      </div>
+
+      {/* Corps du chat */}
+      <div className="flex-1  p-4 overflow-y-auto">
+        <div className="flex flex-col space-y-4">
+          {/* Message reçu */}
+          <div className="max-w-xs bg-vert rounded-lg p-3 shadow">
+            <p className="text-white">12:45 Good morning!</p>
+          </div>
+          {/* Message envoyé */}
+          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
+            <p className="text-white">12:55 I just wanted to see if you wanted to hang out tomorrow</p>
+          </div>
+          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
+            <p className="text-white">12:58 Sure, what did you want to do?</p>
+          </div>
+          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
+            <p className="text-white">12:58 Sure, what did you want to do?</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Zone de saisie */}
+      <div className="p-4 rounded-md shadow-xl">
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            placeholder="Votre demande "
+            className="flex-1 p-3  rounded-l-lg focus:outline-none "
+          />
+          <button className="p-3 bg-teal-500 text-white rounded-r-lg">
+           <BsFillRocketTakeoffFill  className="h-6 w-auto"/>
+            
+          </button>
+        </div>
+      </div>
+    </div>
+
+                       
+                        
+                    </motion.div>
+                )}
+
                                           
                        
                                        </div>

@@ -3,7 +3,9 @@ import { BsFillMoonFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg"; 
 import logo from '../../assets/img/logo.png'
 import { Link, useNavigate } from "react-router";
-const navbarmodern = () => {
+
+
+const navbarmodern = ({openProfile,openBot}) => {
 
 const is_active = localStorage.getItem("is_active");
 const is_superuser = localStorage.getItem("is_superuser");
@@ -40,12 +42,7 @@ const handleLogout = async () => {
 
  
 
-  const navmenu = [
-    {nom: "Aceuille", link:"/"},
-    {nom: "Apropos", link:"/"},
-    {nom: "Conseil", link:"/"},
-    {nom: "Bot", link:"/"},
-  ]
+  
   return (
     <div className=' flex  h-16  m-2 p-3 items-center rounded justify-between '>
 <img src={logo} alt="logo" className='h-16 m-6' />
@@ -54,16 +51,13 @@ const handleLogout = async () => {
             
             
                 <ul className=' hidden sm:flex gap-10 cursor-pointer text-md font-sm font-semibold font-inter items-center text-vertsombre transition-all duration-300 '>
-                   {navmenu?.map((menu,i) =>(
-                    <Link
-                      to={menu?.link}
-                      key={i}
-                      
-                    >
-                      <div style={{ transitionDelay : `${i +3}00ms`,}}
-                      className="duration-500 ">{menu?.nom}</div>
-                    </Link>
-                   ))}
+                  
+                    <Link to="/">Acceuille</Link>
+                    <Link to="/">A propos</Link>
+                    <Link to="/">Equipe</Link>
+                 
+                    <button className={`${is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
+                    <Link to="/imc" className={`${is_active ? "block":"hidden"} `}>Imc</Link>
                     <Link to="/profile" className={`${is_active ? "block":"hidden"} `}>Profile</Link>
                     <Link to='/admin' className={`${is_superuser ? "block" : "hidden"}`}>Tableau de bord</Link>
                 </ul>

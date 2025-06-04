@@ -176,5 +176,9 @@ class UtilisateurSerialiser(serializers.ModelSerializer):
     model = User
     fields = '__all__'
 
+class AjoutMembreSerializer(serializers.ModelSerializer):
+    model = Profile
+    fields = '__all__'
+
 
 

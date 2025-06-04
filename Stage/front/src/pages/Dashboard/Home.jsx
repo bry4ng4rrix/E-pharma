@@ -4,6 +4,7 @@ import Sidebar from "../../components/SideNav/Sidebard"
 import Dashcard from "../../ui/card/Dashcard";
 import Table from "../../ui/card/Table";
 import Fixednav from "../../components/SideNav/Fixednav"
+import Homedash from "../../components/Contenue/homedash";
 
 
 const App = () => {
@@ -20,7 +21,7 @@ const App = () => {
   
     return (
       
-        <section className={` ${darkMode &&'dark'} flex gap-1 bg-vertblanc bg-gradient-to-bl from-green-500 to-cyan-400`}>
+        <section className={` ${darkMode &&'dark'} flex gap-1 h-full bg-vertblanc bg-gradient-to-bl from-green-500 to-cyan-400`}>
 
           
             
@@ -36,8 +37,9 @@ const App = () => {
                 <Fixednav toogleDark={toogleDark} darkMode={darkMode}/>
                 <Dashcard />
 
-                <Table />
-                <div className="m-5">
+                
+                <div className="">
+                    <Homedash />
                 </div>
             </div>
             

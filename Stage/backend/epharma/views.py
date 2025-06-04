@@ -4,8 +4,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets , generics
 from .models import Vente,Produits,User,Profile
 from django.contrib.auth import get_user_model
-from .serializers import StatisticS,VenteS,ProduitsSerializer ,UserRegisterSerializer, UserLoginSerializer,MembreSerialiser,UtilisateurSerialiser
-
+from .serializers import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import views, status
 
@@ -150,16 +149,15 @@ class VoireUtilisateur(generics.ListAPIView):
     pagination_class = None 
 
 class ProfileListView(generics.ListAPIView):
-    """
-    Vue pour lister tous les profils avec pagination.
-    Accessible uniquement aux utilisateurs authentifiés.
-    """
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all()
     pagination_class = None  # Retire la pagination pour avoir tous les résultats
 
-
+class AjoutMembre(viewsets.ModelViewSet):
+    serializer_class = AjoutMembreSerializer
+    queryset = Profile.objects.all()
+    permission_classes = [IsAuthenticated]
 
 class VoireVente(viewsets.ModelViewSet):
     serializer_class = VenteS

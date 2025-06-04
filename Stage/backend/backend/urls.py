@@ -15,6 +15,7 @@ router = routers.DefaultRouter()
 router.register('/vente',views.VoireVente,'vente')
 router.register('/produits',views.VoiresProduits,'produits')
 router.register('/membre',views.VoireMembre,'voire_membre')
+router.register('/ajoutmembre',views.AjoutMembre,'ajoute_membre')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api',include(router.urls)),

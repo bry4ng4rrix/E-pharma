@@ -90,7 +90,7 @@ class Produits(models.Model):
     Description =  models.CharField(max_length=250 ,null=True)
     Bv = models.IntegerField()
     Dollard = models.IntegerField()
-    prix_distributeur = models.IntegerField()
+    Prix_distributeur = models.IntegerField()
     Prix_en_detail = models.IntegerField()
 
     def __str__(self):

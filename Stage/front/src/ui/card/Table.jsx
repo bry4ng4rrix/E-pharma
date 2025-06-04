@@ -52,26 +52,24 @@ const table = () => {
         },
     ];
   return (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-5">
-    <div className="bg-green-100 dark:bg-vertsombre p-2  dark:text-green-950 rounded-lg shadow-xl"
+  <div className="grid grid-cols-1  lg:grid-cols-2 gap-6 m-5">
+    <div className="bg-green-100 h-full  dark:bg-vertsombre p-2  dark:text-green-950 rounded-lg shadow-2xl"
         >
          
 
           
-              <div  className="flex bg-white shadow-md text-green-600 rounded-lg  hover:text-green-100">
               <LineChart />
-              </div>
             
          
        
            
         </div>
         {/* Répartition Par semaine */}
-        <div  className="bg-green-100 dark:bg-vertsombre text-vertsombre dark:text-vertblanc p-6 rounded-xl shadow-xl">
+        <div  className="bg-green-100 dark:bg-vertsombre text-vertsombre dark:text-vertblanc p-6 h-full rounded-xl shadow-xl">
           <h3 className="text-xl text-center font-medium  mb-4">
            Produit vendue en une Semaine 
           </h3>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2  gap-4">
             {Edts.map((stat,index) =>(
               <motion.div
                 key={stat.title}

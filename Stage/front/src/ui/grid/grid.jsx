@@ -37,15 +37,7 @@ const gridkoa = () => {
     })
     const [produits, setProduits] = React.useState([]);
     const [loading, setLoading] = React.useState(true); // Added to fix undefined setLoading
-    const [error, setError] = React.useState(null); // Added for form validation
-    const [newProduct, setNewProduct] = React.useState({
-        Nom: '',
-        Description: '',
-        Bv: '',
-        Dollard: '',
-        prix_distributeur: '',
-        Prix_en_detail: '',
-    });
+ 
 
     React.useEffect(() => {
         const fetchProduits = async () => {
@@ -92,7 +84,7 @@ const gridkoa = () => {
             flex: 1,
         },
         {
-            field: 'prix_distributeur',
+            field: 'Prix_distributeur',
             headerName: 'Prix Distributeur',
             flex: 1,
         },
@@ -113,30 +105,9 @@ const gridkoa = () => {
     }
 
     // Form handling
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewProduct((prev) => ({ ...prev, [name]: value }));
-    };
+   
 
-    const handleAddProduct = (e) => {
-        e.preventDefault();
-        if (!newProduct.Nom || !newProduct.Description) {
-            toast.error('Nom et Description sont requis');
-            return;
-        }
-        const newId = produits.length > 0 ? Math.max(...produits.map((p) => p.id)) + 1 : 0;
-        setProduits((prev) => [...prev, { ...newProduct, id: newId }]);
-        setNewProduct({
-            Nom: '',
-            Description: '',
-            Bv: '',
-            Dollard: '',
-            prix_distributeur: '',
-            Prix_en_detail: '',
-        });
-        toast.success('Produit Ajoutée');
-        setError(null);
-    };
+   
 
     return (
         <ThemeProvider theme={theme}>
@@ -176,60 +147,7 @@ const gridkoa = () => {
                     disableColumnSelector
                     isRowSelectable={false}
                 />
-                <Box component="form" onSubmit={handleAddProduct} sx={{ mt: 2, display: 'flex', flexWrap: 'nowrap', gap: 1, overflowX: 'auto' }}>
-                    <TextField
-                        name="Nom"
-                        label="Nom"
-                        value={newProduct.Nom}
-                        onChange={handleInputChange}
-                        size="small"
-                       
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Description"
-                        label="Description"
-                        value={newProduct.Description}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Bv"
-                        label="BV"
-                        value={newProduct.Bv}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Dollard"
-                        label="$"
-                        value={newProduct.Dollard}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="prix_distributeur"
-                        label="Prix Distributeur"
-                        value={newProduct.prix_distributeur}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <TextField
-                        name="Prix_en_detail"
-                        label="Prix Détail"
-                        value={newProduct.Prix_en_detail}
-                        onChange={handleInputChange}
-                        size="small"
-                        sx={{ width: 180, '& .MuiInputBase-root': { backgroundColor: '#BBF2F2' } }}
-                    />
-                    <Button type="submit" variant="contained" color="primary" className='' sx={{ px: 2 }}>
-                        Ajouter
-                    </Button>
-                </Box>
+                
             </div>
         </ThemeProvider>
     );
