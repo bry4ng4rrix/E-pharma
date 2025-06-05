@@ -6,16 +6,17 @@ import { BsFillRocketTakeoffFill } from "react-icons/bs";
 const Chatform = ({chathistory,setChathistory,botresponse}) => {
     const inputRef = useRef()
     const Envoyer =(e) =>{
+        e.preventDefault();
         const userMessage = inputRef.current.value.trim();
         if(!userMessage) return ;
         inputRef.current.value = "";
         
         setChathistory((history) => [...history,{role : "user", text : userMessage}]);
 
-        setTimeout(() => setChathistory((history) => [...history,{role : "model", text : 'Un peut ....'}]),
-    
+        setTimeout(() => setChathistory((history) => [...history,{role : "model", text : 'En attent ....'}]),
+        botresponse([...chathistory,{role : "user", text : userMessage}]),
         600);
-   botresponse([...chathistory,{role : "user", text : userMessage}])
+  
 
     }
   return (
