@@ -27,7 +27,6 @@ const [Imc,setImc] = useState(false)
 const openBot = () => setBot(true)
 const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
-const closeProfile = () => setProfile(true)
 
 
 

@@ -15,7 +15,7 @@ const Chatform = ({chathistory,setChathistory,botresponse}) => {
         setTimeout(() => setChathistory((history) => [...history,{role : "model", text : 'Un peut ....'}]),
     
         600);
-   
+   botresponse([...chathistory,{role : "user", text : userMessage}])
 
     }
   return (

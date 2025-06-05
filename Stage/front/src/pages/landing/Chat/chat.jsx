@@ -9,8 +9,27 @@ const chat = ({closeBot}) => {
   const [message,setMessage] = useState("");
   const [response, setResponse] = useState('');
 
-  const botresponse =(history) =>{
-     
+  const botresponse = async (history) =>{
+    const updadeHistory =(text) =>{
+      setChathistory(prev => [...prev.filter(msg => msg.text !=="en attent..."),{role: "model",text}])
+    }
+    history = history.map(({role,text}) => ({role,parts: [{text}]}))
+    const requestOptions = {
+      method : "POST",
+      headers : {"Content-Type":"applcation/json"},
+      body: JSON.stringify({contents : history})
+    }
+     try {
+          const response = await fetch(import.meta.env.VITE_API_URL, requestOptions);
+          const data = await response.json();
+          if(!response.ok) throw new Error(data.error.message || "il y a un erreur");
+
+          const apiResponseText = data.candidates[0].content.parts[O].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+          updateHistory(apiResponseText);
+          console.log(data)
+     }catch (error){
+          console.log(error)
+     }
   }
   const Envoyer = async () =>{
     const res = await fetch('http://localhost:8000/api/chat/', {
