@@ -3,6 +3,47 @@
 @tailwind utilities;
 
 
+@font-face {
+  font-family: amorien;
+  src: url('./assets/fonts/amorien/amorien.ttf'),
+          ('./assets/fonts/amorien/amorien.otf');
+          font-weight: normal;
+          font-style:normal;
+          font-display: swap;
+
+}
+@font-face {
+  font-family: dexery;
+  src: url('./assets/fonts/Dexery.otf');
+          font-weight: normal;
+          font-style:normal;
+          font-display: swap;
+
+}
+@font-face {
+  font-family: wenssep;
+  src: url('./assets/fonts/Wenssep.ttf');
+          font-weight: normal;
+          font-style:normal;
+          font-display: swap;
+
+}
+@font-face {
+  font-family: inter;
+  src: url('./assets/fonts/Inter/inter.ttf');
+          font-weight: normal;
+          font-style:normal;
+          font-display: swap;
+
+}
+@font-face {
+  font-family: darky;
+  src: url('./assets/fonts/darky-regular.ttf');
+          font-weight: normal;
+          font-style:normal;
+          font-display: swap;
+
+}
 
 
   .fd {

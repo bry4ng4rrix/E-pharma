@@ -25,8 +25,13 @@ export default {
 
       },
       fontFamily: {
-        istok: ['Istok Web', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+        istok: ['istok Web'],
+        inter: ['inter'],
+        dexery:['dexery'],
+        wenssep:['wenssep'],
+        amorien:['amorien'],
+        darky:['darky'],
+
       },
       backdropBlur: {
         xs: '2px',

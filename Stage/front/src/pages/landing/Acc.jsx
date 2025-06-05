@@ -1,7 +1,4 @@
-import { BsFillRocketTakeoffFill } from "react-icons/bs"; 
-import { AiFillCloseCircle } from "react-icons/ai"; 
-import { CgCloseO } from "react-icons/cg"; 
-import { BiUserCircle } from "react-icons/bi"; 
+
 import wosh from '../../assets/img/womanshoping.png'
 import review from '../../assets/img/reviewstar.png'
 import { useNavigate } from 'react-router'
@@ -12,8 +9,7 @@ import Navbar from '../../components/SideNav/navbarmodern'
 import spline from '@splinetool/react-spline'
 import Conseile from "./Conseile";
 import { useState } from "react";
-import logo from '../../assets/img/logo.png'
-import robot from '../../assets/img/robot.jpg'
+import Chat from "./Chat/chat";
 
 const Landing = () => {
 const navigate = useNavigate();
@@ -24,8 +20,6 @@ const is_superuser = localStorage.getItem("is_superuser");
 // momban le message kely mafinaritra
 const [Profile,setProfile] = useState(false)
 const [Bot,setBot] = useState(false)
-const [message,setMessage] = useState("");
-const [response, setResponse] = useState('');
 const [Imc,setImc] = useState(false)
 
 
@@ -35,19 +29,7 @@ const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
 const closeProfile = () => setProfile(true)
 
-const Envoyer = async () =>{
-    const res = await fetch('http://localhost:8000/api/chat/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message }),
-    });
 
-    const data = await res.json();
-    setResponse(data.response || data.error);
-    
-}
 
  const handleLogout = async () => {
         try {
@@ -99,7 +81,7 @@ const Envoyer = async () =>{
                      <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
                  <Navbar is_active={is_active} is_superuser={is_superuser} handlelogout={handleLogout}  openProfile={openProfile} openBot={openBot}/>
                        
-                                         
+                                     
                                            
                        
                 {Bot && (
@@ -111,50 +93,7 @@ const Envoyer = async () =>{
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <div className="bg-black/20 shadow-2xl border border-white max-w-xl w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
-                            
-      {/* En-tête du chat */}
-      <div className="flex  items-center justify-between p-3   shadow-sm rounded">
-
-        <img src={logo} alt=""  className="h-12 w-auto"/>
-        <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-600"/></button>
-        
-      </div>
-
-      {/* Corps du chat */}
-      <div className="flex-1  p-4 overflow-y-auto">
-        <div className="flex flex-col space-y-4">
-          {/* Message reçu */}
-          <div className="max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow">
-            <p className="text-white">Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
-          </div>
-          {/* Message envoyé */}
-          <div className="ml-auto max-w-xs bg-teal-500 text-white rounded-lg p-3 shadow">
-            <p className="text-white">Par exemple : symptômes du grippe</p>
-          </div>
-
-          <div className={`max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow ${response ? 'block':'hidden'} `}>
-            <p className="text-white">{response}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Zone de saisie */}
-      <div className="p-4 rounded-md shadow-xl">
-        <div  className="flex items-center space-x-2">
-          <input
-            type="text"
-            placeholder="Votre demande "
-            className="flex-1 p-3  rounded-l-lg focus:outline-none "
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <button className="p-3 bg-teal-500 text-white rounded-r-lg hover:bg-vertlight" onClick={Envoyer}>
-           <BsFillRocketTakeoffFill  className="h-6 w-auto " />
-            
-          </button>
-        </div >
-      </div>
-    </div>
+                       <Chat closeBot={closeBot}/>
 
                        
                         
@@ -163,9 +102,20 @@ const Envoyer = async () =>{
 
                                           
                        
-                                       </div>
+                    
+                    
+                                     </div>
+                                     <section className="h-screen   flex flex-col justify-center items-center bg-slate-950">
+                                            <div className="text-white ">
+                                                TONGASOA !
+                                            </div>
+                                            <div className="text-[25vh] font-darky text-white">
+                                                MAHQUAFY
+                                            </div>
+                                     </section>
 
                 <section className='h-screen flex justify-center  items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10  '>
+                   
                     <div className='  h-screen justify-center flex flex-col p-20 items-start '>
                         {/* gauche */}
                         <motion.div
@@ -178,7 +128,7 @@ const Envoyer = async () =>{
                             delay : 0.3,
                             duration:1.2
                         }}
-                         className='text-5xl font-bold font-istok text-green-900'>
+                         className='text-5xl font-bold font-wenssep text-green-900'>
                             TONGASOA IANAO !
                         </motion.div>
                         <motion.div

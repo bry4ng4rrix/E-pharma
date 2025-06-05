@@ -50,7 +50,7 @@ const handleLogout = async () => {
           
             
             
-                <ul className=' hidden sm:flex gap-10 cursor-pointer text-md font-sm font-semibold font-inter items-center text-vertsombre transition-all duration-300 '>
+                <ul className=' hidden sm:flex gap-10 cursor-pointer text-md  font-bold  font-wenssep items-center text-green-950 transition-all duration-300 '>
                   
                     <Link to="/">Acceuille</Link>
                     <Link to="/">A propos</Link>

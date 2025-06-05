@@ -30,6 +30,8 @@ urlpatterns = [
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
     path('profiles/', ProfileListView.as_view(), name='profile_list'),
     path('utilisateur/', VoireUtilisateur.as_view(), name='utilisateur_list'),
+    path('utilisateurs-par-grade/', views.UtilisateursParGradeView.as_view(), name='utilisateurs_par_grade'),
+    path('ajouter-membre-sans-user/', views.AjouterMembreSansUserView.as_view(), name='ajouter_membre_sans_user'),
 
     path("api/chat/", ChatbotAPIView.as_view(), name="chatbot"),
     path('api/imc/', IMCCalculatorAPIView.as_view(), name='imc-calculator'),

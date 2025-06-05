@@ -264,4 +264,53 @@ class IMCCalculatorAPIView(APIView):
        
 # Create your views here.*
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .models import Profile
+from .serializers import ProfileSerializer
+
+class AjouterMembreSansUserView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        data = request.data.copy()
+        data['user'] = None  # On laisse user à null
+        serializer = ProfileSerializer(data=data)
+        if serializer.is_valid():
+            profile = Profile.objects.create(
+                user=None,
+                member_code=data.get('member_code'),
+                member_name=data.get('member_name'),
+                depth=data.get('depth', '0'),
+                directline=data.get('directline', ''),
+                sponsor=data.get('sponsor', ''),
+                grade=data.get('grade', ''),
+                gbv=data.get('gbv', '0'),
+                cpbv=data.get('cpbv', '0'),
+                cnbv=data.get('cnbv', '0'),
+                pbv=data.get('pbv', '0'),
+                tnbv=data.get('tnbv', '0'),
+                branch=data.get('branch', ''),
+            )
+            return Response(ProfileSerializer(profile).data, status=201)
+        return Response(serializer.errors, status=400)
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Profile
+from .serializers import ProfileSerializer
+
+class UtilisateursParGradeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        grade = request.query_params.get('grade')
+        if not grade:
+            return Response({"error": "Le paramètre 'grade' est requis."}, status=400)
+        profils = Profile.objects.filter(grade=grade)
+        serializer = ProfileSerializer(profils, many=True)
+        return Response(serializer.data)
+
 
