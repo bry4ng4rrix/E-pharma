@@ -17,7 +17,7 @@ useEffect(() =>{
   const botresponse = async (history) =>{
     console.log(history)
     const updateHistory =(text) =>{
-      setChathistory(prev => [...prev.filter(msg => msg.text !=="en attent..."),{role: "model",text}])
+      setChathistory(prev => [...prev.filter(msg => msg.text !=="En attent ...."),{role: "model",text}])
     }
     history = history.map(({role,text}) => ({role,parts: [{text}]}))
     const requestOptions = {
