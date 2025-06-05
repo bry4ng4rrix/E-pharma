@@ -4,7 +4,7 @@ import { BsFillRocketTakeoffFill } from "react-icons/bs";
 
 
 const Chatform = ({chathistory,setChathistory,botresponse}) => {
-    const inputRef = useRef()
+    const inputRef = useRef("bonjour je suis un asistant medical ")
     const Envoyer =(e) =>{
         e.preventDefault();
         const userMessage = inputRef.current.value.trim();

@@ -15,29 +15,59 @@ useEffect(() =>{
 },[chathistory])
    
   const botresponse = async (history) =>{
-    console.log(history)
+    // console.log("Original chathistory from state:", history);
+
     const updateHistory =(text) =>{
       setChathistory(prev => [...prev.filter(msg => msg.text !=="En attent ...."),{role: "model",text}])
     }
-    history = history.map(({role,text}) => ({role,parts: [{text}]}))
+
+    // System instruction to guide the AI model's behavior
+    const systemInstructionContent = {
+      role: "user", // Using "user" role to prepend the instruction.
+      parts: [{ text: "tu t'appelle bot mahquafy,  un assistant médical spécialisé. Ta seule fonction est de répondre à des questions concernant la santé, le bien-être, les maladies, les traitements médicaux et les conseils de prévention. Ne réponds à aucune question qui sort de ce cadre strict. Si une question n'est pas liée à la santé, décline poliment en expliquant que tu es programmé uniquement pour les sujets médicaux." }]
+    };
+
+    // Map the current conversation history (from UI state) to the format expected by the API
+    const mappedUserHistory = history.map(({role,text}) => ({role,parts: [{text}]}));
+
+    // Combine the system instruction with the mapped user history for the API request
+    const contentsForApi = [systemInstructionContent, ...mappedUserHistory];
+
+    // console.log("Contents sent to API:", contentsForApi);
+
     const requestOptions = {
       method : "POST",
-      headers : {"Content-Type":"applcation/json"},
-      body: JSON.stringify({contents : history})
-    }
+      headers : {"Content-Type":"application/json"}, // Corrected typo from applcation to application
+      body: JSON.stringify({contents : contentsForApi})
+    };
+
      try {
           const response = await fetch(import.meta.env.VITE_API_URL, requestOptions);
-          
           const data = await response.json();
-          if(!response.ok) throw new Error(data.error.message || "il y a un erreur");
 
-          console.log('API Response Data:', data); // Log the full data object
-          if (data && data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts.length > 0) {
+          if(!response.ok) {
+            const errorMessage = data?.error?.message || "Une erreur s'est produite lors de la récupération de la réponse de l'assistant.";
+            console.error("API Error:", errorMessage, data); // Log detailed error
+            throw new Error(errorMessage); // Throw error to be handled by the catch block
+          }
+
+          // console.log('API Response Data:', data); 
+
+          // Safely access the response text
+          if (data && data.candidates && data.candidates.length > 0 &&
+              data.candidates[0].content && data.candidates[0].content.parts &&
+              data.candidates[0].content.parts.length > 0 &&
+              typeof data.candidates[0].content.parts[0].text === 'string') {
             const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
             updateHistory(apiResponseText);
+          } else {
+            console.error("Unexpected API response structure or missing text:", data);
+            updateHistory("Désolé, la réponse de l'assistant est dans un format inattendu ou est incomplète.");
           } 
      }catch (error){
-          console.log(error)  
+          console.error("Erreur dans botresponse (fetch ou traitement):", error);
+          const displayErrorMessage = (error instanceof Error && typeof error.message === 'string' && error.message) ? error.message : "Une erreur technique est survenue lors de la communication avec l'assistant.";
+          updateHistory(displayErrorMessage);
      }
   }
 
