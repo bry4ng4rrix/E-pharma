@@ -21,27 +21,23 @@ useEffect(() =>{
       setChathistory(prev => [...prev.filter(msg => msg.text !=="En attent ...."),{role: "model",text}])
     }
 
-    // System instruction to guide the AI model's behavior
     const systemInstructionContent = {
       role: "user", // Using "user" role to prepend the instruction.
       parts: [{ text: "tu t'appelle bot mahquafy,  un assistant médical spécialisé. Ta seule fonction est de répondre à des questions concernant la santé, le bien-être, les maladies, les traitements médicaux et les conseils de prévention. Ne réponds à aucune question qui sort de ce cadre strict. Si une question n'est pas liée à la santé, décline poliment en expliquant que tu es programmé uniquement pour les sujets médicaux." }]
     };
 
-    // Map the current conversation history (from UI state) to the format expected by the API
     const mappedUserHistory = history.map(({role,text}) => ({role,parts: [{text}]}));
 
-    // Combine the system instruction with the mapped user history for the API request
     const contentsForApi = [systemInstructionContent, ...mappedUserHistory];
 
-    // console.log("Contents sent to API:", contentsForApi);
-
+ try {
     const requestOptions = {
       method : "POST",
       headers : {"Content-Type":"application/json"}, // Corrected typo from applcation to application
       body: JSON.stringify({contents : contentsForApi})
     };
 
-     try {
+    
           const response = await fetch(import.meta.env.VITE_API_URL, requestOptions);
           const data = await response.json();
 
@@ -67,7 +63,7 @@ useEffect(() =>{
      }catch (error){
           console.error("Erreur dans botresponse (fetch ou traitement):", error);
           const displayErrorMessage = (error instanceof Error && typeof error.message === 'string' && error.message) ? error.message : "Une erreur technique est survenue lors de la communication avec l'assistant.";
-          updateHistory(displayErrorMessage);
+          updateHistory("connexion Internet requis");
      }
   }
 
@@ -87,7 +83,7 @@ useEffect(() =>{
         <div className="flex flex-col space-y-4">
           {/* Message reçu */}
           <div className="max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow">
-            <p className="text-white">Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
+            <p className="text-white">Bonjour !, Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
           </div>
           {/* Message envoyé */}
           {chathistory.map((chat,index) => (

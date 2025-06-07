@@ -1,5 +1,4 @@
-import {Reactn,useRef} from 'react'
-
+import {Reactn,useRef,useState} from 'react'
 import { BsFillRocketTakeoffFill } from "react-icons/bs"; 
 
 
@@ -7,6 +6,8 @@ const Chatform = ({chathistory,setChathistory,botresponse}) => {
     const inputRef = useRef("bonjour je suis un asistant medical ")
     const Envoyer =(e) =>{
         e.preventDefault();
+
+        setLoading(true);
         const userMessage = inputRef.current.value.trim();
         if(!userMessage) return ;
         inputRef.current.value = "";
@@ -14,10 +15,10 @@ const Chatform = ({chathistory,setChathistory,botresponse}) => {
         setChathistory((history) => [...history,{role : "user", text : userMessage}]);
 
         setTimeout(() => setChathistory((history) => [...history,{role : "model", text : 'En attent ....'}]),
-        botresponse([...chathistory,{role : "user", text : userMessage}]),
+        
         600);
   
-
+          setTimeout(() => botresponse([...chathistory,{role : "user", text : userMessage}]),3000)
     }
   return (
    <div  className="flex items-center space-x-2" onSubmit={Envoyer}>

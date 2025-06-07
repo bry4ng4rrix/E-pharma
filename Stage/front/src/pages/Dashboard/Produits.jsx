@@ -36,6 +36,7 @@ const Produits = () => {
 
     const enregistre = async (e) => {
         e.preventDefault();
+        toast.dismiss()
         if (!Nom || !Description || !Bv || !Dollard || !Prix_distributeur || !Prix_en_detail) {
             toast.error('Veuiller remplire tous les Champs')
             return;
@@ -130,16 +131,16 @@ const Produits = () => {
                                     <button onClick={closeajoutform}><AiFillCloseCircle /></button>
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 mt-10">
-                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="Nom" onChange={(e) => setNom(e.target.value)} />
-                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="Descriptions" onChange={(e) => setDescription(e.target.value)} />
+                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder="Nom" onChange={(e) => setNom(e.target.value)} />
+                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Descriptions" onChange={(e) => setDescription(e.target.value)} />
                                     <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
-                                        <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="Bv" onChange={(e) => setBv(e.target.value)} />
-                                        <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="$" onChange={(e) => setDollard(e.target.value)} />
+                                        <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Bv" onChange={(e) => setBv(e.target.value)} />
+                                        <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="$" onChange={(e) => setDollard(e.target.value)} />
 
                                     </div>
-                                    <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="Prix Distributeur" onChange={(e) => setPrix_distributeur(e.target.value)} />
-                                    <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded shadow-xl border-none" placeholder="Prix en détail" onChange={(e) => setPrix_en_detail(e.target.value)} />
-                                    <button className="bg-vert h-10 mt-7 mb-4 rounded shadow-xl text-green-100" onClick={enregistre}>Enregistre</button>
+                                    <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Prix Distributeur" onChange={(e) => setPrix_distributeur(e.target.value)} />
+                                    <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Prix en détail" onChange={(e) => setPrix_en_detail(e.target.value)} />
+                                    <button className="bg-vert h-10 mt-7 mb-4 rounded-sm hover:bg-vertsombre hover:shadow-2xl  shadow-xl  text-green-100" onClick={enregistre}>Enregistre</button>
 
                                 </div>
                             </div>

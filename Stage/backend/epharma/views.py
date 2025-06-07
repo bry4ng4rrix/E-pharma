@@ -36,7 +36,6 @@ from django.conf import settings
 genai.configure(api_key=settings.GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-2.0-flash')
 
-# gemini view
 MEDICAL_KEYWORDS = [
     "maladie", "fièvre", "symptômes", "grippe", "toux", "douleur", 
     "ordonnance", "médicament", "infection", "diabète", "tension", "asthme",
@@ -54,7 +53,6 @@ class ChatbotAPIView(APIView):
                 "response": "Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement."
             })
 
-        # Sinon, envoie la question à Gemini
 
         prompt = f"en phrase de 7 ligne et de ne pas metre en liste  {user_message}"
 
@@ -224,7 +222,6 @@ class IMCCalculatorAPIView(APIView):
             else:
                 categorie = "Obésité"
 
-            # Préparer le contexte pour Gemini avec une demande plus précise
             context = f"""Je suis un visiteur qui souhaite des conseils sur ma santé. Voici mes informations :
             Âge: {age} ans
             Taille: {taille} cm

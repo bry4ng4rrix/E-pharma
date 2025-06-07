@@ -93,7 +93,7 @@ const Vente = () => {
 
                         {/* Statistiques (1/3) */}
                         <div className="w-1/3">
-                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+                            <div className="bg-white dark:bg-gray-800 rounded-sm shadow p-4">
                                 <h2 className="text-xl font-semibold mb-4">Statistiques des Ventes</h2>
 
                                 <div className="space-y-4">
