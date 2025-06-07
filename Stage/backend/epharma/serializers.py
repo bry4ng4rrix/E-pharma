@@ -22,10 +22,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     password1 = serializers.CharField(write_only=True, required=True)
     member_code = serializers.CharField(max_length=50, required=True)
     is_staff_choice = serializers.ChoiceField(
-        choices=[("1", "Utilisateur"), ("2", "Employer")],
+        choices=[("1", False), ("2", True)],
         write_only=True,
-        required=True,
-        label="Type de compte"
+        label="Type de compte",
     )
 
     class Meta:
@@ -84,8 +83,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            is_staff=is_staff_bool,
-            mobile='',
         )
 
         # Create profile
