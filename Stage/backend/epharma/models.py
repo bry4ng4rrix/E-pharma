@@ -50,6 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['username','first_name','last_name']
 
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True) 
     member_code = models.CharField(max_length=50,unique=True)
@@ -69,6 +70,8 @@ class Profile(models.Model):
     
     def __str__(self):
         return self.member_name
+    
+
     
 
 
