@@ -21,10 +21,16 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     password1 = serializers.CharField(write_only=True, required=True)
     member_code = serializers.CharField(max_length=50, required=True)
+    is_staff_choice = serializers.ChoiceField(
+        choices=[("1", "Utilisateur"), ("2", "Employer")],
+        write_only=True,
+        required=True,
+        label="Type de compte"
+    )
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'member_code', 'password', 'password1')
+        fields = ('first_name', 'last_name', 'email', 'member_code', 'password', 'password1', 'is_staff_choice')
 
     def validate(self, data):
         # Check if passwords match
@@ -45,6 +51,10 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         # Remove password1 from validated data as it's not needed for user creation
         validated_data.pop('password1')
 
+        # Process is_staff_choice
+        is_staff_choice_value = validated_data.pop('is_staff_choice')
+        is_staff_bool = (is_staff_choice_value == '2') # '2' for staff (True), '1' for non-staff (False)
+
         # Extract profile-related fields
         profile_data = {
             'member_code': validated_data.pop('member_code'),
@@ -61,12 +71,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'tnbv': '0',
             'branch': '',
         }
-
         # Generate a unique username based on email or member_code
         username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
         while User.objects.filter(username=username).exists():
             username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
-
+   
+        
         # Create user with minimal required fields
         user = User.objects.create_user(
             username=username,
@@ -74,7 +84,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            mobile=''
+            is_staff=is_staff_bool,
+            mobile='',
         )
 
         # Create profile
