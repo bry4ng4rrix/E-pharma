@@ -58,14 +58,14 @@ const handleLogout = async () => {
                  
                     <button className={`${is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
                     <Link to="/imc" className={`${is_active ? "block":"hidden"} `}>Imc</Link>
-                    <Link to="/profile" className={`${is_active ? "block":"hidden"} `}>Profile</Link>
+                    <button onClick={openProfile} className={`${is_active ? "block":"hidden"} `}>Profile</button>
                     <Link to='/admin' className={`${is_superuser ? "block" : "hidden"}`}>Tableau de bord</Link>
                 </ul>
             
         </div>
         <div className='h-12 gap-4 rounded-md  p-5  items-center text-white justify-center flex '> 
             <div className='rounded-lg justify-center items-center p-2   flex gap-6 '>
-                <Link to={`${is_active ? "/profile":"/login"}`}><CgProfile className={`h-6 w-auto text-vertsombre `}/></Link>
+                <Link to={`${is_active ? ``:"/login"}`}><CgProfile className={`h-6 w-auto text-vertsombre `}/></Link>
                 <BsFillMoonFill className="h-5 w-auto text-vertsombre"/>
                 <button onClick={handleLogout}>
                 <HiOutlineLogout className={`h-6 w-auto text-vertsombre ${!is_active ? 'hidden':'block'}`}  /></button>

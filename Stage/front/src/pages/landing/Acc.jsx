@@ -1,3 +1,4 @@
+import { AiFillCloseCircle } from "react-icons/ai"; 
 
 import wosh from '../../assets/img/womanshoping.png'
 import review from '../../assets/img/reviewstar.png'
@@ -27,6 +28,7 @@ const [Imc,setImc] = useState(false)
 const openBot = () => setBot(true)
 const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
+const closeProfile = () => setProfile(false)
 
 
 
@@ -98,20 +100,52 @@ const openProfile = () => setProfile(true)
                         
                     </motion.div>
                 )}
+                {Profile && (
+                    <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                            <div className=' max-w-4xl grid sm:grid-cols-2 gap-2 w-full rounded p-5 h-3/4'>
+                        
+                                <div className='bg-fonddark/50 w-full rounded-md justify-center p-6 items-center'>
+                                    <div className='h-24 justify-center items-center  w-24 bg-white rounded-full '>
+                                    </div>
+                                    <div className="grid grid-cols-1 gap-2 mt-4">
+                                        <input type="file"  className="h-16 rounded  text-white"/>
+                                       <div className="grid grid-cols-2 gap-2 ">
+                                            <input type="text" placeholder="Nom" className="h-16 rounded p-3"/>
+                                            <input type="text" placeholder="Prenom"className="h-16 rounded p-3"/>
+                                       </div>
+                                        <input type="email" placeholder="Email"className="h-16 rounded p-3"/>
+                                        <input type="number" placeholder="Numero"className="h-16 rounded p-3"/>
+                                        <button className="h-16 bg-blue-600 text-white rounded mt-10">Mise A jours </button>
+                                        
+                                    </div>
+
+                                </div>
+                                <div className='flex p-5 bg-fonddark/50 w-full  rounded-md'>
+                                        <button className=' flex justify-items-end' onClick={closeProfile}><AiFillCloseCircle 
+                                         className="h-6 w-auto text-red-600"/></button>
+
+                                         <div className="grid grid-cols-1 gap-3  mt-4 ">
+                                            <input type="text" className="h-16 "/>
+
+                                         </div>
+                                </div>
+                            </div>
+                        
+                    </motion.div>
+                )}
 
                                           
                        
                     
                     
                                      </div>
-                                     <section className="h-screen   flex flex-col justify-center items-center bg-slate-950">
-                                            <div className="text-white ">
-                                                TONGASOA !
-                                            </div>
-                                            <div className="text-[25vh] font-darky text-white">
-                                                MAHQUAFY
-                                            </div>
-                                     </section>
 
                 <section className='h-screen flex justify-center  items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10  '>
                    

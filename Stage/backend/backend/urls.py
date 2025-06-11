@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from epharma import views
-from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView , VoireUtilisateur
+from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView
 from rest_framework import routers
 from django.conf.urls.static import static
 from django.conf import settings
@@ -14,8 +14,8 @@ from rest_framework_simplejwt.views import (
 router = routers.DefaultRouter()
 router.register('/vente',views.VoireVente,'vente')
 router.register('/produits',views.VoiresProduits,'produits')
-router.register('/membre',views.VoireMembre,'voire_membre')
 router.register('/ajoutmembre',views.AjoutMembre,'ajoute_membre')
+router.register('/rendevous',views.RendevousView,'rendevous')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api',include(router.urls)),
@@ -29,7 +29,9 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
     path('profiles/', ProfileListView.as_view(), name='profile_list'),
-    path('utilisateur/', VoireUtilisateur.as_view(), name='utilisateur_list'),
+    path('employer/', EmployerListView.as_view(), name='employer_list'),
+    path('employer/supr/',EmployerSuprimeView.as_view,name='employer_supre'),
+    
     path('utilisateurs-par-grade/', views.UtilisateursParGradeView.as_view(), name='utilisateurs_par_grade'),
     path('ajouter-membre-sans-user/', views.AjouterMembreSansUserView.as_view(), name='ajouter_membre_sans_user'),
 

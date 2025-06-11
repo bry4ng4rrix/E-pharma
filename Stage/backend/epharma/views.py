@@ -143,27 +143,43 @@ class ProfileCreateView(views.APIView):
 
 
 
-
-
-
-
-class VoireMembre(viewsets.ModelViewSet):
-    serializer_class = MembreSerialiser
-    queryset = Profile.objects.all()
-    permission_classes = (AllowAny,)
-
-
-class VoireUtilisateur(generics.ListAPIView):
-    serializer_class = UtilisateurSerialiser
+class EmployerListView(generics.ListAPIView):
+    serializer_class = EmployerSerialiser
     permission_classes = [IsAuthenticated]
-    queryset = User.objects.all()
-    pagination_class = None 
+    queryset = User.objects.filter(is_staff=True)
+    pagination_class = None
+
+
+
+class EmployerSuprimeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def delete(self,request,*args, **kwargs):
+        serializers = EmployerSerialiser(data=request.data)
+
+        if serializers.is_valid():
+            user_id = serializers.validated_data['id']
+
+            try :
+                user = User.objects.get(pk=user_id)
+                user.delete()
+                return Response({"message": "Supression success"}, status=status.HTTP_200_OK)
+            except User.DoesNotExist:
+                return Response({"error" : "Utilisateur n'existe pas"},status=status.HTTP_404_NOT_FOUND)
+        return Response(serializers.errors,status=status.HTTP400_BAD_REQUEST)
+
+
+
+
 
 class ProfileListView(generics.ListAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all()
     pagination_class = None  # Retire la pagination pour avoir tous les résultats
+
+
+
 
 class AjoutMembre(viewsets.ModelViewSet):
     serializer_class = AjoutMembreSerializer
@@ -180,7 +196,7 @@ class Staview(APIView):
         data = {
                 "produit": Produits.objects.count(),
                 "vente" : Vente.objects.count(),
-                "user" : User.objects.count(),
+                "user" : User.objects.filter(is_staff=True).count(),
                 "profile": Profile.objects.count()
                 }
         serializer = StatisticS(data)
@@ -190,6 +206,13 @@ class Staview(APIView):
 class VoiresProduits(viewsets.ModelViewSet):
     serializer_class = ProduitsSerializer
     queryset = Produits.objects.all()
+    
+
+class RendevousView(viewsets.ModelViewSet):
+    serializer_class = RendevousSerialiser
+    queryset = Rendevous.objects.all()
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
     
 
 

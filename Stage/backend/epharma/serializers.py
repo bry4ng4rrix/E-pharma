@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from epharma.models import  Vente , Produits ,User,Profile
+from epharma.models import  Vente , Produits ,User,Profile ,Rendevous
 
 import uuid
 
@@ -21,15 +21,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     password1 = serializers.CharField(write_only=True, required=True)
     member_code = serializers.CharField(max_length=50, required=True)
-    is_staff_choice = serializers.ChoiceField(
-        choices=[("1", False), ("2", True)],
-        write_only=True,
-        label="Type de compte",
-    )
+    poste = serializers.CharField(required=False)
+    is_staff = serializers.BooleanField(default=False)
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'member_code', 'password', 'password1', 'is_staff_choice')
+        fields = ('first_name', 'last_name', 'email', 'member_code','poste', 'password', 'password1','is_staff','image')
+
 
     def validate(self, data):
         # Check if passwords match
@@ -43,16 +41,15 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         # Check for unique member_code
         if Profile.objects.filter(member_code=data.get('member_code')).exists():
             raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
+        
+        if Profile.objects.filter(member_name=data.get('member_name')).exists():
+            raise serializers.ValidationError({"member_name": "Nom du membre est déjà utilisé"})
 
         return data
 
     def create(self, validated_data):
         # Remove password1 from validated data as it's not needed for user creation
         validated_data.pop('password1')
-
-        # Process is_staff_choice
-        is_staff_choice_value = validated_data.pop('is_staff_choice')
-        is_staff_bool = (is_staff_choice_value == '2') # '2' for staff (True), '1' for non-staff (False)
 
         # Extract profile-related fields
         profile_data = {
@@ -152,6 +149,29 @@ class ProfileSerializer(serializers.ModelSerializer):
     
 
 
+class EmployerSerialiser(serializers.ModelSerializer):
+    member_code = serializers.CharField(source='profile.member_code',read_only=True)
+    class Meta :
+        model = User
+        fields = ['id','username','email','first_name','last_name','poste','member_code']
+    
+    
+class EmployerSuprimeSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+
+    def validate_id(self,value):
+        try :
+            user = User.objects.get(pk=value)
+        except User.DoesNotExist:
+            raise serializers.Validation.Error("Utilisateur n'existe pas")
+        return value
+
+
+class RendevousSerialiser(serializers.ModelSerializer):
+    class Meta:
+        model = Rendevous 
+        fields = ['nom','message','date','user']
+
 
     ###########################
 
@@ -176,9 +196,6 @@ class StatisticS(serializers.Serializer):
      user = serializers.IntegerField()
      profile = serializers.IntegerField()
 
-class MembreSerialiser(serializers.ModelSerializer):
-    model = Profile
-    fields = '__all__'
 
 class UtilisateurSerialiser(serializers.ModelSerializer):
     model = User
@@ -187,6 +204,9 @@ class UtilisateurSerialiser(serializers.ModelSerializer):
 class AjoutMembreSerializer(serializers.ModelSerializer):
     model = Profile
     fields = '__all__'
+
+
+
 
 
 

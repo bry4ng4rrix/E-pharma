@@ -67,7 +67,7 @@ const Vente = () => {
                                     <thead>
                                         <tr className="bg-gray-100 dark:bg-gray-700">
                                             <th className="px-4 py-2">Date</th>
-                                            <th className="px-4 py-2">Produit</th>
+                                            <th className="px-4 py-2">Nom</th>
                                             <th className="px-4 py-2">Quantité</th>
                                             <th className="px-4 py-2">Montant</th>
                                         </tr>
@@ -80,7 +80,9 @@ const Vente = () => {
                                         ) : (
                                             ventes.map((vente) => (
                                                 <tr key={vente.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                                    <td className="px-4 py-2">{vente.produit_nom}</td>
+                                                    <td className="px-4 py-2">{vente.date}</td>
+
+                                                    <td className="px-4 py-2">{vente.Produit_nom}</td>
                                                     <td className="px-4 py-2">{vente.quantite}</td>
                                                     <td className="px-4 py-2">${vente.prixtotale}</td>
                                                 </tr>

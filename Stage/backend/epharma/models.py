@@ -32,9 +32,11 @@ class UserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=50 ,unique=True)
     email = models.EmailField(max_length=50 ,unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50 ,unique=False)
+    last_name = models.CharField(max_length=50 ,unique=False)
+    image = models.ImageField(default="default.jpg",upload_to="uploads/")
     mobile = models.CharField(max_length=50)
+    poste = models.CharField(max_length=50 ,null=True ,default='')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -72,8 +74,14 @@ class Profile(models.Model):
         return self.member_name
     
 
-    
 
+class Rendevous(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True) 
+    date = models.DateField(auto_now_add=True)
+    message = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.message
 
 
 
