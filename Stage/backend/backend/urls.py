@@ -29,6 +29,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
     path('profiles/', ProfileListView.as_view(), name='profile_list'),
+    path('profiles/<int:pk>', ProfileListView.as_view(), name='profile_list'),
     path('employer/', EmployerListView.as_view(), name='employer_list'),
     path('employer/supr/',EmployerSuprimeView.as_view,name='employer_supre'),
     

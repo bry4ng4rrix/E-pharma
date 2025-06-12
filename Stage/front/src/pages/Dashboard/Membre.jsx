@@ -2,11 +2,20 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { BsCheckAll } from "react-icons/bs"; 
 import { BsPersonAdd } from "react-icons/bs"; 
 import Sidebar from "../../components/SideNav/Sidebard";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
-import Dgrid from '../../ui/grid/grid_membre'
-import Ajoumembre from "./options/ajoumembre";
 import {motion} from 'framer-motion'
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarQuickFilter,
+  GridActionsCellItem
+} from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { frFR } from '@mui/x-data-grid/locales';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,8 +39,40 @@ const Membre = () => {
       const[Tnbv,setTnbv] = useState('');
       const[Branch,setBranch] = useState('');
 
+
+       const theme = createTheme({
+          palette: {
+            primary: {
+              main: '#2F403E'
+            },
+            background: {
+              default: '#BBF2F2'
+            },
+          },
+          components: {
+            MuiDataGrid: {
+              styleOverrides: {
+                root: {
+                  backgroundColor: '#ffffff',
+                  borderRadius: '20px',
+                  overflow: 'hidden',
+                  padding: '10px',
+                  border: 'none',
+                },
+                columnHeaders: {
+                  backgroundColor: '#027333',
+                  fontWeight: 'bold'
+                }
+              }
+            }
+          }
+        });
+
     const openajoutform = () => setAjoutform(true);
     const closeajoutform = () => setAjoutform(false);
+      const [profile, setProfile] = useState([]);
+      const [loading, setLoading] = useState(true);
+    const [direct,setDirect] = useState([])
 
     const toogleDark = () =>{
         setDarkMode(!darkMode)
@@ -41,6 +82,10 @@ const Membre = () => {
         setAjout(!ajout)
         toast.success(ajout)
     }
+    
+    
+
+    
 
     const submite = async (e) =>{
         toast.dismiss()
@@ -79,6 +124,7 @@ const Membre = () => {
               });
         
               const responseData = await response.json();
+              fetchMembre();
         
                 }
                 catch {
@@ -89,6 +135,120 @@ const Membre = () => {
                 }
         
     }
+    const handleEditClick = (id) => {
+        toast.info(`Modifier l'utilisateur avec ID: ${id}`);
+        // Tu peux ici ouvrir une modale ou activer un formulaire inline
+      };
+    
+      const handleDeleteClick = async (id) => {
+        const token = localStorage.getItem('access_token');
+        try {
+          const response = await fetch(`http://localhost:8000/profiles/${id}`, {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+    
+          if (!response.ok) {
+            throw new Error(`Erreur suppression (${response.status})`);
+          }
+    
+          toast.success("Utilisateur supprimé avec succès");
+          fetchMembre();
+          setProfile((prev) => prev.filter((item) => item.id !== id));
+        } catch (error) {
+          toast.error("Échec de la suppression !");
+          console.error("Erreur suppression :", error);
+        }
+      };
+    
+ useEffect(() => {
+     fetchMembre();
+  }, []);
+    
+    const token = localStorage.getItem('access_token');
+
+    if (!token) {
+      toast.error('Aucun token trouvé. Veuillez vous connecter.');
+      setLoading(false);
+      return;
+    }
+
+    const fetchMembre = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/profiles', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erreur serveur (${response.status})`);
+        }
+
+        const data = await response.json();
+        setDirect(data)
+        console.log(direct.directline)
+
+        const formattedData = Array.isArray(data)
+          ? data.map((item, index) => ({
+              ...item,
+              id: item.id || index,
+            }))
+          : [{ ...data, id: data.id || 0 }];
+
+        setProfile(formattedData);
+      } catch (error) {
+        console.error('Erreur API:', error);
+        toast.error('Erreur lors du chargement des données');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+   
+
+     const CustomToolbar = () => (
+    <GridToolbarContainer>
+      <GridToolbarQuickFilter />
+      <GridToolbarExport />
+    </GridToolbarContainer>
+  );
+const columns = [
+    { field: 'member_code', headerName: 'Member Code', flex: 1 },
+    { field: 'member_name', headerName: 'Member Name', flex: 1 },
+    { field: 'depth', headerName: 'Depth', flex: 1 },
+    { field: 'directline', headerName: 'Directline', flex: 1 },
+    { field: 'registration_date', headerName: 'Registration Date', flex: 1 },
+    { field: 'grade', headerName: 'Grade', flex: 1 },
+    { field: 'gbv', headerName: 'Gbv', flex: 1 },
+    { field: 'cpbv', headerName: 'Cpbv', flex: 1 },
+    { field: 'cnbv', headerName: 'Cnbv', flex: 1 },
+    { field: 'pbv', headerName: 'Pbv', flex: 1 },
+    { field: 'tnbv', headerName: 'Tnbv', flex: 1 },
+    { field: 'branch', headerName: 'Branch', flex: 1 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Actions',
+      width: 100,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="Modifier"
+          onClick={() => handleEditClick(params.id)}
+        />,
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Supprimer"
+          onClick={() => handleDeleteClick(params.id)}
+        />
+      ],
+    }
+  ];
 
   
     return (
@@ -106,19 +266,7 @@ const Membre = () => {
             <div className=" m-3 text-xl   font-semibold  w-full rounded-sm bg-vertblanc shadow-lg bg-opacity-80 dark:bg-fonddark dark:text-green-100 transition-colors">
                
                 <Fixednav toogleDark={toogleDark} darkMode={darkMode}/>
-                <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            theme="dark"
-            pauseOnHover
-            transition={Bounce}
-          />
+             
                     <div className="p-3">
                         <div className="flex justify-between py-5">
                            <div>
@@ -139,7 +287,44 @@ const Membre = () => {
                             
                         </div>
                         <div >
-                           <Dgrid/> 
+                              <ThemeProvider theme={theme}>
+                                  <div style={{ width: '100%' }} className='py-2'>
+                                    <ToastContainer
+                                      position="top-right"
+                                      autoClose={3000}
+                                      hideProgressBar={false}
+                                      newestOnTop={false}
+                                      closeOnClick
+                                      rtl={false}
+                                      pauseOnFocusLoss
+                                      draggable
+                                      theme="light"
+                                      pauseOnHover
+                                      transition={Bounce}
+                                    />
+                            
+                                    <DataGrid
+                                      localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+                                      rows={profile}
+                                      columns={columns}
+                                      loading={loading}
+                                      initialState={{
+                                        pagination: {
+                                          paginationModel: {
+                                            pageSize: 10,
+                                            page: 0,
+                                          },
+                                        },
+                                      }}
+                                      pageSizeOptions={[10, 20, 50]}
+                                      disableRowSelectionOnClick
+                                      disableColumnResize
+                                      disableColumnSelector
+                                      showToolbar
+                                      slots={{ toolbar: CustomToolbar }}
+                                    />
+                                  </div>
+                                </ThemeProvider>
                         </div>
                          
                         
@@ -170,6 +355,12 @@ const Membre = () => {
                                 <div className="grid grid-cols-3 gap-2">
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Code" onChange={(e) => setMember_Code(e.target.value)}/>
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Directline" onChange={(e) => setDirectline(e.target.value)}/>
+                                    <select name="" id="">
+                                        <option value="">Directline</option>
+                                        {direct.map((e) => (
+                                            <option key={e.id}>{direct.Directline}</option>
+                                        ))}
+                                    </select>
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Sponsor" onChange={(e) => setSponsor(e.target.value)}/>
 
                                 </div>

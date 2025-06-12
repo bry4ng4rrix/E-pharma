@@ -110,7 +110,7 @@ class UserLoginSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('member_code', 'member_name', 'depth', 'directline', 'sponsor', 'registration_date',
+        fields = ('id','member_code', 'member_name', 'depth', 'directline', 'sponsor', 'registration_date',
                   'grade', 'gbv', 'cpbv', 'cnbv', 'pbv', 'tnbv', 'branch')
         extra_kwargs = {
             'member_code': {'required': True},
@@ -146,6 +146,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"user": "Un profil existe déjà pour cet utilisateur"})
         
         return Profile.objects.create(user=user, **validated_data)
+    
+
     
 
 

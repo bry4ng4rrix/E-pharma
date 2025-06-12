@@ -172,7 +172,7 @@ class EmployerSuprimeView(APIView):
 
 
 
-class ProfileListView(generics.ListAPIView):
+class ProfileListView(generics.ListAPIView,generics.DestroyAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all()
