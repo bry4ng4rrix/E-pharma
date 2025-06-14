@@ -33,7 +33,11 @@ const Employer = () => {
     const closeajoutform = () => setAjoutform(false);
 
     useEffect(() => {
-       const   fetchEmployers = async () => {
+       if(token){
+        fetchEmployers();
+       }
+    },[])
+    const   fetchEmployers = async () => {
         try {
              setLoading(true);
             const response = await fetch('http://localhost:8000/employer' , {
@@ -52,8 +56,6 @@ const Employer = () => {
                 setLoading(false)
         }
        };
-       fetchEmployers();
-    },[])
 const supre = async(id) => {
   try {
     const response = await fetch(`http://localhost:8000/employer/supr/${id}`,{

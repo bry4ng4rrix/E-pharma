@@ -186,7 +186,19 @@ class AjoutMembreSerializer(serializers.ModelSerializer):
     fields = '__all__'
 
 
+class LogoutSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
 
+    def validate(self, attrs):
+        self.token = attrs['refresh']
+        return attrs
+
+    def save(self, **kwargs):
+        try:
+            token = RefreshToken(self.token)
+            token.blacklist()
+        except TokenError as e:
+            raise serializers.ValidationError({'refresh': 'Token is invalid or expired'})
 
 
 

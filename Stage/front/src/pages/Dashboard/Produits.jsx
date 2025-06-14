@@ -99,12 +99,13 @@ fetchProduct();
         const SaveUpdate = async (e) => {
         e.preventDefault();
          const datau = {
-        Nom: Nom,
-        Description: Description,
-        Bv: Bv,
-        Dollard: Dollard,
-        Prix_distributeur: Prix_distributeur,
-        Prix_en_detail: Prix_en_detail
+        Nom: Nom || update.Nom,
+        Description: Description || update.Description,
+        Bv: Bv || update.Bv,
+        Dollard: Dollard || update.Dollard,
+        Prix_distributeur: Prix_distributeur || update.Prix_distributeur,
+        Prix_en_detail: Prix_en_detail || update.Prix_en_detail,
+        Nombre : Nombre || update.Nombre,
     }
     console.log(datau)
 
@@ -170,6 +171,7 @@ fetchProduct();
         { field: 'Dollard', headerName: '$', flex: 1 },
         { field: 'Prix_distributeur', headerName: 'Prix Distributeur', flex: 1 },
         { field: 'Prix_en_detail', headerName: 'Prix Détail', flex: 1 },
+        { field: 'Nombre', headerName: 'Nombre  ', flex: 1 },
         {
           field: 'actions',
           type: 'actions',
@@ -204,14 +206,13 @@ fetchProduct();
     const [Dollard, setDollard] = useState('');
     const [Prix_distributeur, setPrix_distributeur] = useState('');
     const [Prix_en_detail, setPrix_en_detail] = useState('');
+    const [Nombre, setNombre] = useState('');
 
     const toogleDark = () => {
         setDarkMode(!darkMode)
 
 
     }
-    const is_staff = localStorage.getItem('is_staff')
-    const is_superuser = localStorage.getItem('is_superuser')
 
     const data = {
         Nom: Nom,
@@ -219,7 +220,8 @@ fetchProduct();
         Bv: Bv,
         Dollard: Dollard,
         Prix_distributeur: Prix_distributeur,
-        Prix_en_detail: Prix_en_detail
+        Prix_en_detail: Prix_en_detail,
+        Nombre: Nombre
     }
 
    
@@ -227,7 +229,7 @@ fetchProduct();
     const enregistre = async (e) => {
         e.preventDefault();
         toast.dismiss()
-        if (!Nom || !Description || !Bv || !Dollard || !Prix_distributeur || !Prix_en_detail) {
+        if (!Nom || !Description || !Bv || !Dollard || !Prix_distributeur || !Prix_en_detail || !Nombre) {
             toast.error('Veuiller remplire tous les Champs')
             return;
         }
@@ -351,7 +353,10 @@ fetchProduct();
                                     <button onClick={closeupdate}><AiFillCloseCircle /></button>
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 mt-10">
+                                  <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
                                     <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder={update.Nom} onChange={(e) => setNom(e.target.value)} />
+                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder={update.Nombre} onChange={(e) => setNombre(e.target.value)} />
+                                  </div>
                                     <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder={update.Description} onChange={(e) => setDescription(e.target.value)} />
                                     <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
                                         <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder={update.Bv} onChange={(e) => setBv(e.target.value)} />
@@ -383,7 +388,11 @@ fetchProduct();
                                     <button onClick={closeajoutform}><AiFillCloseCircle /></button>
                                 </div>
                                 <div className="grid grid-cols-1 gap-3 mt-10">
-                                    <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder="Nom" onChange={(e) => setNom(e.target.value)} />
+                                      <div className="grid grid-cols-2 gap-2 mt-2">
+
+                                         <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder="Nom" onChange={(e) => setNom(e.target.value)} />
+                                         <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm shadow-xl border-none outline-none" placeholder="Nombre" onChange={(e) => setNombre(e.target.value)} />
+                                      </div>
                                     <input type="text" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Descriptions" onChange={(e) => setDescription(e.target.value)} />
                                     <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
                                         <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder="Bv" onChange={(e) => setBv(e.target.value)} />

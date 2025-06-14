@@ -103,6 +103,7 @@ class Produits(models.Model):
     Dollard = models.IntegerField()
     Prix_distributeur = models.IntegerField()
     Prix_en_detail = models.IntegerField()
+    Nombre = models.IntegerField(default=0)
 
     def __str__(self):
         return self.Nom

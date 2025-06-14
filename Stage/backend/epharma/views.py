@@ -6,7 +6,7 @@ from .models import Vente,Produits,User,Profile
 from django.contrib.auth import get_user_model
 from .serializers import *
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework import views, status
+from rest_framework import views, status , permissions
 
 #############
 #test 
@@ -406,3 +406,11 @@ class UtilisateursParGradeView(APIView):
         return Response(serializer.data)
 
 
+class LogoutView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = LogoutSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
