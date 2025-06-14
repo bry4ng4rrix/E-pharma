@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from epharma import views
-from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,profilUpdate
+from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,profilUpdate,Userprofile
 from django.conf.urls.static import static
 from rest_framework import routers
 from django.conf import settings
@@ -32,6 +32,8 @@ urlpatterns = [
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
     path('profiles/', ProfileListView.as_view(), name='profile_list'),    
     path('profiles/update/', profilUpdate.as_view(), name='profile_update'),
+    
+    path('profiles/user/',Userprofile.as_view(),name='profile_user'),
 
     path('profiles/<int:pk>', ProfileListView.as_view(), name='profile_list'),
     path('employer/', EmployerListView.as_view(), name='employer_list'),

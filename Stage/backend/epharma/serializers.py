@@ -113,15 +113,18 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('id','user','member_code', 'member_name', 'depth', 'directline', 'sponsor', 'registration_date',
                   'grade', 'gbv', 'cpbv', 'cnbv', 'pbv', 'tnbv', 'branch')
         
+class UserprofileSerialiser(serializers.ModelSerializer):
+    class Meta :
+        model = User
+        fields = ('id','email','first_name','last_name','is_active','is_staff','is_superuser')
 
     
     
 
 class UserSerialiser(serializers.ModelSerializer):
-    member_code = serializers.CharField(source='profile.member_code',read_only=True)
     class Meta :
         model = User
-        fields = ['id','username','email','first_name','last_name','poste','member_code']
+        fields = ['id','username','email','first_name','last_name','poste']
 
     
 

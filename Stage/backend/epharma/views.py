@@ -158,7 +158,27 @@ class profilUpdate(generics.RetrieveUpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-        
+class Userprofile(generics.RetrieveUpdateAPIView):
+    serializer_class = UserprofileSerialiser
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        """Retourne directement l'utilisateur connecté."""
+        user = self.request.user
+        if user is None:
+            raise ValidationError({"detail": "Aucun utilisateur connecté."})
+        return user
+
+    def partial_update(self, request, *args, **kwargs):
+        """Permet la mise à jour partielle (PATCH)."""
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+
+
 ################
 
 

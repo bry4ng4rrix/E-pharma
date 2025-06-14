@@ -16,14 +16,37 @@ const navigate = useNavigate();
 const is_active = localStorage.getItem("is_active");
 const token = localStorage.getItem('access_token')
 const is_superuser = localStorage.getItem("is_superuser");
-const email_act = localStorage.getItem('email');
-const member_code = localStorage.getItem('member_code');
-const username = localStorage.getItem('username');
+const message = localStorage.getItem("deconnexion");
 const [ustilisateur,setUtilsateur] = useState([])
+const [profileU,setProfileU] = useState([])
 
+const fetchuserprofile = async()=> {
+    try {
+         const response = await fetch('http://localhost:8000/profiles/user' , {
+              method : 'GET',
+                headers : {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            setProfileU(data);
 
+    }
+    catch {
+        
+    }
+}
+useEffect(() => {
+if(token){
+
+fetchuserprofile();
+}
+},[])
 
 const fetchUtilisateur = async()=> {
+  
+
     try {
          const response = await fetch('http://localhost:8000/profiles/update' , {
               method : 'GET',
@@ -34,15 +57,18 @@ const fetchUtilisateur = async()=> {
             });
             const data = await response.json();
             setUtilsateur(data);
-
+           
+           
     }
     catch {
         
     }
 }
 useEffect(() => {
+  if(token){
 
 fetchUtilisateur();
+  }
 },[])
 
 
@@ -50,8 +76,6 @@ fetchUtilisateur();
 const [Profile,setProfile] = useState(false)
 const [Bot,setBot] = useState(false)
 const [Imc,setImc] = useState(false)
-const[Member_name,setMember_name] = useState('');
-const[Member_Code,setMember_Code] = useState('');
 const[Depth,setDepth] = useState('');const[Directline,setDirectline] = useState('');
 const[Sponsor,setSponsor] = useState('');
 const[Reg_Date,setReg_Date] = useState('');
@@ -118,36 +142,7 @@ const closeProfile = () => setProfile(false)
 
 
 
- const handleLogout = async () => {
-        try {
-            const refreshToken = localStorage.getItem('refresh_token');
-            if (refreshToken) {
-                await fetch('http://localhost:8000/logout/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
-                    },
-                    body: JSON.stringify({ refresh: refreshToken }),
-                });
-            }
-    toast.dismiss()
-    localStorage.setItem('message','deconnection succée');
-
-            
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-
-        // Clear localStorage
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('is_superuser');
-        localStorage.removeItem('is_active');
-        navigate('/');
-        // Show success toast and redirect to login page
-        
-    };
+ 
 
  
     return (
@@ -166,7 +161,7 @@ const closeProfile = () => setProfile(false)
                             transition={Bounce}
                           />
                      <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
-                 <Navbar is_active={is_active} is_superuser={is_superuser} handlelogout={handleLogout}  openProfile={openProfile} openBot={openBot}/>
+                 <Navbar is_active={is_active} is_superuser={is_superuser}  openProfile={openProfile} openBot={openBot}/>
                        
                                      
                                            
@@ -224,13 +219,13 @@ const closeProfile = () => setProfile(false)
                                             <input
                                               type="text"
                                               className="input input-bordered mb-2 w-full"
-                                              placeholder={ustilisateur.member_name}
+                                              placeholder={profileU.first_name}
                                               onChange={e => setNom(e.target.value)}
                                             />
                                             <input
                                               type="text"
                                               className="input input-bordered mb-2 w-full"
-                                              placeholder="Prénom"
+                                              placeholder={profileU.last_name}
                                               onChange={e => setPrenom(e.target.value)}
                                             />
                                             <input
@@ -242,8 +237,7 @@ const closeProfile = () => setProfile(false)
                                             <input
                                               type="email"
                                               className="input input-bordered mb-2 w-full"
-                                              placeholder="Email"
-                                              value={email_act || ''}
+                                              placeholder={profileU.email}
                                               onChange={e => setEmailAct(e.target.value)}
                                             />
                                             <button

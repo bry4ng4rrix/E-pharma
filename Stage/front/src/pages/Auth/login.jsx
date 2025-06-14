@@ -47,7 +47,7 @@ const Login = () => {
 
         toast.success('Connexion réussie !');
         setTimeout(() => {
-          navigate(result.user.redirect_url);
+          navigate('/');
         }, 2000);
 
       } else {
