@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path , include
 from epharma import views
-from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,profilUpdate,Userprofile,LogoutView
+from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,profilUpdate,Userprofile,LogoutView,FactureViews
 from django.conf.urls.static import static
 from rest_framework import routers
 from django.conf import settings
@@ -17,6 +17,7 @@ router.register('/produits',views.VoiresProduits,'produits')
 router.register('/ajoutmembre',views.AjoutMembre,'ajoute_membre')
 router.register('/rendevous',views.RendevousView,'rendevous')
 router.register('/user',views.UserListView,'utilisateur')
+router.register('/facture',views.FactureViews,'facture')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api',include(router.urls)),

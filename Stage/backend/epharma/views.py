@@ -252,6 +252,10 @@ class Staview(APIView):
 class VoiresProduits(viewsets.ModelViewSet):
     serializer_class = ProduitsSerializer
     queryset = Produits.objects.all()
+
+class FactureViews(viewsets.ModelViewSet):
+    serializer_class = FactureSerializer
+    queryset = Vente.objects.all()
     
 
 class RendevousView(viewsets.ModelViewSet):

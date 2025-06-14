@@ -86,16 +86,6 @@ class Rendevous(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
-
 class Produits(models.Model):
     Nom = models.CharField( max_length=250 ,unique = True)
     Description =  models.CharField(max_length=250 ,null=True)
@@ -112,11 +102,11 @@ class Produits(models.Model):
     
 
 class Vente(models.Model):
-    produit = models.ForeignKey(Produits, on_delete=models.CASCADE)
+    produit = models.CharField(max_length=50 ,default=0)
     quantite = models.IntegerField()
     prixtotale = models.IntegerField()
     date = models.DateField(auto_now_add=True)
     
     def __str__(self):
-        return self.produit.Nom
+        return self.produit
     

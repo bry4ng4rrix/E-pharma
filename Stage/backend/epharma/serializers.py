@@ -147,6 +147,25 @@ class EmployerSuprimeSerializer(serializers.Serializer):
         return value
 
 
+class ProduitsSerializer(serializers.ModelSerializer):
+     class Meta:
+          model = Produits 
+          fields = '__all__'
+
+
+class FactureSerializer(serializers.ModelSerializer):
+
+    class Meta :
+        model = Vente 
+        fields = ['id', 'produit','quantite','prixtotale','date']
+
+
+
+
+
+
+
+
 class RendevousSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Rendevous 
@@ -156,14 +175,10 @@ class RendevousSerialiser(serializers.ModelSerializer):
     ###########################
 
     
-class ProduitsSerializer(serializers.ModelSerializer):
-     class Meta:
-          model = Produits 
-          fields = '__all__'
 
 
 class VenteS(serializers.ModelSerializer):
-    produit_nom = serializers.CharField(source='Produits.Nom', read_only=True)
+    
 
     class Meta:
         model = Vente
