@@ -173,7 +173,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
 ]
 
-AUTH_USER_MODEL = 'epharma.User'
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "AIzaSyCn8zKLH3FX5WiAfqZ0YgQVKtEJCWVAoz0 ")
 # AIzaSyCn8zKLH3FX5WiAfqZ0YgQVKtEJCWVAoz0    api key

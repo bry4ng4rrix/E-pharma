@@ -12,7 +12,6 @@ from rest_framework import views, status
 #test 
 #
 #
-from .models import User
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny ,IsAuthenticated
@@ -138,7 +137,30 @@ class ProfileCreateView(views.APIView):
                 'registration_date': profile.registration_date,
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class profilUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        """Récupère le profil de l'utilisateur connecté, ou lève une erreur si inexistant."""
+        try:
+            return Profile.objects.get(user=self.request.user)
+        except Profile.DoesNotExist:
+            raise ValidationError({"detail": "Aucun profil trouvé pour cet utilisateur."})
+
+    def partial_update(self, request, *args, **kwargs):
+        """Permet la mise à jour partielle (PATCH)."""
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+        
 ################
+
 
 class UserListView(viewsets.ModelViewSet):
     serializer_class = UserSerialiser

@@ -21,14 +21,11 @@ const member_code = localStorage.getItem('member_code');
 const username = localStorage.getItem('username');
 const [ustilisateur,setUtilsateur] = useState([])
 
-console.log(member_code);
-console.log(username);
 
-console.log(email_act);
 
 const fetchUtilisateur = async()=> {
     try {
-         const response = await fetch('http://localhost:8000/api/user' , {
+         const response = await fetch('http://localhost:8000/profiles/update' , {
               method : 'GET',
                 headers : {
                     'Authorization': `Bearer ${token}`,
@@ -37,7 +34,6 @@ const fetchUtilisateur = async()=> {
             });
             const data = await response.json();
             setUtilsateur(data);
-            console.log(ustilisateur)
 
     }
     catch {
@@ -55,77 +51,56 @@ const [Profile,setProfile] = useState(false)
 const [Bot,setBot] = useState(false)
 const [Imc,setImc] = useState(false)
 const[Member_name,setMember_name] = useState('');
-      const[Member_Code,setMember_Code] = useState('');
-      const[Depth,setDepth] = useState('');
-      const[Directline,setDirectline] = useState('');
-      const[Sponsor,setSponsor] = useState('');
-      const[Reg_Date,setReg_Date] = useState('');
-      const[Grade,setGrade] = useState('');
-      const[Gbv,setGbv] = useState('');
-      const[Cpbv,setCpbv] = useState('');
-      const[Cnbv,setCnbv] = useState('');
-      const[Pbv,setPbv] = useState('');
-      const[Tnbv,setTnbv] = useState('');
+const[Member_Code,setMember_Code] = useState('');
+const[Depth,setDepth] = useState('');const[Directline,setDirectline] = useState('');
+const[Sponsor,setSponsor] = useState('');
+const[Reg_Date,setReg_Date] = useState('');
+const[Grade,setGrade] = useState('');
+const[Gbv,setGbv] = useState('');
+const[Cpbv,setCpbv] = useState('');
+const[Cnbv,setCnbv] = useState('');
+const[Pbv,setPbv] = useState('');
+const[Tnbv,setTnbv] = useState('');
+const[Branch,setBranch] = useState('');
       // State pour stocker les données du profil
-      const [profileData, setProfileData] = useState({});
+const [profileData, setProfileData] = useState({});
 
       // Récupérer le profil utilisateur par code et email
-      const fetchProfileByCodeAndEmail = async () => {
-        try {
-          // Utilisation de POST (plus sécurisé pour ce type de recherche)
-          const response = await fetch('http://localhost:8000/profiles/', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              member_code: member_code,
-              email: email_act,
-            }),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setProfileData(data);
-          } else {
-            toast.error("Profil non trouvé ou accès refusé");
-          }
-        } catch (error) {
-          toast.error("Erreur lors de la récupération du profil");
-        }
-      };
-
+     
       // PATCH pour mettre à jour le profil
       const patchProfile = async (e) => {
         e.preventDefault();
+        console.log(Depth)
+        const data = {
+          depth : Depth || ustilisateur.depth,
+          directline: Directline || ustilisateur.directline,
+          sponsor : Sponsor || ustilisateur.sponsor,
+          grade : Grade || ustilisateur.grade,
+          gbv : Gbv || ustilisateur.gbv,
+          cpbv : Cpbv || ustilisateur.cpbv,
+          cnbv : Cnbv || ustilisateur.cnbv,
+          pbv : Pbv || ustilisateur.pbv,
+          tnbv : Tnbv || ustilisateur.tnbv,
+          branch : Branch || ustilisateur.branch,
+
+          
+        }
         try {
-          const response = await fetch('http://localhost:8000/api/profiles/update/', {
+          const response = await fetch('http://localhost:8000/profiles/update/', {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({
-              member_code: member_code,
-              email: email_act,
-              member_name: Member_name || profileData.member_name,
-              registration_date: Reg_Date || profileData.registration_date,
-              depth: Depth || profileData.depth,
-              directline: Directline || profileData.directline,
-              sponsor: Sponsor || profileData.sponsor,
-              grade: Grade || profileData.grade,
-              gbv: Gbv || profileData.gbv,
-              cpbv: Cpbv || profileData.cpbv,
-              cnbv: Cnbv || profileData.cnbv,
-              pbv: Pbv || profileData.pbv,
-              tnbv: Tnbv || profileData.tnbv,
-              branch: Branch || profileData.branch,
-              // ajoute les autres champs si besoin
-            }),
+            body: JSON.stringify(data),
           });
           if (response.ok) {
             toast.success("Profil mis à jour !");
-            fetchProfileByCodeAndEmail(); // rafraîchir les données
+            fetchUtilisateur();
+            setTimeout(() => {
+              closeProfile()
+            }, 1000);
+
           } else {
             toast.error("Erreur lors de la mise à jour du profil");
           }
@@ -186,7 +161,7 @@ const closeProfile = () => setProfile(false)
                             rtl={false}
                             pauseOnFocusLoss
                             draggable
-                            theme="dark"
+                            theme="light"
                             pauseOnHover
                             transition={Bounce}
                           />
@@ -220,17 +195,19 @@ const closeProfile = () => setProfile(false)
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                            <div className=' max-w-4xl grid  gap-2 w-full rounded p-5 h-3/4'>
+                            <div className=' max-w-4xl grid  gap-2 w-full rounded  '>
                         
                                
-                                <div className='flex p-5 bg-fonddark/50 w-full  rounded-md'>
-                                        <button className=' flex justify-items-end' onClick={closeProfile}><AiFillCloseCircle 
-                                         className="h-6 w-auto text-red-600"/></button>
+                                <div className='flex p-5 w-full  rounded-md'>
+                                        
 
                                         {/* User Profile Two Columns */}
                                         <div className="w-full flex flex-row gap-8">
+                                          
                                           {/* Colonne gauche : Mise à jour du profil */}
                                           <form onSubmit={patchProfile} className="flex-1 bg-white/50 rounded-lg p-6 flex flex-col items-center shadow-md">
+                                          <button className=' flex self-start' onClick={closeProfile}><AiFillCloseCircle 
+                                         className="h-6 w-auto  text-red-600"/></button>
                                             {/* Photo de profil */}
                                             <div className="mb-4 flex flex-col items-center">
                                               <img
@@ -247,7 +224,7 @@ const closeProfile = () => setProfile(false)
                                             <input
                                               type="text"
                                               className="input input-bordered mb-2 w-full"
-                                              placeholder="Nom"
+                                              placeholder={ustilisateur.member_name}
                                               onChange={e => setNom(e.target.value)}
                                             />
                                             <input
@@ -257,18 +234,17 @@ const closeProfile = () => setProfile(false)
                                               onChange={e => setPrenom(e.target.value)}
                                             />
                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-2 w-full"
+                                              value={ustilisateur.member_code}
+                                              onChange={e => setPrenom(e.target.value)}
+                                            />
+                                            <input
                                               type="email"
                                               className="input input-bordered mb-2 w-full"
                                               placeholder="Email"
                                               value={email_act || ''}
                                               onChange={e => setEmailAct(e.target.value)}
-                                            />
-                                            <input
-                                              type="text"
-                                              className="input input-bordered mb-4 w-full"
-                                              placeholder="Member Code"
-                                              value={member_code || ''}
-                                              onChange={e => setMemberCode(e.target.value)}
                                             />
                                             <button
                                               type="submit"
@@ -278,33 +254,91 @@ const closeProfile = () => setProfile(false)
                                             </button>
                                           </form>
                                           {/* Colonne droite : Infos membre */}
-                                          <div className="flex-1 bg-white/80 rounded-lg p-6 flex flex-col gap-3 shadow-md">
+                                          <div className="flex-1 bg-white/50 rounded-lg p-6 flex flex-col gap-3 shadow-md">
+                                          
                                             <div className="grid grid-cols-2 gap-2">
+                                              
                                               <div className="font-semibold">Nom membre :</div>
-                                              <div>{profileData?.member_name || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              value={ustilisateur.member_name}
+                                              onChange={e => setMember_name(e.target.value)}
+                                            />
                                               <div className="font-semibold">Depth :</div>
-                                              <div>{profileData?.depth || '-'}</div>
+                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.depth}
+                                              onChange={e => setDepth(e.target.value)}
+                                            />
                                               <div className="font-semibold">Directline :</div>
-                                              <div>{profileData?.directline || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.directline}
+                                              onChange={e => setDirectline(e.target.value)}
+                                            />
                                               <div className="font-semibold">Sponsor :</div>
-                                              <div>{profileData?.sponsor || '-'}</div>
+                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.sponsor}
+                                              onChange={e => setSponsor(e.target.value)}
+                                            />
                                               <div className="font-semibold">Grade :</div>
-                                              <div>{profileData?.grade || '-'}</div>
+                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.grade}
+                                              onChange={e => setGrade(e.target.value)}
+                                            />
                                               <div className="font-semibold">GBV :</div>
-                                              <div>{profileData?.gbv || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.gbv}
+                                              onChange={e => setGbv(e.target.value)}
+                                            />
                                               <div className="font-semibold">CPBV :</div>
-                                              <div>{profileData?.cpbv || '-'}</div>
+                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.cpbv}
+                                              onChange={e => setCpbv(e.target.value)}
+                                            />
                                               <div className="font-semibold">CNBV :</div>
-                                              <div>{profileData?.cnbv || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.cnbv}
+                                              onChange={e => setCnbv(e.target.value)}
+                                            />
                                               <div className="font-semibold">PBV :</div>
-                                              <div>{profileData?.pbv || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.pbv}
+                                              onChange={e => setPbv(e.target.value)}
+                                            />
                                               <div className="font-semibold">TNBV :</div>
-                                              <div>{profileData?.tnbv || '-'}</div>
+                                              <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.tnbv}
+                                              onChange={e => setTnbv(e.target.value)}
+                                            />
                                               <div className="font-semibold">Branch :</div>
-                                              <div>{profileData?.branch || '-'}</div>
+                                             <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder={ustilisateur.branch}
+                                              onChange={e => setBranch(e.target.value)}
+                                            />
                                             </div>
                                             <button
-                                              className="self-end bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-4 shadow"
+                                              className=" bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-4 shadow"
+                                              onClick={patchProfile}
                                               
                                             >
                                               Enregistrer
