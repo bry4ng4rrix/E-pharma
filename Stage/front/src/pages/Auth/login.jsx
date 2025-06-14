@@ -35,10 +35,13 @@ const Login = () => {
 
       const result = await response.json();
 
+
       if (response.ok) {
         localStorage.setItem('access_token', result.access);
         localStorage.setItem('refresh_token', result.refresh);
-        localStorage.setItem('member_code', result.Member_code);
+        localStorage.setItem('member_code', result.user.member_code);
+        localStorage.setItem('username', result.user.username);
+        localStorage.setItem('email', email);
         localStorage.setItem('is_active', result.user.is_active ? 'true' : 'false');
         localStorage.setItem('is_superuser', result.user.is_superuser ? 'true' : 'false');
 

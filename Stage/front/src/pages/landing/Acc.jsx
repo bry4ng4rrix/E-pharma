@@ -7,21 +7,132 @@ import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {motion} from 'framer-motion'
 import Navbar from '../../components/SideNav/navbarmodern'
-import spline from '@splinetool/react-spline'
 import Conseile from "./Conseile";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Chat from "./Chat/chat";
 
 const Landing = () => {
 const navigate = useNavigate();
 const is_active = localStorage.getItem("is_active");
+const token = localStorage.getItem('access_token')
 const is_superuser = localStorage.getItem("is_superuser");
+const email_act = localStorage.getItem('email');
+const member_code = localStorage.getItem('member_code');
+const username = localStorage.getItem('username');
+const [ustilisateur,setUtilsateur] = useState([])
+
+console.log(member_code);
+console.log(username);
+
+console.log(email_act);
+
+const fetchUtilisateur = async()=> {
+    try {
+         const response = await fetch('http://localhost:8000/api/user' , {
+              method : 'GET',
+                headers : {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            setUtilsateur(data);
+            console.log(ustilisateur)
+
+    }
+    catch {
+        
+    }
+}
+useEffect(() => {
+
+fetchUtilisateur();
+},[])
 
 
 // momban le message kely mafinaritra
 const [Profile,setProfile] = useState(false)
 const [Bot,setBot] = useState(false)
 const [Imc,setImc] = useState(false)
+const[Member_name,setMember_name] = useState('');
+      const[Member_Code,setMember_Code] = useState('');
+      const[Depth,setDepth] = useState('');
+      const[Directline,setDirectline] = useState('');
+      const[Sponsor,setSponsor] = useState('');
+      const[Reg_Date,setReg_Date] = useState('');
+      const[Grade,setGrade] = useState('');
+      const[Gbv,setGbv] = useState('');
+      const[Cpbv,setCpbv] = useState('');
+      const[Cnbv,setCnbv] = useState('');
+      const[Pbv,setPbv] = useState('');
+      const[Tnbv,setTnbv] = useState('');
+      // State pour stocker les données du profil
+      const [profileData, setProfileData] = useState({});
+
+      // Récupérer le profil utilisateur par code et email
+      const fetchProfileByCodeAndEmail = async () => {
+        try {
+          // Utilisation de POST (plus sécurisé pour ce type de recherche)
+          const response = await fetch('http://localhost:8000/profiles/', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              member_code: member_code,
+              email: email_act,
+            }),
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setProfileData(data);
+          } else {
+            toast.error("Profil non trouvé ou accès refusé");
+          }
+        } catch (error) {
+          toast.error("Erreur lors de la récupération du profil");
+        }
+      };
+
+      // PATCH pour mettre à jour le profil
+      const patchProfile = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await fetch('http://localhost:8000/api/profiles/update/', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              member_code: member_code,
+              email: email_act,
+              member_name: Member_name || profileData.member_name,
+              registration_date: Reg_Date || profileData.registration_date,
+              depth: Depth || profileData.depth,
+              directline: Directline || profileData.directline,
+              sponsor: Sponsor || profileData.sponsor,
+              grade: Grade || profileData.grade,
+              gbv: Gbv || profileData.gbv,
+              cpbv: Cpbv || profileData.cpbv,
+              cnbv: Cnbv || profileData.cnbv,
+              pbv: Pbv || profileData.pbv,
+              tnbv: Tnbv || profileData.tnbv,
+              branch: Branch || profileData.branch,
+              // ajoute les autres champs si besoin
+            }),
+          });
+          if (response.ok) {
+            toast.success("Profil mis à jour !");
+            fetchProfileByCodeAndEmail(); // rafraîchir les données
+          } else {
+            toast.error("Erreur lors de la mise à jour du profil");
+          }
+        } catch (error) {
+          toast.error("Erreur technique lors de la mise à jour");
+        }
+      };
 
 
 
@@ -109,33 +220,105 @@ const closeProfile = () => setProfile(false)
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                            <div className=' max-w-4xl grid sm:grid-cols-2 gap-2 w-full rounded p-5 h-3/4'>
+                            <div className=' max-w-4xl grid  gap-2 w-full rounded p-5 h-3/4'>
                         
-                                <div className='bg-fonddark/50 w-full rounded-md justify-center p-6 items-center'>
-                                    <div className='h-24 justify-center items-center  w-24 bg-white rounded-full '>
-                                    </div>
-                                    <div className="grid grid-cols-1 gap-2 mt-4">
-                                        <input type="file"  className="h-16 rounded  text-white"/>
-                                       <div className="grid grid-cols-2 gap-2 ">
-                                            <input type="text" placeholder="Nom" className="h-16 rounded p-3"/>
-                                            <input type="text" placeholder="Prenom"className="h-16 rounded p-3"/>
-                                       </div>
-                                        <input type="email" placeholder="Email"className="h-16 rounded p-3"/>
-                                        <input type="number" placeholder="Numero"className="h-16 rounded p-3"/>
-                                        <button className="h-16 bg-blue-600 text-white rounded mt-10">Mise A jours </button>
-                                        
-                                    </div>
-
-                                </div>
+                               
                                 <div className='flex p-5 bg-fonddark/50 w-full  rounded-md'>
                                         <button className=' flex justify-items-end' onClick={closeProfile}><AiFillCloseCircle 
                                          className="h-6 w-auto text-red-600"/></button>
 
-                                         <div className="grid grid-cols-1 gap-3  mt-4 ">
-                                            <input type="text" className="h-16 "/>
+                                        {/* User Profile Two Columns */}
+                                        <div className="w-full flex flex-row gap-8">
+                                          {/* Colonne gauche : Mise à jour du profil */}
+                                          <form onSubmit={patchProfile} className="flex-1 bg-white/50 rounded-lg p-6 flex flex-col items-center shadow-md">
+                                            {/* Photo de profil */}
+                                            <div className="mb-4 flex flex-col items-center">
+                                              <img
+                                                src={profileData?.profile_picture || 'https://ui-avatars.com/api/?name=User'}
+                                                alt="Profile"
+                                                className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
+                                              />
+                                              <input
+                                                type="file"
+                                                accept="image/*"
+                                                className="mt-2 text-xs"
+                                              />
+                                            </div>
+                                            <input
+                                              type="text"
+                                              className="input input-bordered mb-2 w-full"
+                                              placeholder="Nom"
+                                              onChange={e => setNom(e.target.value)}
+                                            />
+                                            <input
+                                              type="text"
+                                              className="input input-bordered mb-2 w-full"
+                                              placeholder="Prénom"
+                                              onChange={e => setPrenom(e.target.value)}
+                                            />
+                                            <input
+                                              type="email"
+                                              className="input input-bordered mb-2 w-full"
+                                              placeholder="Email"
+                                              value={email_act || ''}
+                                              onChange={e => setEmailAct(e.target.value)}
+                                            />
+                                            <input
+                                              type="text"
+                                              className="input input-bordered mb-4 w-full"
+                                              placeholder="Member Code"
+                                              value={member_code || ''}
+                                              onChange={e => setMemberCode(e.target.value)}
+                                            />
+                                            <button
+                                              type="submit"
+                                              className="bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-2 shadow"
+                                            >
+                                              Mise à jour
+                                            </button>
+                                          </form>
+                                          {/* Colonne droite : Infos membre */}
+                                          <div className="flex-1 bg-white/80 rounded-lg p-6 flex flex-col gap-3 shadow-md">
+                                            <div className="grid grid-cols-2 gap-2">
+                                              <div className="font-semibold">Nom membre :</div>
+                                              <div>{profileData?.member_name || '-'}</div>
+                                              <div className="font-semibold">Depth :</div>
+                                              <div>{profileData?.depth || '-'}</div>
+                                              <div className="font-semibold">Directline :</div>
+                                              <div>{profileData?.directline || '-'}</div>
+                                              <div className="font-semibold">Sponsor :</div>
+                                              <div>{profileData?.sponsor || '-'}</div>
+                                              <div className="font-semibold">Grade :</div>
+                                              <div>{profileData?.grade || '-'}</div>
+                                              <div className="font-semibold">GBV :</div>
+                                              <div>{profileData?.gbv || '-'}</div>
+                                              <div className="font-semibold">CPBV :</div>
+                                              <div>{profileData?.cpbv || '-'}</div>
+                                              <div className="font-semibold">CNBV :</div>
+                                              <div>{profileData?.cnbv || '-'}</div>
+                                              <div className="font-semibold">PBV :</div>
+                                              <div>{profileData?.pbv || '-'}</div>
+                                              <div className="font-semibold">TNBV :</div>
+                                              <div>{profileData?.tnbv || '-'}</div>
+                                              <div className="font-semibold">Branch :</div>
+                                              <div>{profileData?.branch || '-'}</div>
+                                            </div>
+                                            <button
+                                              className="self-end bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-4 shadow"
+                                              
+                                            >
+                                              Enregistrer
+                                            </button>
+                                          </div>
+                                        </div>
+                                        {/* End User Profile Two Columns */}
 
-                                         </div>
+                                         
+
+                               
+      
                                 </div>
+
                             </div>
                         
                     </motion.div>

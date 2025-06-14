@@ -190,9 +190,7 @@ const Membre = () => {
         }
 
         const data = await response.json();
-        setDirect(data)
-        console.log(direct.directline)
-
+     
         const formattedData = Array.isArray(data)
           ? data.map((item, index) => ({
               ...item,
@@ -355,12 +353,7 @@ const columns = [
                                 <div className="grid grid-cols-3 gap-2">
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Code" onChange={(e) => setMember_Code(e.target.value)}/>
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Directline" onChange={(e) => setDirectline(e.target.value)}/>
-                                    <select name="" id="">
-                                        <option value="">Directline</option>
-                                        {direct.map((e) => (
-                                            <option key={e.id}>{direct.Directline}</option>
-                                        ))}
-                                    </select>
+                                
                                     <input type="number" className="h-10 rounded p-2 shadow-xl placeholder:font-bold placeholder:text-vertclaire" placeholder="Sponsor" onChange={(e) => setSponsor(e.target.value)}/>
 
                                 </div>

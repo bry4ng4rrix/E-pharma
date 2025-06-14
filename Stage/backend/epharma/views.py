@@ -140,7 +140,11 @@ class ProfileCreateView(views.APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 ################
 
-
+class UserListView(viewsets.ModelViewSet):
+    serializer_class = UserSerialiser
+    permission_classes = [IsAuthenticated]
+    queryset = User.objects.all()
+    pagination_class = None
 
 
 class EmployerListView(generics.ListAPIView):
@@ -287,6 +291,32 @@ class IMCCalculatorAPIView(APIView):
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class ProfileUpdateByMemberCodeEmailView(APIView):
+    """
+    PATCH: Met à jour un profil en filtrant par member_code et email (dans le body)
+    """
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, *args, **kwargs):
+        member_code = request.data.get('member_code')
+        email = request.data.get('email')
+        if not member_code or not email:
+            return Response({"detail": "member_code et email sont requis."}, status=400)
+        try:
+            profile = Profile.objects.get(member_code=member_code)
+        except Profile.DoesNotExist:
+            return Response({"detail": "Aucun profil trouvé avec ce member_code."}, status=404)
+        if not profile.user or profile.user.email != email:
+            return Response({"detail": "L'email ne correspond pas à l'utilisateur lié à ce member_code."}, status=400)
+        serializer = ProfileSerializer(profile, data=request.data, partial=True, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
 from .models import Profile
 from .serializers import ProfileSerializer
 

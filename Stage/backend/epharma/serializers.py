@@ -112,26 +112,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('id','member_code', 'member_name', 'depth', 'directline', 'sponsor', 'registration_date',
                   'grade', 'gbv', 'cpbv', 'cnbv', 'pbv', 'tnbv', 'branch')
-        extra_kwargs = {
-            'member_code': {'required': True},
-            'member_name': {'required': True},
-            'depth': {'required': False, 'default': '0'},
-            'directline': {'required': False, 'default': ''},
-            'sponsor': {'required': False, 'default': ''},
-            'registration_date': {'required': False},
-            'grade': {'required': False, 'default': ''},
-            'gbv': {'required': False, 'default': '0'},
-            'cpbv': {'required': False, 'default': '0'},
-            'cnbv': {'required': False, 'default': '0'},
-            'pbv': {'required': False, 'default': '0'},
-            'tnbv': {'required': False, 'default': '0'},
-            'branch': {'required': False, 'default': ''},
-        }
+        
 
     def validate(self, data):
         # Check for unique member_code
-        if Profile.objects.filter(member_code=data.get('member_code')).exists():
-            raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
+        # if Profile.objects.filter(member_code=data.get('member_code')).exists():
+        #     raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
 
         # Check for unique member_name
         if Profile.objects.filter(member_name=data.get('member_name')).exists():
@@ -146,7 +132,34 @@ class ProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"user": "Un profil existe déjà pour cet utilisateur"})
         
         return Profile.objects.create(user=user, **validated_data)
+
+    def update(self, instance, validated_data):
+        # On récupère les filtres depuis le contexte ou les validated_data
+        member_code = validated_data.get('member_code') or getattr(instance, 'member_code', None)
+        email = self.context['request'].data.get('email') if 'request' in self.context else None
+        if not member_code or not email:
+            raise serializers.ValidationError({"detail": "member_code et email sont requis pour la mise à jour."})
+
+        # Vérifier que le profil correspond bien à ce member_code ET que l'email correspond à l'user lié
+        try:
+            profile = Profile.objects.get(member_code=member_code)
+        except Profile.DoesNotExist:
+            raise serializers.ValidationError({"detail": "Aucun profil trouvé avec ce member_code."})
+        if not profile.user or profile.user.email != email:
+            raise serializers.ValidationError({"detail": "L'email ne correspond pas à l'utilisateur lié à ce member_code."})
+
+        # Mise à jour des champs du profil
+        for attr, value in validated_data.items():
+            setattr(profile, attr, value)
+        profile.save()
+        return profile
     
+
+class UserSerialiser(serializers.ModelSerializer):
+    member_code = serializers.CharField(source='profile.member_code',read_only=True)
+    class Meta :
+        model = User
+        fields = ['id','username','email','first_name','last_name','poste','member_code']
 
     
 

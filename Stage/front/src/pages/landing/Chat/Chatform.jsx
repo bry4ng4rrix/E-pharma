@@ -7,7 +7,6 @@ const Chatform = ({chathistory,setChathistory,botresponse}) => {
     const Envoyer =(e) =>{
         e.preventDefault();
 
-        setLoading(true);
         const userMessage = inputRef.current.value.trim();
         if(!userMessage) return ;
         inputRef.current.value = "";
