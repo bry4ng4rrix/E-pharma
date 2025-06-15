@@ -154,11 +154,14 @@ class ProduitsSerializer(serializers.ModelSerializer):
 
 
 class FactureSerializer(serializers.ModelSerializer):
-
     class Meta :
         model = Vente 
-        fields = ['id', 'produit','quantite','prixtotale','date']
+        fields = ['id', 'vendeur', 'produit','quantite','prixtotale','date']
 
+class FactureparUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vente
+        fields = ['id', 'produit', 'quantite', 'prixtotale', 'date']
 
 
 

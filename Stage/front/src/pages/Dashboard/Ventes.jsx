@@ -19,7 +19,7 @@ const Vente = () => {
     const fetchVentes = async () => {
         try {
             setLoading(true);
-            const response = await fetch('http://localhost:8000/api/vente/');
+            const response = await fetch('http://localhost:8000/api/facture/');
             const data = await response.json();
             setVentes(data);
             
@@ -80,9 +80,9 @@ const Vente = () => {
                                         ) : (
                                             ventes.map((vente) => (
                                                 <tr key={vente.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                                    <td className="px-4 py-2">{vente.date}</td>
 
-                                                    <td className="px-4 py-2">{vente.Produit_nom}</td>
+                                                    <td className="px-4 py-2">{vente.date}</td>
+                                                    <td className="px-4 py-2">{vente.produit}</td>
                                                     <td className="px-4 py-2">{vente.quantite}</td>
                                                     <td className="px-4 py-2">${vente.prixtotale}</td>
                                                 </tr>

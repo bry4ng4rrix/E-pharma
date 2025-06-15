@@ -16,6 +16,9 @@ from rest_framework.decorators import api_view
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny ,IsAuthenticated
 
+from rest_framework.generics import ListAPIView
+from .serializers import FactureparUserSerializer
+
 
 #
 #
@@ -256,6 +259,41 @@ class VoiresProduits(viewsets.ModelViewSet):
 class FactureViews(viewsets.ModelViewSet):
     serializer_class = FactureSerializer
     queryset = Vente.objects.all()
+
+class FactureParUserView(ListAPIView):
+    serializer_class = FactureparUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            return Vente.objects.none()
+        return Vente.objects.filter(vendeur=profile)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
 class RendevousView(viewsets.ModelViewSet):

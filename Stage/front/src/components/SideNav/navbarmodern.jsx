@@ -79,10 +79,10 @@ fetchUtilisateur();
                   
                     <Link to="/">Acceuille</Link>
                     <Link to="/">A propos</Link>
-                    <Link to="/">Equipe</Link>
-                 
                     <button className={`${utilisateur.is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
-                    <Link to="/imc" className={`${utilisateur.is_active ? "block":"hidden"} `}>Imc</Link>
+                    <Link to="/vente" className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</Link>
+                 
+                    <Link to="/historique" className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</Link>
                     <button onClick={openProfile} className={`${utilisateur.is_active ? "block":"hidden"} `}>Profile</button>
                     <Link to='/admin' className={`${utilisateur.is_superuser ? "block" : "hidden"}`}>Tableau de bord</Link>
                 </ul>

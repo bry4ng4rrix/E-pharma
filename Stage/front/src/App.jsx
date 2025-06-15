@@ -15,6 +15,9 @@ import Imc from './pages/imc';
 import Td from './pages/test';
 import ProtectedRoute from './pages/Dashboard/protectedroute';
 import Profile from './pages/landing/profile'
+import Vente from './pages/landing/vente';
+import Historique from './pages/landing/historique';
+
 
 export default function App() {
   return (
@@ -34,9 +37,11 @@ export default function App() {
         {/* User routes (require is_active: true) */}
         <Route element={<ProtectedRoute requireSuperuser={false} />}>
           <Route path="/chatbot" element={<Chatbot />} />
+          <Route path="/vente" element={<Vente />} />
           <Route path="/imc" element={<Imc />} />
           <Route path="/td" element={<Td />} />
           <Route path="/profile" element={<Profile />}/>
+          <Route path="/historique" element={<Historique />}/>
         </Route>
 
         {/* Public routes */}

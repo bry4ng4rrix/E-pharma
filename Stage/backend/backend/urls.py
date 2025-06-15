@@ -39,12 +39,13 @@ urlpatterns = [
     path('profiles/<int:pk>', ProfileListView.as_view(), name='profile_list'),
     path('employer/', EmployerListView.as_view(), name='employer_list'),
     path('employer/supr/',EmployerSuprimeView.as_view(),name='employer_supre'),
-    
     path('utilisateurs-par-grade/', views.UtilisateursParGradeView.as_view(), name='utilisateurs_par_grade'),
     path('ajouter-membre-sans-user/', views.AjouterMembreSansUserView.as_view(), name='ajouter_membre_sans_user'),
 
     path("api/chat/", ChatbotAPIView.as_view(), name="chatbot"),
     path('api/imc/', IMCCalculatorAPIView.as_view(), name='imc-calculator'),
     path('logout', LogoutView.as_view(), name='logout'),
+
+    path('mesvente/', views.FactureParUserView.as_view(), name='factures_par_user'),
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

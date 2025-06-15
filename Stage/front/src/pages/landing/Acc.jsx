@@ -1,4 +1,4 @@
-import { AiFillCloseCircle } from "react-icons/ai"; 
+ import { AiFillCloseCircle } from "react-icons/ai"; 
 
 import wosh from '../../assets/img/womanshoping.png'
 import review from '../../assets/img/reviewstar.png'
@@ -200,7 +200,7 @@ const closeProfile = () => setProfile(false)
                                         <div className="w-full flex flex-row gap-8">
                                           
                                           {/* Colonne gauche : Mise à jour du profil */}
-                                          <form onSubmit={patchProfile} className="flex-1 bg-white/50 rounded-lg p-6 flex flex-col items-center shadow-md">
+                                          <form onSubmit={patchProfile} className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col items-center shadow-md">
                                           <button className=' flex self-start' onClick={closeProfile}><AiFillCloseCircle 
                                          className="h-6 w-auto  text-red-600"/></button>
                                             {/* Photo de profil */}
@@ -210,128 +210,121 @@ const closeProfile = () => setProfile(false)
                                                 alt="Profile"
                                                 className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
                                               />
-                                              <input
+                                              <div className="grid grid-cols-2 gap-2 mt-3">
+                                                <input
                                                 type="file"
                                                 accept="image/*"
-                                                className="mt-2 text-xs"
+                                                className=" p-1 rounded text-sm  "
                                               />
+                                              <button className="bg-teal-500 text-white p-1  rounded shadow-md">Ajouter</button>
+                                              </div>
                                             </div>
-                                            <input
-                                              type="text"
-                                              className="input input-bordered mb-2 w-full"
-                                              placeholder={profileU.first_name}
-                                              onChange={e => setNom(e.target.value)}
-                                            />
-                                            <input
-                                              type="text"
-                                              className="input input-bordered mb-2 w-full"
-                                              placeholder={profileU.last_name}
-                                              onChange={e => setPrenom(e.target.value)}
-                                            />
-                                            <input
-                                              type="text"
-                                              className="input input-bordered mb-2 w-full"
-                                              value={ustilisateur.member_code}
-                                              onChange={e => setPrenom(e.target.value)}
-                                            />
-                                            <input
-                                              type="email"
-                                              className="input input-bordered mb-2 w-full"
-                                              placeholder={profileU.email}
-                                              onChange={e => setEmailAct(e.target.value)}
-                                            />
+
+                                            <div className="grid grid-cols-2 w-full mt-3 border p-5 border-dashed rounded">
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Nom : </div>
+                                                <div className="text-sm font-semibold text-slate-950">{profileU.first_name}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Prenom : </div>
+                                                <div className="text-sm font-semibold text-slate-950">{profileU.last_name}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Code du membre : </div>
+                                                <div className="text-sm font-semibold text-slate-950">{ustilisateur.member_code}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Email : </div>
+                                                <div className="text-sm font-semibold text-slate-950">{profileU.email}</div>
+
+                                            </div>
+                                          
+                                            
                                             <button
                                               type="submit"
-                                              className="bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-2 shadow"
-                                            >
+                                              className="bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 w-full mt-2 shadow"
+                                            > 
                                               Mise à jour
                                             </button>
                                           </form>
                                           {/* Colonne droite : Infos membre */}
-                                          <div className="flex-1 bg-white/50 rounded-lg p-6 flex flex-col gap-3 shadow-md">
+                                          <div className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col gap-3 shadow-md">
                                           
                                             <div className="grid grid-cols-2 gap-2">
                                               
-                                              <div className="font-semibold">Nom membre :</div>
+                                              <div className="font-semibold text-vertblanc">Nom membre :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               value={ustilisateur.member_name}
                                               onChange={e => setMember_name(e.target.value)}
                                             />
-                                              <div className="font-semibold">Depth :</div>
+                                              <div className="font-semibold text-vertblanc">Depth :</div>
                                              <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.depth}
                                               onChange={e => setDepth(e.target.value)}
                                             />
-                                              <div className="font-semibold">Directline :</div>
+                                              <div className="font-semibold text-vertblanc">Directline :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.directline}
                                               onChange={e => setDirectline(e.target.value)}
                                             />
-                                              <div className="font-semibold">Sponsor :</div>
+                                              <div className="font-semibold text-vertblanc">Sponsor :</div>
                                              <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.sponsor}
                                               onChange={e => setSponsor(e.target.value)}
                                             />
-                                              <div className="font-semibold">Grade :</div>
+                                              <div className="font-semibold text-vertblanc">Grade :</div>
                                              <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.grade}
                                               onChange={e => setGrade(e.target.value)}
                                             />
-                                              <div className="font-semibold">GBV :</div>
+                                              <div className="font-semibold text-vertblanc">GBV :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.gbv}
                                               onChange={e => setGbv(e.target.value)}
                                             />
-                                              <div className="font-semibold">CPBV :</div>
+                                              <div className="font-semibold text-vertblanc">CPBV :</div>
                                              <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.cpbv}
                                               onChange={e => setCpbv(e.target.value)}
                                             />
-                                              <div className="font-semibold">CNBV :</div>
+                                              <div className="font-semibold text-vertblanc">CNBV :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.cnbv}
                                               onChange={e => setCnbv(e.target.value)}
                                             />
-                                              <div className="font-semibold">PBV :</div>
+                                              <div className="font-semibold text-vertblanc">PBV :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.pbv}
                                               onChange={e => setPbv(e.target.value)}
                                             />
-                                              <div className="font-semibold">TNBV :</div>
+                                              <div className="font-semibold text-vertblanc">TNBV :</div>
                                               <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.tnbv}
                                               onChange={e => setTnbv(e.target.value)}
                                             />
-                                              <div className="font-semibold">Branch :</div>
+                                              <div className="font-semibold text-vertblanc">Branch :</div>
                                              <input
                                               type="text"
-                                              className="input input-bordered mb-4 w-full"
+                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
                                               placeholder={ustilisateur.branch}
                                               onChange={e => setBranch(e.target.value)}
                                             />
                                             </div>
                                             <button
-                                              className=" bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-4 shadow"
+                                              className=" bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 mt-4  shadow-xl"
                                               onClick={patchProfile}
                                               
                                             >

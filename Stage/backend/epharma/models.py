@@ -102,11 +102,12 @@ class Produits(models.Model):
     
 
 class Vente(models.Model):
+    vendeur = models.ForeignKey(Profile,on_delete=models.CASCADE)
     produit = models.CharField(max_length=50 ,default=0)
     quantite = models.IntegerField()
     prixtotale = models.IntegerField()
     date = models.DateField(auto_now_add=True)
     
     def __str__(self):
-        return self.produit
+        return self.vendeur.member_code 
     

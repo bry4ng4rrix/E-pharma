@@ -2,7 +2,6 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import Sidebar from "../../components/SideNav/Sidebard";
 import { useState, useEffect } from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
-import Dgrid from '../../ui/grid/grid'
 import { motion } from 'framer-motion'
 import { toast, ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -107,7 +106,6 @@ fetchProduct();
         Prix_en_detail: Prix_en_detail || update.Prix_en_detail,
         Nombre : Nombre || update.Nombre,
     }
-    console.log(datau)
 
         toast.dismiss()
         
