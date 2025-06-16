@@ -1,7 +1,13 @@
 from django.contrib import admin
 from django.urls import path , include
 from epharma import views
-from epharma.views import ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, ProfileCreateView,  ProfileListView ,EmployerListView,EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,profilUpdate,Userprofile,LogoutView,FactureViews
+from epharma.views import(
+     ChatbotAPIView, IMCCalculatorAPIView, RegisterView, LoginView, 
+        ProfileCreateView,  ProfileListView ,EmployerListView,
+        EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,
+        profilUpdate,Userprofile,LogoutView,FactureViews,
+        MessageDetailView,SendMessage,MessageDetailView
+        )
 from django.conf.urls.static import static
 from rest_framework import routers
 from django.conf import settings
@@ -41,6 +47,10 @@ urlpatterns = [
     path('employer/supr/',EmployerSuprimeView.as_view(),name='employer_supre'),
     path('utilisateurs-par-grade/', views.UtilisateursParGradeView.as_view(), name='utilisateurs_par_grade'),
     path('ajouter-membre-sans-user/', views.AjouterMembreSansUserView.as_view(), name='ajouter_membre_sans_user'),
+
+    path('get-messages/<expediteur_id>/<destinataire_id>/', MessageDetailView.as_view(), name='get_message'),
+    path('send-message/', SendMessage.as_view(), name='SendMessage'),
+    path('messages/<str:id_message>/', MessageDetailView.as_view(), name='message_detail'),
 
     path("api/chat/", ChatbotAPIView.as_view(), name="chatbot"),
     path('api/imc/', IMCCalculatorAPIView.as_view(), name='imc-calculator'),

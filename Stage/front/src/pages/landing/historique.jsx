@@ -129,7 +129,7 @@ const fetchVente = async () => {
       
 
   return (
-    <div className='h-screen  w-full   justify-center items-center bg-green-200 '>
+    <div className='h-screen  w-full   justify-center items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10 '>
         <div className='h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6 '>
             <Navbar/>
 

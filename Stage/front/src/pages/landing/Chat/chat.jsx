@@ -6,8 +6,6 @@ import Chatmessage from './Chatmessage';
 
 const chat = ({closeBot}) => {
   const [chathistory,setChathistory] = useState([]);
-  const [message,setMessage] = useState("");
-  const [response, setResponse] = useState('');
   const chatbody = useRef();
 
 useEffect(() =>{

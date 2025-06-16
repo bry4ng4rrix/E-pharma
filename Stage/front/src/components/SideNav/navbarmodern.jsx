@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 
 
-const navbarmodern = ({openProfile,openBot}) => {
+const navbarmodern = ({openProfile,openBot,openmessage}) => {
 
 const navigate = useNavigate();
 const [utilisateur,setUtilsateur] = useState([])
@@ -75,11 +75,12 @@ fetchUtilisateur();
           
             
             
-                <ul className=' hidden sm:flex gap-10 cursor-pointer text-md  font-bold  font-wenssep items-center text-green-950 transition-all duration-300 '>
+                <ul className=' hidden md:flex gap-10 cursor-pointer text-md  font-bold    font-wenssep texy-center text-green-950 transition-all duration-300 '>
                   
                     <Link to="/">Acceuille</Link>
                     <Link to="/">A propos</Link>
                     <button className={`${utilisateur.is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
+                    <button onClick={openmessage} className={`${utilisateur.is_active ? "block":"hidden"} `}>Message</button>
                     <Link to="/vente" className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</Link>
                  
                     <Link to="/historique" className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</Link>

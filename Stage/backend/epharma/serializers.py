@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from epharma.models import  Vente , Produits ,User,Profile ,Rendevous
+from epharma.models import  Vente , Produits ,User,Profile ,Rendevous , Message
 
 import uuid
 
@@ -116,7 +116,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserprofileSerialiser(serializers.ModelSerializer):
     class Meta :
         model = User
-        fields = ('id','email','first_name','last_name','is_active','is_staff','is_superuser')
+        fields = ('id','email','first_name','image','last_name','is_active','is_staff','is_superuser')
 
     
     
@@ -158,12 +158,21 @@ class FactureSerializer(serializers.ModelSerializer):
         model = Vente 
         fields = ['id', 'vendeur', 'produit','quantite','prixtotale','date']
 
+
 class FactureparUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vente
         fields = ['id', 'produit', 'quantite', 'prixtotale', 'date']
 
 
+
+
+class MessageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Message
+        fields = ['id','user','contenu', 'expediteur', 'destinataire', 'date_envoi','is_read']
+        # read_only_fields = ['id_message', 'expediteur', 'date_envoi']
 
 
 
@@ -217,6 +226,7 @@ class LogoutSerializer(serializers.Serializer):
             token.blacklist()
         except TokenError as e:
             raise serializers.ValidationError({'refresh': 'Token is invalid or expired'})
+
 
 
 

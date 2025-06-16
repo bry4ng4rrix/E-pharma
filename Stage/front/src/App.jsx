@@ -17,6 +17,8 @@ import ProtectedRoute from './pages/Dashboard/protectedroute';
 import Profile from './pages/landing/profile'
 import Vente from './pages/landing/vente';
 import Historique from './pages/landing/historique';
+import Message from './pages/landing/message/message';
+
 
 
 export default function App() {
@@ -42,6 +44,7 @@ export default function App() {
           <Route path="/td" element={<Td />} />
           <Route path="/profile" element={<Profile />}/>
           <Route path="/historique" element={<Historique />}/>
+          <Route path="/message" element={<Message />}/>
         </Route>
 
         {/* Public routes */}

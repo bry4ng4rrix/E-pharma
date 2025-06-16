@@ -11,12 +11,13 @@ import Conseile from "./Conseile";
 import { useEffect, useState } from "react";
 import Chat from "./Chat/chat";
 
+import Message from './message/message';
+
 const Landing = () => {
 const navigate = useNavigate();
 const is_active = localStorage.getItem("is_active");
 const token = localStorage.getItem('access_token')
 const is_superuser = localStorage.getItem("is_superuser");
-const message = localStorage.getItem("deconnexion");
 const [ustilisateur,setUtilsateur] = useState([])
 const [profileU,setProfileU] = useState([])
 
@@ -72,8 +73,51 @@ fetchUtilisateur();
 },[])
 
 
+//mise a jours du profile 
+const [image,setImage] = useState(null)
+const AjoutProfile = async (e) => {
+  e.preventDefault();
+
+  if (!image) {
+    toast.success("Aucune image sélectionnée !");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('image', image);
+
+  try {
+    const response = await fetch('http://localhost:8000/profiles/user/', {
+      method: 'PATCH', 
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      toast.success("Photo de profil mise à jour !");
+      fetchUtilisateur();
+      setTimeout(() => {
+        closeProfile();
+      }, 1000);
+    } else {
+      console.error('Erreur 400:', data);
+      toast.error("Erreur lors de la mise à jour du profil");
+    }
+
+  } catch (error) {
+    console.error('Erreur technique :', error);
+    toast.error("Erreur technique lors de la mise à jour");
+  }
+};
+
+
 // momban le message kely mafinaritra
 const [Profile,setProfile] = useState(false)
+const [message,setmessage] = useState(false)
 const [Bot,setBot] = useState(false)
 const [Imc,setImc] = useState(false)
 const[Depth,setDepth] = useState('');const[Directline,setDirectline] = useState('');
@@ -89,8 +133,6 @@ const[Branch,setBranch] = useState('');
       // State pour stocker les données du profil
 const [profileData, setProfileData] = useState({});
 
-      // Récupérer le profil utilisateur par code et email
-     
       // PATCH pour mettre à jour le profil
       const patchProfile = async (e) => {
         e.preventDefault();
@@ -121,6 +163,8 @@ const [profileData, setProfileData] = useState({});
           if (response.ok) {
             toast.success("Profil mis à jour !");
             fetchUtilisateur();
+            fetchuserprofile();
+
             setTimeout(() => {
               closeProfile()
             }, 1000);
@@ -139,6 +183,8 @@ const openBot = () => setBot(true)
 const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
 const closeProfile = () => setProfile(false)
+const openmessage = () => setmessage(true)
+const closemessage = () => setmessage(false)
 
 
 
@@ -161,9 +207,21 @@ const closeProfile = () => setProfile(false)
                             transition={Bounce}
                           />
                      <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
-                 <Navbar is_active={is_active} is_superuser={is_superuser}  openProfile={openProfile} openBot={openBot}/>
+                 <Navbar is_active={is_active} is_superuser={is_superuser}  openProfile={openProfile} openBot={openBot} openmessage={openmessage}/>
                        
-                                     
+                          {message && (
+                            <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                      <Message closemessage={closemessage} />
+
+                            </motion.div>
+                          )}           
                                            
                        
                 {Bot && (
@@ -200,23 +258,25 @@ const closeProfile = () => setProfile(false)
                                         <div className="w-full flex flex-row gap-8">
                                           
                                           {/* Colonne gauche : Mise à jour du profil */}
-                                          <form onSubmit={patchProfile} className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col items-center shadow-md">
+                                          <div  className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col items-center shadow-md">
                                           <button className=' flex self-start' onClick={closeProfile}><AiFillCloseCircle 
                                          className="h-6 w-auto  text-red-600"/></button>
                                             {/* Photo de profil */}
                                             <div className="mb-4 flex flex-col items-center">
                                               <img
-                                                src={profileData?.profile_picture || 'https://ui-avatars.com/api/?name=User'}
+                                                src={profileU?.image || 'https://ui-avatars.com/api/?name=User'}
                                                 alt="Profile"
+                                               
                                                 className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
                                               />
                                               <div className="grid grid-cols-2 gap-2 mt-3">
                                                 <input
                                                 type="file"
                                                 accept="image/*"
+                                                 onChange={(e) => setImage(e.target.files[0])}
                                                 className=" p-1 rounded text-sm  "
                                               />
-                                              <button className="bg-teal-500 text-white p-1  rounded shadow-md">Ajouter</button>
+                                              <button onClick={AjoutProfile } className="bg-teal-500 text-white p-1  rounded shadow-md">Ajouter</button>
                                               </div>
                                             </div>
 
@@ -239,7 +299,7 @@ const closeProfile = () => setProfile(false)
                                             > 
                                               Mise à jour
                                             </button>
-                                          </form>
+                                          </div>
                                           {/* Colonne droite : Infos membre */}
                                           <div className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col gap-3 shadow-md">
                                           

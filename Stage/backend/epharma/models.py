@@ -76,7 +76,7 @@ class Profile(models.Model):
 
 
 class Rendevous(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True) 
     date = models.DateField(auto_now_add=True)
     message = models.CharField(max_length=50)
 
@@ -110,4 +110,21 @@ class Vente(models.Model):
     
     def __str__(self):
         return self.vendeur.member_code 
-    
+
+
+
+
+class Message(models.Model):
+    contenu = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_message',default='')
+    expediteur = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_envoyes')
+    destinataire = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages_recus')
+    date_envoi = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default = False)
+    class Meta:
+        ordering = ['date_envoi']
+        verbose_name_plural = "Message"
+
+    def __str__(self):
+        return f"Message de {self.expediteur.username} à {self.destinataire.username}"
+

@@ -44,7 +44,6 @@ const Employer = () => {
               method : 'GET',
                 headers : {
                     'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
                 }
             });
             const data = await response.json();
@@ -259,8 +258,7 @@ const supre = async(id) => {
                                    {employer.map((employer) =>(
                                      <div key={employer.id}  className="bg-green-500/50 w-4/3 text-white backdrop-blur h-28 justify-between 
                                         shadow-lg items-center px-3 rounded grid grid-cols-3">
-                                        <div  className="bg-white  h-24   w-24 rounded-full  justify-start">
-                                        </div>
+                                       <img src={employer.image} alt="" className="bg-white  h-24   w-24 rounded-full  justify-start"/>
                                         <ul className="text-sm">
                                             <li>{employer.username}</li>
                                             <li>{employer.email}</li>

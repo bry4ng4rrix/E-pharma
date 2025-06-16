@@ -82,7 +82,7 @@ const Vente = () => {
                                                 <tr key={vente.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
 
                                                     <td className="px-4 py-2">{vente.date}</td>
-                                                    <td className="px-4 py-2">{vente.produit}</td>
+                                                    <td className="px-4 py-2"><button className="hover:bg-blue-500 p-3 rounded">{vente.produit}</button></td>
                                                     <td className="px-4 py-2">{vente.quantite}</td>
                                                     <td className="px-4 py-2">${vente.prixtotale}</td>
                                                 </tr>

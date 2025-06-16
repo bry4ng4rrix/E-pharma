@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import viewsets , generics
-from .models import Vente,Produits,User,Profile
+from rest_framework import viewsets , generics ,parsers
+from django.db.models import Q
+from .models import Vente,Produits,User,Profile,Message
 from django.contrib.auth import get_user_model
 from .serializers import *
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -273,6 +274,52 @@ class FactureParUserView(ListAPIView):
         return Vente.objects.filter(vendeur=profile)
 
 
+class Messageviews(viewsets.ModelViewSet):
+    serializer_class = MessageSerializer
+
+
+
+
+
+
+
+
+
+class MessageDetailView(generics.ListAPIView):
+    """
+    Vue pour récupérer les messages entre deux utilisateurs.
+    """
+    serializer_class = MessageSerializer
+
+    def get_queryset(self):
+        expediteur_id = self.kwargs['expediteur_id']
+        destinataire_id = self.kwargs['destinataire_id']
+        
+        user = self.request.user
+        if str(user.id) not in [expediteur_id, destinataire_id]:
+            return Message.objects.none()
+            
+        messages = Message.objects.filter(
+            (Q(expediteur_id=expediteur_id) & Q(destinataire_id=destinataire_id)) |
+            (Q(expediteur_id=destinataire_id) & Q(destinataire_id=expediteur_id))
+        ).order_by('date_envoi')
+        
+        messages.filter(destinataire=user, is_read=False).update(is_read=True)
+        
+        return messages
+
+
+class SendMessage(generics.CreateAPIView):
+    """
+    Vue pour envoyer un message à un autre utilisateur.
+    """
+    serializer_class = MessageSerializer
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+
+    def perform_create(self, serializer):
+        instance = serializer.save(expediteur=self.request.user)
+        destinataire = instance.destinataire
+        
 
 
 
