@@ -14,7 +14,6 @@ import {
 } from '@mui/x-data-grid';
 import { frFR } from '@mui/x-data-grid/locales';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import EditIcon from '@mui/icons-material/Edit';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
@@ -25,6 +24,7 @@ const vente = () => {
         const closevente = () => setVendreproduit(false)
         const [currentId,setCurrentId] = useState('')
         const [utilisateur,setUtilsateur] = useState([])
+        const [profile,setProfile] = useState([])
         const [Produit,setProduit] = useState([])
         const token = localStorage.getItem('access_token')
         const [Pnombre,setPnombre] = useState(0)
@@ -32,7 +32,14 @@ const vente = () => {
 
     
     const produittotale = Produit.Prix_distributeur * Pnombre 
-
+    const Bvup = Produit.Bv * Pnombre 
+    const fetchProfile = async()=> {
+    
+      
+    
+        
+    
+}
 
     
 const fetchUtilisateur = async()=> {
@@ -47,6 +54,16 @@ const fetchUtilisateur = async()=> {
             const data = await response.json();
             setUtilsateur(data);
 
+            const presponse = await fetch('http://localhost:8000/profiles/update/' , {
+              method : 'GET',
+                headers : {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            const pdata = await presponse.json();
+            setProfile(pdata);
+
     }
     catch {
         
@@ -56,29 +73,33 @@ useEffect(() => {
 if(token){
 
 fetchUtilisateur();
+fetchProfile ();
 }
 },[])
 
 
     const vendre = async (id) => {
         setCurrentId(id)
-        openvente()
-         const fetchProduct = async () => {
-      try {
-        const response = await fetch(`http://localhost:8000/api/produits/${id}/`);
-        if (!response.ok) throw new Error('Erreur lors du chargement');
-        const data = await response.json();
-        setProduit(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-fetchProduct();
+       
+          openvente()
+       
+            const response = await fetch(`http://localhost:8000/api/produits/${id}/`);
+            const data = await response.json();
+             setProduit(data);
+
+            
+            
+              console.log('gbv user',profile.gbv)
+              console.log('bv produit',Produit.Bv)
+
+            
+
+     
+
     };
 
 const EffectuerVente = async (e) => {
     e.preventDefault();
-    console.log('mety')
 console.log(utilisateur.Nom)
     const facturedata = {
         vendeur : utilisateur.id,
@@ -102,6 +123,23 @@ console.log(utilisateur.Nom)
         closevente()
         fetchProduits()
       }, 1000);
+    }catch {
+
+    }
+const NewGbv = profile.gbv + (Produit.Bv * Pnombre)
+const data = {
+  gbv : NewGbv,
+}
+    try {
+         const response = await fetch('http://localhost:8000/profiles/update/', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+         });
+
     }catch {
 
     }
@@ -193,7 +231,7 @@ console.log(utilisateur.Nom)
       
 
   return (
-    <div className='h-screen  w-full   justify-center items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10  '>
+    <div className='h-screen  w-full   justify-center items-center  bg-gradient-to-r from-teal-300 to-vertblanc p-10  '>
         <div className='h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6 '>
             <Navbar/>
 
@@ -212,10 +250,12 @@ console.log(utilisateur.Nom)
                                     <div className="grid grid-cols-2 gap-3 mt-5">
                                         <div>Nom : </div>
                                         <div>{utilisateur.first_name} {utilisateur.last_name}</div>
-                                        <div>produit :</div>
+                                        <div>Produit :</div>
                                         <div>{Produit.Nom}</div>
+                                        <div>Bv : </div>
+                                        <div>{Bvup}</div>
                                         <div>Quantite</div>
-                                        <input type="text" placeholder={Produit.Nombre} onChange={(e) => setPnombre(e.target.value)}/>
+                                        <input type="text" placeholder={Produit.Nombre}  onChange={(e) => setPnombre(e.target.value)}/>
                                         <div>Prix totale</div>
                                         <div>{produittotale} Ar</div>
                                     </div>

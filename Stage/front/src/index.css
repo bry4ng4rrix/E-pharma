@@ -51,6 +51,11 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+ .bg {
+    background: url(assets/img/bg.png );
+    background-repeat: no-repeat;
+    background-size: auto;
+ }
 
   .login {
     background: url(assets/img/login.png );

@@ -27,7 +27,7 @@ const Chatform = ({chathistory,setChathistory,botresponse}) => {
             className="flex-1 p-3  rounded-l-lg focus:outline-none "
             ref={inputRef}
           />
-          <button className="p-3 bg-teal-500 text-white rounded-r-lg hover:bg-vertlight" onClick={Envoyer}>
+          <button className="p-3 bg-vert text-white rounded-r-lg hover:bg-vertlight" onClick={Envoyer}>
            <BsFillRocketTakeoffFill  className="h-6 w-auto " />
             
           </button>

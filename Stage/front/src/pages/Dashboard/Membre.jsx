@@ -178,7 +178,7 @@ const Membre = () => {
 
     const fetchMembre = async () => {
       try {
-        const response = await fetch('http://localhost:8000/profiles', {
+        const response = await fetch('http://localhost:8000/profiles/', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

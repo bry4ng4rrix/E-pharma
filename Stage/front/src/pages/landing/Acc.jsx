@@ -21,6 +21,7 @@ const is_superuser = localStorage.getItem("is_superuser");
 const [ustilisateur,setUtilsateur] = useState([])
 const [profileU,setProfileU] = useState([])
 
+
 const fetchuserprofile = async()=> {
     try {
          const response = await fetch('http://localhost:8000/profiles/user' , {
@@ -44,6 +45,15 @@ if(token){
 fetchuserprofile();
 }
 },[])
+
+const updatebv = async () => {
+  try {
+
+  }
+  catch {
+
+  }
+}
 
 const fetchUtilisateur = async()=> {
   
@@ -162,9 +172,11 @@ const [profileData, setProfileData] = useState({});
           });
           if (response.ok) {
             toast.success("Profil mis à jour !");
-            fetchUtilisateur();
-            fetchuserprofile();
+              if(token) {
+                fetchUtilisateur();
+                 fetchuserprofile();
 
+              }
             setTimeout(() => {
               closeProfile()
             }, 1000);
@@ -192,7 +204,7 @@ const closemessage = () => setmessage(false)
 
  
     return (
-            <div className="h-screen  w-full   justify-center items-center ">
+            <div className="h-screen  w-full   justify-center items-center bg-gradient-to-tl from-vertblanc  ">
                  <ToastContainer
                             position="top-right"
                             autoClose={3000}
@@ -411,9 +423,9 @@ const closemessage = () => setmessage(false)
                     
                                      </div>
 
-                <section className='h-screen flex justify-center  items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10  '>
+                <section className='h-screen flex justify-center  items-center bg  '>
                    
-                    <div className='  h-screen justify-center flex flex-col p-20 items-start '>
+                    <div className='  h-screen justify-center flex flex-col p-20 m-5 items-start '>
                         {/* gauche */}
                         <motion.div
                              initial={{ opacity:0 ,x:-100 }}
@@ -425,7 +437,7 @@ const closemessage = () => setmessage(false)
                             delay : 0.3,
                             duration:1.2
                         }}
-                         className='text-5xl font-bold font-wenssep text-green-900'>
+                         className='text-5xl font-bold font-wenssep m-3 text-green-900'>
                             TONGASOA IANAO !
                         </motion.div>
                         <motion.div
@@ -438,7 +450,7 @@ const closemessage = () => setmessage(false)
                             delay : 0.3,
                             duration:1.2
                         }}
-                        className='flex w-1/2 mt-3 m-2 font-inter'>
+                        className='flex w-1/2 mt-3 m-5 font-inter'>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, tempore. Autem tempora error facere qui vitae eos atque, dolore itaque ex eveniet porro 
                         </motion.div>
                         <motion.div
@@ -471,18 +483,16 @@ const closemessage = () => setmessage(false)
                         }}
                         
                         >
-                            <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4 ' />
+                            <img src={wosh} alt="" className='block md:h-1/2 lg:h-3/4 m-3 mt-3 ' />
                         </motion.div>
                     </div>
                 </section>
                 
                 
                 
-                <section id='#About' className='h-screen flex p-10 justify-center bg-white'>
-                  
-                        <img src={review} alt="" />
+                        <div className="m-3 ">
 
-                </section>
+                        </div>
 
                 <section className="">
                     <Conseile/>

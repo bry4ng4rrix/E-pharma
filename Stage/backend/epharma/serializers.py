@@ -30,15 +30,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
     def validate(self, data):
-        # Check if passwords match
         if data.get('password') != data.get('password1'):
             raise serializers.ValidationError({"password1": "Les deux mots de passe ne correspondent pas"})
 
-        # Check for unique email
         if User.objects.filter(email=data.get('email')).exists():
             raise serializers.ValidationError({"email": "Cette adresse email est déjà utilisée"})
 
-        # Check for unique member_code
         if Profile.objects.filter(member_code=data.get('member_code')).exists():
             raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
         
@@ -48,10 +45,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return data
 
     def create(self, validated_data):
-        # Remove password1 from validated data as it's not needed for user creation
         validated_data.pop('password1')
 
-        # Extract profile-related fields
         profile_data = {
             'member_code': validated_data.pop('member_code'),
             'member_name': f"{validated_data['first_name']} {validated_data['last_name']}",
@@ -67,13 +62,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'tnbv': '0',
             'branch': '',
         }
-        # Generate a unique username based on email or member_code
+
+        #fory eeeeeeeeeeeeeeeeeeee
+
+        
         username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
         while User.objects.filter(username=username).exists():
             username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
    
-        
-        # Create user with minimal required fields
         user = User.objects.create_user(
             username=username,
             email=validated_data['email'],
@@ -81,8 +77,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
         )
-
-        # Create profile
         Profile.objects.create(user=user, **profile_data)
 
         return user

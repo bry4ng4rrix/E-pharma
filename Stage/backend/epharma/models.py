@@ -55,18 +55,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True,blank=True) 
-    member_code = models.CharField(max_length=50,unique=True)
+    member_code = models.IntegerField(unique=True)
     member_name = models.CharField(max_length=250,unique=True)
-    depth = models.CharField(max_length=50)
-    directline = models.CharField(max_length=50)
-    sponsor = models.CharField(max_length=50)
+    depth = models.IntegerField()
+    directline = models.IntegerField()
+    sponsor = models.IntegerField()
     registration_date = models.DateTimeField(auto_now_add=True)
-    grade = models.CharField( max_length=50)
-    gbv = models.CharField(max_length=50)
-    cpbv = models.CharField(max_length=50)
-    cnbv = models.CharField(max_length=50)
-    pbv = models.CharField(max_length=50)
-    tnbv = models.CharField(max_length=50)
+    grade =  models.IntegerField()
+    gbv = models.IntegerField()
+    cpbv = models.IntegerField()
+    cnbv = models.IntegerField()
+    pbv = models.IntegerField()
+    tnbv = models.IntegerField()
     branch = models.CharField(max_length=50)
 
     
@@ -109,7 +109,7 @@ class Vente(models.Model):
     date = models.DateField(auto_now_add=True)
     
     def __str__(self):
-        return self.vendeur.member_code 
+        return self.vendeur.member_name
 
 
 

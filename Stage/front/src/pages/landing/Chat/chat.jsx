@@ -66,13 +66,13 @@ useEffect(() =>{
   }
 
   return (
-     <div className="bg-black/20 shadow-2xl border border-white max-w-xl w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
+     <div className="bg-black/20  shadow-2xl border borde-white max-w-xl w-full h-3/4  backdrop-blur-lg flex-col justify-between flex rounded-xl  ">
                             
       {/* En-tête du chat */}
       <div className="flex  items-center justify-between p-3   shadow-sm rounded">
 
         <img src={logo} alt=""  className="h-12 w-auto"/>
-        <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-600"/></button>
+        <button className="mr-4 text-gray-500" onClick={closeBot}><AiFillCloseCircle  className="h-6 w-auto text-red-500"/></button>
         
       </div>
 
@@ -80,8 +80,8 @@ useEffect(() =>{
       <div ref={chatbody} className="flex-1  p-4 overflow-y-auto">
         <div className="flex flex-col space-y-4">
           {/* Message reçu */}
-          <div className="max-w-xs bg-vert rounded-lg p-3 flex  justify-between shadow">
-            <p className="text-white">Bonjour !, Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
+          <div className="max-w-xs bg-green-100  rounded-lg p-3 flex  justify-between shadow">
+            <p className="">Bonjour !, Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
           </div>
           {/* Message envoyé */}
           {chathistory.map((chat,index) => (
