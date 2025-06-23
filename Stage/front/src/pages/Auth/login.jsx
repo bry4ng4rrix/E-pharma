@@ -81,7 +81,7 @@ const Login = () => {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        theme="dark"
+        theme="light"
         pauseOnHover
         transition={Bounce}
       />
@@ -106,7 +106,7 @@ const Login = () => {
             <div className='font-inter mb-1 text-sm opacity-50 px-2'>Email</div>
             <input type="email" placeholder="exemple@gmail.com" className='rounded-md mt-2 h-10 p-3 w-full border border-gray-500 focus:border-none focus:rounded-sm' onChange={(e) => setEmail(e.target.value)} />
             <div className='font-inter mb-1 mt-4 text-sm opacity-50 px-2'>Mot de pass</div>
-            <input type="password" placeholder="* * * * * * " className='rounded-md mt-2 h-10 p-3 w-full border border-gray-500 focus:border-none focus:rounded-sm' onChange={(e) => setPassword(e.target.value)} />
+              <input type="password" placeholder="* * * * * * " className='rounded-md mt-2 h-10 p-3 w-full border border-gray-500 focus:border-none focus:rounded-sm' onChange={(e) => setPassword(e.target.value)} />
 
 
             <div className='text-end text-sm mt-10 opacity-50'>Mot de pass oublier ?</div>

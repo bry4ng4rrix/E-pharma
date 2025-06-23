@@ -1,51 +1,79 @@
-import React, { PureComponent } from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import React, { PureComponent , useState,useEffect } from 'react';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
+
+const piechart = () => {
+
+const [stats,setStats] = useState([]);
+  useEffect(() =>{
+    
+      const fetchStats  = async () =>{
+        try{
+          const response = await fetch("http://localhost:8000/api/stat");
+          const data = await response.json();
+          setStats(data);
+          console.log(data)
+        }catch (err){
+          console.log(err)
+        }
+      };
+    
+        fetchStats();
+        
+      },[]);
+
+  const data = [
+  {
+    subject: 'Utilisateurs',
+    A: stats.user,
+    B: 110,
+    fullMark: 150,
+  },
+  {
+    subject: 'Produits',
+    A: stats?.produit,
+    B: 130,
+    fullMark: 150,
+  },
+  {
+    subject: 'Employer',
+    A: 86,
+    B: 130,
+    fullMark: 150,
+  },
+  {
+    subject: 'Membres',
+    A: 99,
+    B: 100,
+    fullMark: 150,
+  },
+  {
+    subject: 'Ventes',
+    A: stats?.vente || 120,
+    B: 90,
+    fullMark: 150,
+  },
+  {
+    subject: 'Rendevous',
+    A: 65,
+    B: 85,
+    fullMark: 150,
+  },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
-    </text>
-  );
-};
-
-export default class Example extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/s/pie-chart-with-customized-label-dlhhj';
-
-  render() {
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={400} height={400}>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomizedLabel}
-            outerRadius={80}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-        </PieChart>
+    <>
+        <ResponsiveContainer width="100%" height="100%">
+        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="subject" fontSize={12}/>
+          
+          <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+        </RadarChart>
       </ResponsiveContainer>
-    );
-  }
+    </>
+  )
 }
+
+export default piechart

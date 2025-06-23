@@ -220,6 +220,7 @@ const columns = [
     { field: 'member_name', headerName: 'Member Name', flex: 1 },
     { field: 'depth', headerName: 'Depth', flex: 1 },
     { field: 'directline', headerName: 'Directline', flex: 1 },
+    { field: 'sponsor', headerName: 'SPonsor', flex: 1 },
     { field: 'registration_date', headerName: 'Registration Date', flex: 1 },
     { field: 'grade', headerName: 'Grade', flex: 1 },
     { field: 'gbv', headerName: 'Gbv', flex: 1 },

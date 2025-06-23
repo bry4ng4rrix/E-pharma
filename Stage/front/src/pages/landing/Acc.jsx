@@ -20,6 +20,9 @@ const token = localStorage.getItem('access_token')
 const is_superuser = localStorage.getItem("is_superuser");
 const [ustilisateur,setUtilsateur] = useState([])
 const [profileU,setProfileU] = useState([])
+const [downline,setDownline] = useState([]);
+
+const [loading, setLoading] = useState(true);
 
 
 const fetchuserprofile = async()=> {
@@ -33,6 +36,16 @@ const fetchuserprofile = async()=> {
             });
             const data = await response.json();
             setProfileU(data);
+         const dresponse = await fetch('http://localhost:8000/downline/' , {
+              method : 'GET',
+                headers : {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            const ddata = await dresponse.json();
+            setDownline(ddata);
+            setLoading(false);
 
     }
     catch {
@@ -81,6 +94,20 @@ useEffect(() => {
 fetchUtilisateur();
   }
 },[])
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.40, // délai entre chaque item
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
 
 
 //mise a jours du profile 
@@ -129,7 +156,6 @@ const AjoutProfile = async (e) => {
 const [Profile,setProfile] = useState(false)
 const [message,setmessage] = useState(false)
 const [Bot,setBot] = useState(false)
-const [Imc,setImc] = useState(false)
 const[Depth,setDepth] = useState('');const[Directline,setDirectline] = useState('');
 const[Sponsor,setSponsor] = useState('');
 const[Reg_Date,setReg_Date] = useState('');
@@ -146,7 +172,6 @@ const [profileData, setProfileData] = useState({});
       // PATCH pour mettre à jour le profil
       const patchProfile = async (e) => {
         e.preventDefault();
-        console.log(Depth)
         const data = {
           depth : Depth || ustilisateur.depth,
           directline: Directline || ustilisateur.directline,
@@ -267,10 +292,10 @@ const closemessage = () => setmessage(false)
                                         
 
                                         {/* User Profile Two Columns */}
-                                        <div className="w-full flex flex-row gap-8">
+                                        <div className="w-full flex flex-row gap-8 bg-vertblanc/50 rounded-md">
                                           
                                           {/* Colonne gauche : Mise à jour du profil */}
-                                          <div  className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col items-center shadow-md">
+                                          <div  className="flex-1 rounded-lg p-2 px-3 flex flex-col items-center ">
                                           <button className=' flex self-start' onClick={closeProfile}><AiFillCloseCircle 
                                          className="h-6 w-auto  text-red-600"/></button>
                                             {/* Photo de profil */}
@@ -305,15 +330,47 @@ const closemessage = () => setmessage(false)
                                             </div>
                                           
                                             
-                                            <button
+                                            {/* <button
                                               type="submit"
                                               className="bg-teal-500 hover:bg-teal-600 text-white rounded px-6 py-2 w-full mt-2 shadow"
                                             > 
                                               Mise à jour
-                                            </button>
+                                            </button> */}
+                                                 <div className="bg-white/50 h-72 w-full mt-4 rounded p-3 flex flex-col">
+                                                     <div className="flex-1 overflow-y-auto scrollbar-none">
+                                                        <div className="border border-none rounded m-2">Downline</div>
+
+                                                        {loading ? (
+                                                          <div className="text-center text-gray-500">Chargement...</div>
+                                                        ) : downline.length === 0 ? (
+                                                          <div className="text-center text-gray-500">Aucun membre trouvé.</div>
+                                                        ) : (
+                                                          <motion.div
+                                                            className="flex flex-col space-y-2"
+                                                            variants={containerVariants}
+                                                            initial="hidden"
+                                                            animate="visible"
+                                                          >
+                                                            {downline.map((member) => (
+                                                              <motion.div
+                                                                key={member.id}
+                                                                variants={itemVariants}
+                                                                whileHover={{ scale: 1.03 }}
+                                                                className="h-10 w-full bg-vertgris p-2 rounded flex justify-between shadow-md hover:shadow-2xl hober-rounded  px-3
+                                                                          hover:font-bold hover:bg-white/50 hover:text-slate-800 text-white"
+                                                                                                                              >
+                                                                <div className="">{member.member_name}</div>
+                                                                <div className="text-sm font-bold cursor-pointer">{member.member_code}</div>
+                                                              </motion.div>
+                                                            ))}
+                                                          </motion.div>
+                                                        )}
+                                                      </div>
+                                                    </div>
                                           </div>
+
                                           {/* Colonne droite : Infos membre */}
-                                          <div className="flex-1 bg-vertblanc/50 rounded-lg p-6 flex flex-col gap-3 shadow-md">
+                                          <div className="flex-1 rounded-lg p-6 flex flex-col gap-3 ">
                                           
                                             <div className="grid grid-cols-2 gap-2">
                                               

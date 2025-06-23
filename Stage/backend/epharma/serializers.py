@@ -50,20 +50,18 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         profile_data = {
             'member_code': validated_data.pop('member_code'),
             'member_name': f"{validated_data['first_name']} {validated_data['last_name']}",
-            'depth': '0',
-            'directline': '',
-            'sponsor': '',
+            'depth': 0,
+            'directline': 0,
+            'sponsor': 0,
             'registration_date': '',
-            'grade': '',
-            'gbv': '0',
-            'cpbv': '0',
-            'cnbv': '0',
-            'pbv': '0',
-            'tnbv': '0',
+            'grade': 0,
+            'gbv': 0,
+            'cpbv': 0,
+            'cnbv': 0,
+            'pbv': 0,
+            'tnbv': 0,
             'branch': '',
         }
-
-        #fory eeeeeeeeeeeeeeeeeeee
 
         
         username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
@@ -145,6 +143,7 @@ class ProduitsSerializer(serializers.ModelSerializer):
      class Meta:
           model = Produits 
           fields = '__all__'
+          
 
 
 class FactureSerializer(serializers.ModelSerializer):
@@ -157,7 +156,6 @@ class FactureparUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vente
         fields = ['id', 'produit', 'quantite', 'prixtotale', 'date']
-
 
 
 

@@ -14,20 +14,18 @@ const token = localStorage.getItem('access_token')
 
 const handleLogout = async () => {
         try {
-            const refreshToken = localStorage.getItem('refresh_token');
+                  const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
-                await fetch('http://localhost:8000/logout', {
+                await fetch('http://localhost:8000/logout/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
                     },
                     body: JSON.stringify({ refresh: refreshToken }),
                 });
             }
-            
-            
-            
+            localStorage.setItem('message','Deconnection Success');
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -35,7 +33,8 @@ const handleLogout = async () => {
         // Clear localStorage
         localStorage.removeItem('access_token');
         localStorage.removeItem('refresh_token');
-
+        localStorage.removeItem('is_superuser');
+        localStorage.removeItem('is_active');
         navigate('/');
         // Show success toast and redirect to login page
         

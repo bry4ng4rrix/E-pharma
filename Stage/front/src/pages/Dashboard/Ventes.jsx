@@ -1,6 +1,18 @@
 import Sidebar from "../../components/SideNav/Sidebard";
 import { useState, useEffect } from "react";
 import Fixednav from '../../components/SideNav/Fixednav'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import {
+  DataGrid,
+  GridToolbarContainer,
+  GridToolbarExport,
+  GridToolbarQuickFilter,
+  GridActionsCellItem
+} from '@mui/x-data-grid';
+import { frFR } from '@mui/x-data-grid/locales';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import { toast, ToastContainer ,Bounce} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Vente = () => {
     const [darkMode, setDarkMode] = useState(false);
@@ -8,6 +20,67 @@ const Vente = () => {
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
 
+
+const handleEditClick = (id) =>{
+
+    toast.success(id)
+}
+
+    const theme = createTheme({
+              palette: {
+                primary: {
+                  main: '#2F403E'
+                },
+                background: {
+                  default: '#BBF2F2'
+                },
+              },
+              components: {
+                MuiDataGrid: {
+                  styleOverrides: {
+                    root: {
+                      backgroundColor: '#ffffff',
+                      borderRadius: '5px',
+                      overflow: 'hidden',
+                      padding: '10px',
+                      border: 'none',
+                    },
+                    columnHeaders: {
+                      backgroundColor: '#027333',
+                      fontWeight: 'bold'
+                    }
+                  }
+                }
+              }
+            });
+    
+         const CustomToolbar = () => (
+        <GridToolbarContainer>
+          <GridToolbarQuickFilter />
+          <GridToolbarExport />
+        </GridToolbarContainer>
+      );
+            
+      const columns = [
+    { field: 'date', headerName: 'Date', flex: 1 },
+    { field: 'produit', headerName: 'Produit', flex: 1 },
+    { field: 'quantite', headerName: 'Nombre', flex: 1 },
+    { field: 'prixtotale', headerName: 'Prix', flex: 1 },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Detailles',
+      width: 100,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<AssignmentIcon />}
+          label="Modifier"
+          onClick={() => handleEditClick(params.id)}
+        />,
+        
+      ],
+    }
+  ];
     const toogleDark = () => {
         setDarkMode(!darkMode);
     };
@@ -52,51 +125,60 @@ const Vente = () => {
                 <Fixednav toogleDark={toogleDark} darkMode={darkMode} />
 
                 <div className="flex flex-col flex-1 p-4">
-                    <h1 className="text-2xl font-bold mb-4">Gestion des Ventes</h1>
+                   
 
                     <div className="flex flex-1 gap-4">
                         {/* Tableau des ventes (2/3) */}
                         <div className="flex-1 w-2/3">
-                            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
-                                <h2 className="text-xl font-semibold mb-4">Ventes par Date</h2>
 
                                 {/* Filtre par date */}
+                                <ThemeProvider theme={theme}>
+                                  <div style={{ width: '100%' }} className='py-2'>
+                                    <ToastContainer
+                                      position="top-right"
+                                      autoClose={3000}
+                                      hideProgressBar={false}
+                                      newestOnTop={false}
+                                      closeOnClick
+                                      rtl={false}
+                                      pauseOnFocusLoss
+                                      draggable
+                                      theme="light"
+                                      pauseOnHover
+                                      transition={Bounce}
+                                    />
+                            
+                                    <DataGrid
+                                      localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
+                                      rows={ventes}
+                                      columns={columns}
+                                      loading={loading}
+                                      initialState={{
+                                        pagination: {
+                                          paginationModel: {
+                                            pageSize: 5,
+                                            page: 0,
+                                          },
+                                        },
+                                      }}
+                                      pageSizeOptions={[5,10, 20, 50]}
+                                      disableRowSelectionOnClick
+                                      disableColumnResize
+                                      disableColumnSelector
+                                      showToolbar
+                                      slots={{ toolbar: CustomToolbar }}
+                                    />
+                                  </div>
+                                </ThemeProvider>
 
-
-                                <table className="w-full">
-                                    <thead>
-                                        <tr className="bg-gray-100 dark:bg-gray-700">
-                                            <th className="px-4 py-2">Date</th>
-                                            <th className="px-4 py-2">Nom</th>
-                                            <th className="px-4 py-2">Quantité</th>
-                                            <th className="px-4 py-2">Montant</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {loading ? (
-                                            <tr>
-                                                <td colSpan="4" className="text-center py-4">Chargement...</td>
-                                            </tr>
-                                        ) : (
-                                            ventes.map((vente) => (
-                                                <tr key={vente.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-
-                                                    <td className="px-4 py-2">{vente.date}</td>
-                                                    <td className="px-4 py-2"><button className="hover:bg-blue-500 p-3 rounded">{vente.produit}</button></td>
-                                                    <td className="px-4 py-2">{vente.quantite}</td>
-                                                    <td className="px-4 py-2">${vente.prixtotale}</td>
-                                                </tr>
-                                            ))
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+                             
+                            
                         </div>
 
                         {/* Statistiques (1/3) */}
-                        <div className="w-1/3">
-                            <div className="bg-white dark:bg-gray-800 rounded-sm shadow p-4">
-                                <h2 className="text-xl font-semibold mb-4">Statistiques des Ventes</h2>
+                        <div className="w-1/3  mt-2  ">
+                            <div className="bg-white dark:bg-gray-800 rounded-md shadow p-4">
+                              
 
                                 <div className="space-y-4">
                                     <div className="p-4 bg-green-100 dark:bg-green-900 rounded">
@@ -106,7 +188,7 @@ const Vente = () => {
 
                                     <div className="p-4 bg-green-100 dark:bg-green-900 rounded">
                                         <h3 className="font-semibold">Montant total</h3>
-                                        <p className="text-2xl">${stats.totalMontant}</p>
+                                        <p className="text-2xl">{stats.totalMontant} Ariary</p>
                                     </div>
 
                                    

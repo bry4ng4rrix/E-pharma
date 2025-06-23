@@ -38,7 +38,7 @@ const Sidebard = () => {
         localStorage.removeItem('refresh_token');
         localStorage.removeItem('is_superuser');
         localStorage.removeItem('is_active');
-        navigate('/login');
+        navigate('/');
         // Show success toast and redirect to login page
         
     };

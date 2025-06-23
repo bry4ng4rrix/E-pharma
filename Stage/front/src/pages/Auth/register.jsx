@@ -62,6 +62,14 @@ const Register = () => {
       const responseData = await response.json();
 
       if (response.ok) {
+        localStorage.setItem('access_token', responseData.access);
+        localStorage.setItem('refresh_token', responseData.refresh);
+        localStorage.setItem('member_code', responseData.user.member_code);
+        localStorage.setItem('username', responseData.user.username);
+        localStorage.setItem('email', responseData.user.email);
+        localStorage.setItem('is_active', responseData.user.is_active ? 'true' : 'false');
+        localStorage.setItem('is_superuser', responseData.user.is_superuser ? 'true' : 'false');
+
         toast.success("Inscription réussie ! Redirection...", {
           position: "top-right",
           autoClose: 3000,
@@ -73,7 +81,7 @@ const Register = () => {
         });
         // Rediriger vers la page de connexion après un délai
         setTimeout(() => {
-          window.location.href = "/login";
+          window.location.href = "/";
         }, 2000);
       } else {
         // Gestion des erreurs de validation

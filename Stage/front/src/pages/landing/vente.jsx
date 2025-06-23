@@ -102,7 +102,7 @@ const EffectuerVente = async (e) => {
     e.preventDefault();
 console.log(utilisateur.Nom)
     const facturedata = {
-        vendeur : utilisateur.id,
+        vendeur : profile.id,
         produit : Produit.Nom,
         quantite : Pnombre,
         prixtotale : produittotale,
@@ -152,7 +152,10 @@ const data = {
             main: '#2F403E'
           },
           background: {
-            default: '#BBF2F2',
+            default: '#00000',
+            border :'#ffffff',
+            fontWeight:'bold'
+            
           },
         },
         components: {
@@ -164,6 +167,7 @@ const data = {
                 overflow: 'hidden',
                 padding: '10px',
                 border: 'none',
+
               },
               columnHeaders: {
                 backgroundColor: '#027333',
@@ -248,16 +252,17 @@ const data = {
                             <div className="w-full  max-w-xl bg-white/50 p-6 rounded">
                                 <button  className="flex justify-end" onClick={closevente}><AiFillCloseCircle className="text-red-500"/></button>
                                     <div className="grid grid-cols-2 gap-3 mt-5">
-                                        <div>Nom : </div>
-                                        <div>{utilisateur.first_name} {utilisateur.last_name}</div>
-                                        <div>Produit :</div>
-                                        <div>{Produit.Nom}</div>
-                                        <div>Bv : </div>
-                                        <div>{Bvup}</div>
-                                        <div>Quantite</div>
-                                        <input type="text" placeholder={Produit.Nombre}  onChange={(e) => setPnombre(e.target.value)}/>
-                                        <div>Prix totale</div>
-                                        <div>{produittotale} Ar</div>
+                                        <div className="font-bold text-vertsombre">Nom : </div>
+                                        <div className="font-semibold ">{utilisateur.first_name} {utilisateur.last_name}</div>
+                                        <div className="font-bold text-vertsombre">Produit :</div>
+                                        <div className="font-semibold ">{Produit.Nom}</div>
+                                        <div className="font-bold text-vertsombre"> Bv : </div>
+                                        <div className="font-semibold ">{Bvup}</div>
+                                        <div className="font-bold text-vertsombre">Quantite</div>
+                                        <input type="number" placeholder={Produit.Nombre}  onChange={(e) => setPnombre(e.target.value)}
+                                                className="h-10 p-3 lowercase justify-center items-center font-semibold rounded focus:border-none focus:outline-none"/>
+                                        <div className="font-bold text-vertsombre">Prix totale</div>
+                                        <div className="font-semibold ">{produittotale} Ar</div>
                                     </div>
                                     <button className="bg-green-400 w-full mt-5 h-10 items-center justify-center text-white rounded" onClick={EffectuerVente}>Effectuer le vente</button>
                             </div>

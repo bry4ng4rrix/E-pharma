@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from .serializers import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import views, status , permissions
-
+from django.core.exceptions import ValidationError
 #############
 #test 
 #
@@ -38,6 +38,9 @@ from django.conf import settings
 
 genai.configure(api_key=settings.GEMINI_API_KEY)
 model = genai.GenerativeModel('gemini-2.0-flash')
+
+
+
 
 MEDICAL_KEYWORDS = [
     "maladie", "fièvre", "symptômes", "grippe", "toux", "douleur", 
@@ -273,6 +276,19 @@ class FactureParUserView(ListAPIView):
             return Vente.objects.none()
         return Vente.objects.filter(vendeur=profile)
 
+class DownlineView(ListAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        try:
+            profile = Profile.objects.get(user=user)
+        except Profile.DoesNotExist:
+            return Profile.objects.none()
+        
+        return Profile.objects.filter(directline=profile.member_code)
+
 
 class Messageviews(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
@@ -503,3 +519,20 @@ class LogoutView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
+
+
+# class MemberByCodeView(APIView):
+#     """
+#     Vue pour récupérer un membre en fonction de son member_code.
+#     """
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, member_code=None):
+#         try:
+#             profile = Profile.objects.get(member_code=member_code)
+#             serializer = ProfileSerializer(profile)
+#             return Response(serializer.data, status=status.HTTP_200_OK)
+#         except Profile.DoesNotExist:
+#             return Response({"error": "Aucun profil trouvé avec ce member_code."}, status=status.HTTP_404_NOT_FOUND)
+#         except Exception as e:
+#             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

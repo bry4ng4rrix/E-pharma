@@ -15,6 +15,7 @@ export const Dashcard = () => {
         const response = await fetch("http://localhost:8000/api/stat");
         const data = await response.json();
         setStats(data);
+        console.log(data)
       }catch (err){
         console.log(err)
       }

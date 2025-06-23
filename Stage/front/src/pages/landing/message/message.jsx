@@ -20,18 +20,18 @@ const message = ({closemessage}) => {
       }
   
       const systemInstructionContent = {
-        role: "user", // Using "user" role to prepend the instruction.
+
         parts: [{ text: "tu t'appelle bot mahquafy,  un assistant médical spécialisé. Ta seule fonction est de répondre à des questions concernant la santé, le bien-être, les maladies, les traitements médicaux et les conseils de prévention. Ne réponds à aucune question qui sort de ce cadre strict. Si une question n'est pas liée à la santé, décline poliment en expliquant que tu es programmé uniquement pour les sujets médicaux." }]
       };
-  
+
+
       const mappedUserHistory = history.map(({role,text}) => ({role,parts: [{text}]}));
-  
       const contentsForApi = [systemInstructionContent, ...mappedUserHistory];
   
    try {
       const requestOptions = {
         method : "POST",
-        headers : {"Content-Type":"application/json"}, // Corrected typo from applcation to application
+        headers : {"Content-Type":"application/json"}, 
         body: JSON.stringify({contents : contentsForApi})
       };
   
