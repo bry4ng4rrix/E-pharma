@@ -71,7 +71,7 @@ const Login = () => {
 
 
   return (
-    <div className=" text-fonddark flex items-center justify-center min-h-screen  bg-vertblanc">
+    <div className=" text-fonddark flex items-center justify-center min-h-screen   bg-slate-300">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -87,7 +87,7 @@ const Login = () => {
       />
 
 
-      <div className="flex sm:w-full min-w-96 xl:max-w-4xl   bg-[#A3D6E5] shadow-xl rounded-xl transition-all duration-300">
+      <div className="flex sm:w-full min-w-96 xl:max-w-4xl   bg-[#9aa9ad] shadow-xl rounded-xl transition-all duration-300">
         {/* gauche */}
         <div className=" hidden md:block flex-1 p-8 md:rounded rounded-l-md  bg-cover bg-center" style={{ backgroundImage: `url(${loginBg})` }}>
           <div className="flex items-center justify-center h-full">
@@ -100,7 +100,7 @@ const Login = () => {
 
         <div className=" bg-white  h-[90vh] flex-1 p-8 rounded-r-md">
           <div className="w-full max-w-md mx-auto p-5">
-            <div className='font-inter font-bold text-4xl mb-5'>Login</div>
+            <div className='font-inter font-bold text-4xl mb-5'>Connexion</div>
             <div className='font-inter text-md opacity-50 mb-2'>Cher Client ! Veuiller remplire tous les <br />champs</div>
 
             <div className='font-inter mb-1 text-sm opacity-50 px-2'>Email</div>
@@ -116,7 +116,7 @@ const Login = () => {
                                         shadow-xl hover:bg-vertdark'
               onClick={Login}
             >
-              <span className="flex-1 text-center">Login</span>
+              <span className="flex-1 text-center">Connexion</span>
               <BsRocketTakeoffFill className="w-5 h-5" />
 
             </button>

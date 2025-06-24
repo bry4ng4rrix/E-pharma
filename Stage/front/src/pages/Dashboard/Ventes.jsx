@@ -20,6 +20,9 @@ const Vente = () => {
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
 
+  const toogleDark = () => {
+        setDarkMode(!darkMode);
+    };
 
 const handleEditClick = (id) =>{
 
@@ -54,7 +57,7 @@ const handleEditClick = (id) =>{
               }
             });
     
-         const CustomToolbar = () => (
+     const CustomToolbar = () => (
         <GridToolbarContainer>
           <GridToolbarQuickFilter />
           <GridToolbarExport />
@@ -76,27 +79,16 @@ const handleEditClick = (id) =>{
           icon={<AssignmentIcon />}
           label="Modifier"
           onClick={() => handleEditClick(params.id)}
-        />,
-        
-      ],
-    }
-  ];
-    const toogleDark = () => {
-        setDarkMode(!darkMode);
-    };
-
+        />,],}];
     useEffect(() => {
         fetchVentes();
-    }, []);
-
+  },[]);
     const fetchVentes = async () => {
         try {
             setLoading(true);
             const response = await fetch('http://localhost:8000/api/facture/');
             const data = await response.json();
             setVentes(data);
-            
-            // Calculer les statistiques
             const totalVentes = data.length;
             const totalMontant = data.reduce((sum, vente) => sum + vente.prixtotale, 0);
             const ventesParProduit = data.reduce((acc, vente) => {

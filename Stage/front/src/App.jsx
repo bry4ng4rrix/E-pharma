@@ -18,7 +18,7 @@ import Profile from './pages/landing/profile'
 import Vente from './pages/landing/vente';
 import Historique from './pages/landing/historique';
 import Message from './pages/landing/message/message';
-
+import Home1 from './pages/landing/Home'
 
 
 export default function App() {
@@ -51,6 +51,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Home1 />} /> */}
 
         {/* Error and status routes */}
         <Route path="*" element={<Error />} />

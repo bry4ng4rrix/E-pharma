@@ -23,51 +23,29 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     member_code = serializers.CharField(max_length=50, required=True)
     poste = serializers.CharField(required=False)
     is_staff = serializers.BooleanField(default=False)
-
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'member_code','poste', 'password', 'password1','is_staff','image')
-
-
     def validate(self, data):
         if data.get('password') != data.get('password1'):
             raise serializers.ValidationError({"password1": "Les deux mots de passe ne correspondent pas"})
-
         if User.objects.filter(email=data.get('email')).exists():
             raise serializers.ValidationError({"email": "Cette adresse email est déjà utilisée"})
-
         if Profile.objects.filter(member_code=data.get('member_code')).exists():
             raise serializers.ValidationError({"member_code": "Ce code membre est déjà utilisé"})
-        
         if Profile.objects.filter(member_name=data.get('member_name')).exists():
             raise serializers.ValidationError({"member_name": "Nom du membre est déjà utilisé"})
-
         return data
-
     def create(self, validated_data):
         validated_data.pop('password1')
-
         profile_data = {
             'member_code': validated_data.pop('member_code'),
             'member_name': f"{validated_data['first_name']} {validated_data['last_name']}",
-            'depth': 0,
-            'directline': 0,
-            'sponsor': 0,
-            'registration_date': '',
-            'grade': 0,
-            'gbv': 0,
-            'cpbv': 0,
-            'cnbv': 0,
-            'pbv': 0,
-            'tnbv': 0,
-            'branch': '',
+            'depth': 0,'directline': 0,'sponsor': 0,'registration_date': '','grade': 0,'gbv': 0,'cpbv': 0,'cnbv': 0,'pbv': 0,'tnbv': 0,'branch': '',
         }
-
-        
         username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
         while User.objects.filter(username=username).exists():
             username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
-   
         user = User.objects.create_user(
             username=username,
             email=validated_data['email'],
@@ -76,7 +54,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
         )
         Profile.objects.create(user=user, **profile_data)
-
         return user
 
 class UserLoginSerializer(serializers.Serializer):

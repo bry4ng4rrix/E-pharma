@@ -31,16 +31,8 @@ const vente = () => {
 
 
     
-    const produittotale = Produit.Prix_distributeur * Pnombre 
-    const Bvup = Produit.Bv * Pnombre 
-    const fetchProfile = async()=> {
     
-      
-    
-        
-    
-}
-
+ 
     
 const fetchUtilisateur = async()=> {
     try {
@@ -73,7 +65,6 @@ useEffect(() => {
 if(token){
 
 fetchUtilisateur();
-fetchProfile ();
 }
 },[])
 
@@ -97,7 +88,8 @@ fetchProfile ();
      
 
     };
-
+const produittotale = Produit.Prix_distributeur * Pnombre 
+const Bvup = Produit.Bv * Pnombre 
 const EffectuerVente = async (e) => {
     e.preventDefault();
 console.log(utilisateur.Nom)
@@ -235,10 +227,7 @@ const data = {
       
 
   return (
-    <div className='h-screen  w-full   justify-center items-center  bg-gradient-to-r from-teal-300 to-vertblanc p-10  '>
-        <div className='h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6 '>
-            <Navbar/>
-
+  
 <div>
     {vendreproduit && (
         <motion.div className="fixed inset-0 bg-black/80 backdrop-blur-sm
@@ -310,12 +299,7 @@ const data = {
                             </ThemeProvider>
     
 </div>
-        </div>
-        <div>
-            
-        </div>
-
-    </div>
+       
   )
 }
 

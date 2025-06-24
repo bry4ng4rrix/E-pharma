@@ -129,11 +129,9 @@ const fetchVente = async () => {
       
 
   return (
-    <div className='h-screen  w-full   justify-center items-center  bg-gradient-to-r from-vertblanc via-teal-400 to-vertblanc p-10 '>
-        <div className='h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6 '>
-            <Navbar/>
+   
 
-<div>
+<div className="">
     {detail && (
         <motion.div className="fixed inset-0 bg-black/80 backdrop-blur-sm
                             z-50 flex items-center justify-center p-4"
@@ -194,12 +192,7 @@ const fetchVente = async () => {
                             </ThemeProvider>
     
 </div>
-        </div>
-        <div>
-            
-        </div>
-
-    </div>
+       
   )
 }
 

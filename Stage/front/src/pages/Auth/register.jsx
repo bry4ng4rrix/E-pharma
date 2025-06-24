@@ -141,7 +141,7 @@ const Register = () => {
     }
   };
   return (
-    <div className=" text-fonddark flex items-center justify-center min-h-screen  bg-vertblanc">
+    <div className=" text-fonddark flex items-center justify-center min-h-screen  bg-slate-300">
           <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -160,7 +160,7 @@ const Register = () => {
         {/* gauche */}
         <div className=" bg-white  h-[90vh] flex-1 p-6 rounded-l-md">
           <div className="w-full max-w-md mx-auto p-5">
-            <div className="font-inter font-bold text-4xl mb-5">Enregistre</div>
+            <div className="font-inter font-bold text-4xl mb-5">Inscription</div>
             <div className="font-inter text-md opacity-50 mb-2">
               Cher Client ! Veuiller remplire tous les <br />
               champs
@@ -210,7 +210,7 @@ const Register = () => {
               className="mb-2 flex items-center justify-between px-4 py-2 font-bold text-white bg-[#224F59] rounded-sm mt-6 w-full h-10 shadow-xl hover:bg-vertdark"
               onClick={handleSubmit}
             >
-              <span className="flex-1 text-center">Enregistre</span>
+              <span className="flex-1 text-center">Inscription</span>
               <FaUserCheck className="w-5 h-5" />
             </button>
             <div className="mt-10 text-sm px-2 text-gray-700">

@@ -1,17 +1,24 @@
- import { AiFillCloseCircle } from "react-icons/ai"; 
-
+import { AiFillCloseCircle } from "react-icons/ai"; 
 import wosh from '../../assets/img/womanshoping.png'
-import review from '../../assets/img/reviewstar.png'
 import { useNavigate } from 'react-router'
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {motion} from 'framer-motion'
 import Navbar from '../../components/SideNav/navbarmodern'
-import Conseile from "./Conseile";
+import History from './historique'
+import Vente from './vente'
+
 import { useEffect, useState } from "react";
 import Chat from "./Chat/chat";
-
 import Message from './message/message';
+
+
+
+
+
+
+
+
 
 const Landing = () => {
 const navigate = useNavigate();
@@ -21,7 +28,6 @@ const is_superuser = localStorage.getItem("is_superuser");
 const [ustilisateur,setUtilsateur] = useState([])
 const [profileU,setProfileU] = useState([])
 const [downline,setDownline] = useState([]);
-
 const [loading, setLoading] = useState(true);
 
 
@@ -151,11 +157,6 @@ const AjoutProfile = async (e) => {
   }
 };
 
-
-// momban le message kely mafinaritra
-const [Profile,setProfile] = useState(false)
-const [message,setmessage] = useState(false)
-const [Bot,setBot] = useState(false)
 const[Depth,setDepth] = useState('');const[Directline,setDirectline] = useState('');
 const[Sponsor,setSponsor] = useState('');
 const[Reg_Date,setReg_Date] = useState('');
@@ -166,10 +167,6 @@ const[Cnbv,setCnbv] = useState('');
 const[Pbv,setPbv] = useState('');
 const[Tnbv,setTnbv] = useState('');
 const[Branch,setBranch] = useState('');
-      // State pour stocker les données du profil
-const [profileData, setProfileData] = useState({});
-
-      // PATCH pour mettre à jour le profil
       const patchProfile = async (e) => {
         e.preventDefault();
         const data = {
@@ -183,7 +180,6 @@ const [profileData, setProfileData] = useState({});
           pbv : Pbv || ustilisateur.pbv,
           tnbv : Tnbv || ustilisateur.tnbv,
           branch : Branch || ustilisateur.branch,
-
           
         }
         try {
@@ -216,13 +212,21 @@ const [profileData, setProfileData] = useState({});
 
 
 
+const [Profile,setProfile] = useState(false)
+const [message,setmessage] = useState(false)
+const [Bot,setBot] = useState(false)
+const [varotra,setVarotra] = useState(false)
+const [historique,setHistorique] = useState(false)
 const openBot = () => setBot(true)
 const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
 const closeProfile = () => setProfile(false)
 const openmessage = () => setmessage(true)
 const closemessage = () => setmessage(false)
-
+const openVarotra = () => setVarotra(true)
+const closeVarotra = () => setVarotra(false)
+const openhistorique = () => setHistorique(true)
+const closehistorique = () => setHistorique(false)
 
 
  
@@ -244,7 +248,12 @@ const closemessage = () => setmessage(false)
                             transition={Bounce}
                           />
                      <div className="  h-16 fixed top-0 left-0 right-0 justify-between items-center p-5 gap-6">
-                 <Navbar is_active={is_active} is_superuser={is_superuser}  openProfile={openProfile} openBot={openBot} openmessage={openmessage}/>
+                 <Navbar is_active={is_active} is_superuser={is_superuser}  
+                          openProfile={openProfile} openBot={openBot} 
+                          openmessage={openmessage} 
+                          openhistorique={openhistorique}
+                          openVarotra={openVarotra}
+                          />
                        
                           {message && (
                             <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
@@ -276,6 +285,44 @@ const closemessage = () => setmessage(false)
                         
                     </motion.div>
                 )}
+                {/* ventedeproduit */}
+
+                {varotra && (
+                    <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                       <div className="max-w-4xl w-full">
+                        <button className=" flex -mx-3 w-full justify-end " onClick={closeVarotra}><AiFillCloseCircle className=" h-6 w-auto text-red-500" /></button>
+                         <Vente />
+                       </div>
+                       
+                        
+                    </motion.div>
+                )}
+
+                {historique && (
+                    <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                       <div className="max-w-4xl w-full">
+                        <button className=" flex -mx-3 w-full justify-end " onClick={closehistorique}><AiFillCloseCircle className=" h-6 w-auto text-red-500" /></button>
+                         <History />
+                       </div>
+                       
+                        
+                    </motion.div>
+                )}
+                
                 {Profile && (
                     <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
                                                  z-50 flex items-center justify-center p-5"
@@ -480,6 +527,14 @@ const closemessage = () => setmessage(false)
                     
                                      </div>
 
+                                     {/* malalaka */}
+
+
+
+
+
+                                     {/* farany */}
+
                 <section className='h-screen flex justify-center  items-center bg  '>
                    
                     <div className='  h-screen justify-center flex flex-col p-20 m-5 items-start '>
@@ -551,9 +606,6 @@ const closemessage = () => setmessage(false)
 
                         </div>
 
-                <section className="">
-                    <Conseile/>
-                </section>
                 
             </div>
     )

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 
 
-const navbarmodern = ({openProfile,openBot,openmessage}) => {
+const navbarmodern = ({openProfile,openBot,openmessage,openhistorique,openVarotra}) => {
 
 const navigate = useNavigate();
 const [utilisateur,setUtilsateur] = useState([])
@@ -68,21 +68,21 @@ fetchUtilisateur();
 
   
   return (
-    <div className=' flex  h-16  m-2 p-3 items-center rounded justify-between '>
+    <div className=' flex h-16   p-1 items-center rounded-full justify-between w-full  border  duration-300 translation-all '>
 <img src={logo} alt="logo" className='h-16 m-6' />
-        <div className='flex gap-6'>
+        <div className=''>
           
             
             
-                <ul className=' hidden md:flex gap-10 cursor-pointer text-md  font-bold    font-wenssep texy-center text-green-950 transition-all duration-300 '>
+                <ul className=' hidden lg:flex gap-10 cursor-pointer   font-bold    font-wenssep texy-center  text-green-950 transition-all duration-300 '>
                   
                     <Link to="/">Acceuille</Link>
                     <Link to="/">A propos</Link>
                     <button className={`${utilisateur.is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
                     <button onClick={openmessage} className={`${utilisateur.is_active ? "block":"hidden"} `}>Message</button>
-                    <Link to="/vente" className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</Link>
+                    <button onClick={openVarotra} className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</button>
                  
-                    <Link to="/historique" className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</Link>
+                    <button onClick={openhistorique} className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</button>
                     <button onClick={openProfile} className={`${utilisateur.is_active ? "block":"hidden"} `}>Profile</button>
                     <Link to='/admin' className={`${utilisateur.is_superuser ? "block" : "hidden"}`}>Tableau de bord</Link>
                 </ul>
