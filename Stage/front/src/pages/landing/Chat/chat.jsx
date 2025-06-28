@@ -80,8 +80,8 @@ useEffect(() =>{
       <div ref={chatbody} className="flex-1  p-4 overflow-y-auto">
         <div className="flex flex-col space-y-4">
           {/* Message reçu */}
-          <div className="max-w-xs bg-vertsombre/50 rounded-lg p-3 flex  justify-between shadow">
-            <p className=" text text-white">Bonjour !, Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
+          <div className="max-w-xs bg-white/80 rounded-lg p-3 flex  justify-between shadow">
+            <p className=" text text-gray-800">Bonjour !, Je suis un assistant médical. Posez-moi des questions liées à la santé uniquement.</p>
           </div>
           {/* Message envoyé */}
           {chathistory.map((chat,index) => (

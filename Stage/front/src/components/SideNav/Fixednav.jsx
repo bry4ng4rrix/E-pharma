@@ -15,7 +15,7 @@ const Fixednav = ({darkMode ,toogleDark}) => {
   const [nav,setNav] = useState();
   const navlink = [
     {nom: "Acceuil" ,link : "/", icon :MdOutlineAssuredWorkload  },
-    {nom: "Activite"  ,link : "/", icon : MdOutlineBackupTable  },
+    {nom: "Activité"  ,link : "/", icon : MdOutlineBackupTable  },
     {nom: "Conseil"  ,link : "/", icon :MdOutlineAssignmentLate   },
     {nom: "Contact"  ,link : "/", icon : MdOutlinePermPhoneMsg  },
   ];

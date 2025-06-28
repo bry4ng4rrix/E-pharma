@@ -276,6 +276,11 @@ class FactureParUserView(ListAPIView):
             return Vente.objects.none()
         return Vente.objects.filter(vendeur=profile)
 
+
+
+
+
+
 class DownlineView(ListAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
@@ -289,15 +294,35 @@ class DownlineView(ListAPIView):
         
         return Profile.objects.filter(directline=profile.member_code)
 
+class UtilisateurParIdProfile(APIView):
+    def get(self ,request,id):
+        try:
+            profile = Profile.objects.get(id=id)
+            user = profile.user
+            if not user:
+                return Response({"error": "Ce profil n'est lié à aucun utilisateur."}, status=404)
 
-class Messageviews(viewsets.ModelViewSet):
-    serializer_class = MessageSerializer
+            serializer = UserSerialiser(user)
+            return Response(serializer.data, status=200)
 
 
+        except Profile.DoesNotExist:
+            return Response({"error": "Profil non trouvé."}, status=404)
+    def patch(self, request, id):
+        try:
+            profile = Profile.objects.get(id=id)
+            user = profile.user
+            if not user:
+                return Response({"error": "Ce profil n'est lié à aucun utilisateur."}, status=404)
 
+            serializer = UserSerialiser(user, data=request.data, partial=True)  # PATCH = mise à jour partielle
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=200)
+            return Response(serializer.errors, status=400)
 
-
-
+        except Profile.DoesNotExist:
+            return Response({"error": "Profil non trouvé."}, status=404)
 
 
 
@@ -336,25 +361,6 @@ class SendMessage(generics.CreateAPIView):
         instance = serializer.save(expediteur=self.request.user)
         destinataire = instance.destinataire
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     
@@ -520,19 +526,3 @@ class LogoutView(APIView):
         serializer.save()
         return Response({"detail": "Successfully logged out."}, status=status.HTTP_205_RESET_CONTENT)
 
-
-# class MemberByCodeView(APIView):
-#     """
-#     Vue pour récupérer un membre en fonction de son member_code.
-#     """
-#     permission_classes = [IsAuthenticated]
-
-#     def get(self, request, member_code=None):
-#         try:
-#             profile = Profile.objects.get(member_code=member_code)
-#             serializer = ProfileSerializer(profile)
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         except Profile.DoesNotExist:
-#             return Response({"error": "Aucun profil trouvé avec ce member_code."}, status=status.HTTP_404_NOT_FOUND)
-#         except Exception as e:
-#             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

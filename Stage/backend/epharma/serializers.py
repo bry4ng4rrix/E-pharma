@@ -93,7 +93,7 @@ class UserprofileSerialiser(serializers.ModelSerializer):
 class UserSerialiser(serializers.ModelSerializer):
     class Meta :
         model = User
-        fields = ['id','username','email','first_name','last_name','poste']
+        fields = ['id','username','email','first_name','image','last_name','poste','is_staff','is_superuser']
 
     
 
@@ -102,7 +102,7 @@ class EmployerSerialiser(serializers.ModelSerializer):
     member_code = serializers.CharField(source='profile.member_code',read_only=True)
     class Meta :
         model = User
-        fields = ['id','username','email','first_name','last_name','poste','member_code']
+        fields = ['id','username','email','first_name','image','is_superuser','last_name','poste','member_code']
     
     
 class EmployerSuprimeSerializer(serializers.Serializer):

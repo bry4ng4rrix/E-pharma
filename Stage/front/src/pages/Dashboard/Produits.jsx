@@ -363,7 +363,7 @@ fetchProduct();
                                     </div>
                                     <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder={update.Prix_distributeur} onChange={(e) => setPrix_distributeur(e.target.value)} />
                                     <input type="number" className="bg-vertsombre text-vertblanc h-10 p-2 rounded-sm outline-none shadow-xl border-none" placeholder={update.Prix_en_detail} onChange={(e) => setPrix_en_detail(e.target.value)} />
-                                    <button className="bg-vert h-10 mt-7 mb-4 rounded-sm hover:bg-vertsombre hover:shadow-2xl  shadow-xl  text-green-100" onClick={SaveUpdate}>Update</button>
+                                    <button className="bg-vert h-10 mt-7 mb-4 rounded-sm hover:bg-vertsombre hover:shadow-2xl  shadow-xl  text-green-100" onClick={SaveUpdate}>Enregistrer</button>
 
                                 </div>
                             </div>

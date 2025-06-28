@@ -39,6 +39,10 @@ const handleLogout = async () => {
         // Show success toast and redirect to login page
         
     };
+     const toogleDark = () =>{
+        setDarkMode(!darkMode)
+
+    }
 
  
 
@@ -68,30 +72,30 @@ fetchUtilisateur();
 
   
   return (
-    <div className=' flex h-16   p-1 items-center rounded-full justify-between w-full  border  duration-300 translation-all '>
+    <div className=' flex h-16   p-1 items-center  justify-between w-full   duration-300 translation-all '>
 <img src={logo} alt="logo" className='h-16 m-6' />
         <div className=''>
           
             
             
-                <ul className=' hidden lg:flex gap-10 cursor-pointer   font-bold    font-wenssep texy-center  text-green-950 transition-all duration-300 '>
+                <ul className=' hidden sm:flex gap-10 cursor-pointer   font-bold    font-wenssep texy-center  text-green-950 transition-all duration-300 '>
                   
-                    <Link to="/">Acceuille</Link>
-                    <Link to="/">A propos</Link>
+                    <Link to="/">Acceuil</Link>
+                    <Link to="/">Contacte</Link>
                     <button className={`${utilisateur.is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
                     <button onClick={openmessage} className={`${utilisateur.is_active ? "block":"hidden"} `}>Message</button>
                     <button onClick={openVarotra} className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</button>
                  
                     <button onClick={openhistorique} className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</button>
                     <button onClick={openProfile} className={`${utilisateur.is_active ? "block":"hidden"} `}>Profile</button>
-                    <Link to='/admin' className={`${utilisateur.is_superuser ? "block" : "hidden"}`}>Tableau de bord</Link>
+                    <Link to='/admin' className={`${utilisateur.is_superuser ? "block" : "hidden"}`}>Administrateur</Link>
                 </ul>
             
         </div>
         <div className='h-12 gap-4 rounded-md  p-5  items-center text-white justify-center flex '> 
             <div className='rounded-lg justify-center items-center p-2   flex gap-6 '>
                 <Link to={`${utilisateur.is_active ? ``:"/login"}`}><CgProfile className={`h-6 w-auto text-vertsombre `}/></Link>
-                <BsFillMoonFill className="h-5 w-auto text-vertsombre"/>
+                <button><BsFillMoonFill className="h-5 w-auto text-vertsombre"/></button>
                 <button onClick={handleLogout}>
                 <HiOutlineLogout className={`h-6 w-auto text-vertsombre ${utilisateur.is_active ? 'block':'hidden'}`}  /></button>
                 </div> 

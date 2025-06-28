@@ -19,14 +19,46 @@ const Vente = () => {
     const [ventes, setVentes] = useState([]);
     const [stats, setStats] = useState({});
     const [loading, setLoading] = useState(true);
+    const [detail,setDetail] = useState(false)
+    const [vendeurdet,setVendeurdet] = useState([])
+    const opendetail = () => setDetail(true);
+    const [factparis,setFactparid] = useState([])
 
+const token = localStorage.getItem('access_token')
   const toogleDark = () => {
         setDarkMode(!darkMode);
     };
 
-const handleEditClick = (id) =>{
+const handleEditClick =async (id) =>{
+    opendetail()
+    toast.dismiss()
 
-    toast.success(id)
+    try {
+      const response = await fetch(`http://localhost:8000/api/facture/${id}`,{
+        method : 'GET',
+          headers : {
+             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+      });
+      const data = await response.json();
+      setFactparid(data)
+
+      const uresponse = await fetch(`http://localhost:8000/utilisateur/${factparis.vendeur}/`,{
+        method : 'GET',
+          headers : {
+             'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+      });
+      const udata = await uresponse.json();
+      setVendeurdet(udata)
+
+  
+    }
+    catch {
+
+    }
 }
 
     const theme = createTheme({
@@ -167,6 +199,7 @@ const handleEditClick = (id) =>{
                             
                         </div>
 
+                       
                         {/* Statistiques (1/3) */}
                         <div className="w-1/3  mt-2  ">
                             <div className="bg-white dark:bg-gray-800 rounded-md shadow p-4">
@@ -185,7 +218,20 @@ const handleEditClick = (id) =>{
 
                                    
                                 </div>
+                                
                             </div>
+
+                            {/* form */}
+                            {detail && (
+                               <div className="mt-2 grid grid-cols-2  bg-white rounded-md p-4 shadow ">
+                                      <div className="text-sm">Vendeur : </div>
+                                      <div className="text-sm" onChange={vendeurdet.username}>{vendeurdet.username}</div>
+                                      <div className="text-sm">Bv Obtenue</div>
+                                      <div className="text-sm">1000</div>
+                                      
+
+                            </div>
+                            )}
                         </div>
                     </div>
                 </div>

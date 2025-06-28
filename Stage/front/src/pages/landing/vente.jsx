@@ -155,7 +155,7 @@ const data = {
             styleOverrides: {
               root: {
                 backgroundColor: '#ffffff',
-                borderRadius: '10px',
+                borderRadius: '5px',
                 overflow: 'hidden',
                 padding: '10px',
                 border: 'none',

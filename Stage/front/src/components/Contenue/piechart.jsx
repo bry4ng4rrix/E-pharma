@@ -36,7 +36,7 @@ const [stats,setStats] = useState([]);
     fullMark: 150,
   },
   {
-    subject: 'Employer',
+    subject: 'Employé',
     A: 86,
     B: 130,
     fullMark: 150,
@@ -54,7 +54,7 @@ const [stats,setStats] = useState([]);
     fullMark: 150,
   },
   {
-    subject: 'Rendevous',
+    subject: 'Rendez-vous',
     A: 65,
     B: 85,
     fullMark: 150,

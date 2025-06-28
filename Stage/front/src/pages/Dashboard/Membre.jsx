@@ -25,20 +25,20 @@ const token = localStorage.getItem('access_token');
 const Membre = () => {
     const [darkMode,setDarkMode] = useState(false);
     const [ajoutform,setAjoutform] = useState(false);
-     const[Member_name,setMember_name] = useState('');
-      const[Member_Code,setMember_Code] = useState('');
-      const[Depth,setDepth] = useState('');
-      const[Directline,setDirectline] = useState('');
-      const[Sponsor,setSponsor] = useState('');
-      const[Reg_Date,setReg_Date] = useState('');
-      const[Grade,setGrade] = useState('');
-      const[Gbv,setGbv] = useState('');
-      const[Cpbv,setCpbv] = useState('');
-      const[Cnbv,setCnbv] = useState('');
-      const[Pbv,setPbv] = useState('');
-      const[Tnbv,setTnbv] = useState('');
-      const[Branch,setBranch] = useState('');
-
+    const [promote,setPromote] = useState(false);
+    const[Member_name,setMember_name] = useState('');
+    const[Member_Code,setMember_Code] = useState('');
+    const[Depth,setDepth] = useState('');
+    const[Directline,setDirectline] = useState('');
+    const[Sponsor,setSponsor] = useState('');
+    const[Reg_Date,setReg_Date] = useState('');
+    const[Grade,setGrade] = useState('');
+    const[Gbv,setGbv] = useState('');
+    const[Cpbv,setCpbv] = useState('');
+    const[Cnbv,setCnbv] = useState('');
+    const[Pbv,setPbv] = useState('');
+    const[Tnbv,setTnbv] = useState('');
+    const[Branch,setBranch] = useState('');
 
        const theme = createTheme({
           palette: {
@@ -46,7 +46,6 @@ const Membre = () => {
               main: '#2F403E'
             },
             background: {
-              default: '#BBF2F2'
             },
           },
           components: {
@@ -54,10 +53,9 @@ const Membre = () => {
               styleOverrides: {
                 root: {
                   backgroundColor: '#ffffff',
-                  borderRadius: '20px',
+                  borderRadius: '5px',
                   overflow: 'hidden',
                   padding: '10px',
-                  border: 'none',
                 },
                 columnHeaders: {
                   backgroundColor: '#027333',
@@ -70,6 +68,8 @@ const Membre = () => {
 
     const openajoutform = () => setAjoutform(true);
     const closeajoutform = () => setAjoutform(false);
+    const openpromote = () => setPromote(true);
+    const closepromote = () => setPromote(false);
       const [profile, setProfile] = useState([]);
       const [loading, setLoading] = useState(true);
     const [direct,setDirect] = useState([])
@@ -135,13 +135,86 @@ const Membre = () => {
                 }
         
     }
-    const handleEditClick = (id) => {
-        toast.info(`Modifier l'utilisateur avec ID: ${id}`);
-        // Tu peux ici ouvrir une modale ou activer un formulaire inline
+
+
+const [userparid,setUserparid] = useState([]);
+const [curentid,setCurentid] = useState();
+    const handleEditClick = async (id) => {
+        setCurentid(id)
+        openpromote()
+        try {
+            const response = await fetch(`http://localhost:8000/utilisateur/${id}`,{
+              method: 'GET',
+              headers : {
+                'Authorization' : `Bearer ${token}`
+              },
+            });
+            if (!response.ok){
+
+            }
+            const data = await response.json();
+            setUserparid(data);
+        }
+        catch {
+
+        }
+
+
+        
       };
+      const[estAdmin,setEstAdmin] = useState()
+      const[estEmploye,setEstEmploye] = useState()
+      const[newposte,setNewPoste] = useState('')
     
+
+const adminch = (e) =>{
+  e.preventDefault()
+  setEstAdmin(e.target.checked)
+}
+const employech = (e) =>{
+  e.preventDefault()
+
+  setEstEmploye(e.target.checked)
+}
+const Promuvoir = async (e) => {
+  e.preventDefault()
+
+if(!newposte) {
+  toast.error('Poste ne doit pas être vide')
+}
+  const data = {
+    is_superuser : estAdmin,
+    is_staff : estEmploye,
+    poste : newposte ,
+}
+
+  try {
+        const response = await fetch(`http://localhost:8000/utilisateur/${curentid}/`,{
+              method: 'PATCH',
+              headers : {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data),
+            });
+            if(response.ok){
+              toast.success("Migration Success")
+              fetchMembre()
+              setTimeout(() => {
+              closepromote()
+            }, 1000);
+
+            }
+  }
+  catch {
+
+  }
+}
+
+
+
       const handleDeleteClick = async (id) => {
-        const token = localStorage.getItem('access_token');
+       
         try {
           const response = await fetch(`http://localhost:8000/profiles/${id}`, {
             method: 'DELETE',
@@ -329,11 +402,69 @@ const columns = [
                         
                
               </div>
+              {promote && (
+                <motion.div
+                      className="fixed inset-0 bg-black/80 backdrop-blur-sm
+                            z-50 flex items-center justify-center p-4" 
+                     initial={{opacity:0}}
+                     animate={{opacity:1}}
+                     exit={{opacity:0}}
+                     transition={{duration:0.5}}
+                     >
+                      <div className="bg-vert/50 backdrop-blur-lg rounded-xl shadow-wl w-full max-w-md p-6">
+                          <button onClick={closepromote} className="flex justify-end w-full"><AiFillCloseCircle className="h-6 w-auto text-red-500"/></button>
+                           <div className="mb-4 flex flex-col items-center">
+                                      <img
+                                        src={`http://localhost:8000/${userparid?.image}` || `https://ui-avatars.com/api/?name=${userparid.username}`}
+                                        alt="Profile"
+                                               
+                                        className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
+                                       />
+                                              
+                            </div>
+                             <div className="grid grid-cols-2 w-full mt-3 border p-5 border-dashed rounded">
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Nom : </div>
+                                                <div className="text-sm font-semibold font-inter text-white/80">{userparid.first_name}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Prenom : </div>
+                                                <div className="text-sm font-semibold font-inter text-white/80">{userparid.last_name}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Email : </div>
+                                                <div className="text-sm font-semibold font-inter text-white/80">{userparid.email}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Poste : </div>
+                                                <div className="text-sm font-semibold font-inter text-white/80 uppercase ">{userparid.poste || "Membre"}</div>
+
+                              </div>
+                          <div className="grid grid-cols-1  gap-2 my-10">
+                            <div className="flex justify-between items-end mx-1">
+                              <label htmlFor="Poste" className="font-inter font-bold text-vertblanc"> Poste :</label>
+                            <input type="text" 
+                                   className=" h-10 p-3  focus:outline-none text-vertblanc focus:text-white focus:border
+                                                           bg-transparent border-b border-b-white focus:rounded transition-opacity duration-300
+                                                           "  
+                                    placeholder={userparid.poste}
+                                    onChange={e => setNewPoste(e.target.value)}/>
+                            </div>
+                            <div className="grid grid-cols-1 gap-2 w-full my-5 m-1">
+                            <div className="flex flex-row justify-between items-center ">
+                                <label className="text-md font-inter font-bold text-vertblanc">Administrateur</label>
+                                <input type="checkbox" name="" id="" className="h-5 w-5" checked={estAdmin} onChange={adminch} />
+                            </div>
+                            <div className="flex flex-row justify-between items-center ">
+                                <label className="font-inter font-bold text-vertblanc">Employé</label>
+                                <input type="checkbox" name="" id="" className="h-5 w-5" checked={estEmploye} onChange={employech}/>
+                            </div>
+                             
+                            </div>
+                            <button className="bg-teal-100 rounded h-10  mt-10 text-vertsombre shadow-xl hover:bg-teal-400 hover:text-white " onClick={Promuvoir}>Promouvoir</button>
+                          </div>
+                      </div>
+
+                </motion.div>
+              )}
 
               {ajoutform && (
-                <motion.div className="fixed inset-0 bg-black/80 backdrop-blur-sm
+                <motion.div 
+                     className="fixed inset-0 bg-black/80 backdrop-blur-sm
                             z-50 flex items-center justify-center p-4" 
-                     
                      initial={{opacity:0}}
                      animate={{opacity:1}}
                      exit={{opacity:0}}

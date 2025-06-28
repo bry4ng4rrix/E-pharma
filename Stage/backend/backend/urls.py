@@ -7,7 +7,7 @@ from epharma.views import(
         EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,
         profilUpdate,Userprofile,LogoutView,FactureViews,
         MessageDetailView,SendMessage,MessageDetailView,
-        DownlineView
+        DownlineView,UtilisateurParIdProfile
         )
 from django.conf.urls.static import static
 from rest_framework import routers
@@ -41,7 +41,7 @@ urlpatterns = [
     path('profiles/', ProfileListView.as_view(), name='profile_list'),    
     path('profiles/update/', profilUpdate.as_view(), name='profile_update'),
     path('downline/', DownlineView.as_view(), name='downline'),
-
+    path('utilisateur/<int:id>/', UtilisateurParIdProfile.as_view(), name='utilisateur_par_profil_id'),
     path('profiles/user/',Userprofile.as_view(),name='profile_user'),
 
     path('profiles/<int:pk>', ProfileListView.as_view(), name='profile_list'),

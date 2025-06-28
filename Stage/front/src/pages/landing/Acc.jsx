@@ -30,6 +30,10 @@ const [profileU,setProfileU] = useState([])
 const [downline,setDownline] = useState([]);
 const [loading, setLoading] = useState(true);
 
+ const toogleDark = () =>{
+        setDarkMode(!darkMode)
+
+    }
 
 const fetchuserprofile = async()=> {
     try {
@@ -324,9 +328,8 @@ const closehistorique = () => setHistorique(false)
                 )}
                 
                 {Profile && (
-                    <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
-                                                 z-50 flex items-center justify-center p-5"
-
+                    <motion.div 
+                        className="fixed inset-0 bg-black/80 backdrop-blur z-50 flex items-center justify-center p-5"
                         initial={{ opacity: 0  }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -344,11 +347,11 @@ const closehistorique = () => setHistorique(false)
                                           {/* Colonne gauche : Mise à jour du profil */}
                                           <div  className="flex-1 rounded-lg p-2 px-3 flex flex-col items-center ">
                                           <button className=' flex self-start' onClick={closeProfile}><AiFillCloseCircle 
-                                         className="h-6 w-auto  text-red-600"/></button>
+                                         className="h-6 w-auto  text-red-500"/></button>
                                             {/* Photo de profil */}
                                             <div className="mb-4 flex flex-col items-center">
                                               <img
-                                                src={profileU?.image || 'https://ui-avatars.com/api/?name=User'}
+                                                src={profileU?.image || `https://ui-avatars.com/api/?name=User`}
                                                 alt="Profile"
                                                
                                                 className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
@@ -385,7 +388,7 @@ const closehistorique = () => setHistorique(false)
                                             </button> */}
                                                  <div className="bg-white/50 h-72 w-full mt-4 rounded p-3 flex flex-col">
                                                      <div className="flex-1 overflow-y-auto scrollbar-none">
-                                                        <div className="border border-none rounded m-2">Downline</div>
+                                                        <div className="border border-none rounded m-2 text-vertsombre">Equipe</div>
 
                                                         {loading ? (
                                                           <div className="text-center text-gray-500">Chargement...</div>
@@ -421,13 +424,7 @@ const closehistorique = () => setHistorique(false)
                                           
                                             <div className="grid grid-cols-2 gap-2">
                                               
-                                              <div className="font-semibold text-vertblanc">Nom membre :</div>
-                                              <input
-                                              type="text"
-                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
-                                              value={ustilisateur.member_name}
-                                              onChange={e => setMember_name(e.target.value)}
-                                            />
+                                            
                                               <div className="font-semibold text-vertblanc">Depth :</div>
                                              <input
                                               type="text"
@@ -550,7 +547,7 @@ const closehistorique = () => setHistorique(false)
                             duration:1.2
                         }}
                          className='text-5xl font-bold font-wenssep m-3 text-green-900'>
-                            TONGASOA IANAO !
+                            SHOP MAHQUAFY ! 
                         </motion.div>
                         <motion.div
                          initial={{ opacity:0 ,y:100 }}
@@ -563,7 +560,7 @@ const closehistorique = () => setHistorique(false)
                             duration:1.2
                         }}
                         className='flex w-1/2 mt-3 m-5 font-inter'>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis, tempore. Autem tempora error facere qui vitae eos atque, dolore itaque ex eveniet porro 
+                            Bienvenue dans le Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur, aliquam?
                         </motion.div>
                         <motion.div
                          initial={{ opacity:0 ,y:100 }}
