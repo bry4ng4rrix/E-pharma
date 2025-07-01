@@ -160,8 +160,8 @@ const Register = () => {
         {/* gauche */}
         <div className=" bg-white  h-[90vh] flex-1 p-6 rounded-l-md">
           <div className="w-full max-w-md mx-auto p-5">
-            <div className="font-inter font-bold text-4xl mb-5">Inscription</div>
-            <div className="font-inter text-md opacity-50 mb-2">
+            <div className="font-wenssep font-bold text-4xl mb-5">Inscription</div>
+            <div className="font-darky text-md opacity-50 mb-2">
               Cher Client ! Veuiller remplire tous les <br />
               champs
             </div>
@@ -213,7 +213,7 @@ const Register = () => {
               <span className="flex-1 text-center">Inscription</span>
               <FaUserCheck className="w-5 h-5" />
             </button>
-            <div className="mt-10 text-sm px-2 text-gray-700">
+            <div className="mt-10 font-amorien text-sm px-2 text-gray-700">
               Deja un compte ?{" "}
               <a href="/login" className="text-[#224F59] font-semibold">
                 Connexion
@@ -228,8 +228,8 @@ const Register = () => {
           style={{ backgroundImage: `url(${loginBg})` }}
         >
           <div className="flex items-center justify-center h-full">
-            <div className=" font-istok text-5xl font-bold text-white">
-              Tongasoa <br /> Ianao !
+            <div className=" font-wenssep text-5xl font-bold text-white">
+              Bienvenue!
             </div>
           </div>
         </div>

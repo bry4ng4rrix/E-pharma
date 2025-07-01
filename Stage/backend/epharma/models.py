@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     image = models.ImageField(default="default.jpg",upload_to="uploads/")
     mobile = models.CharField(max_length=50)
     poste = models.CharField(max_length=50 ,null=True ,default='')
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now())  

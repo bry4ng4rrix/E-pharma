@@ -411,7 +411,7 @@ const columns = [
                      exit={{opacity:0}}
                      transition={{duration:0.5}}
                      >
-                      <div className="bg-vert/50 backdrop-blur-lg rounded-xl shadow-wl w-full max-w-md p-6">
+                      <div className="bg-teal-800/20 backdrop-blur-xl rounded-xl shadow-wl w-full max-w-md p-6">
                           <button onClick={closepromote} className="flex justify-end w-full"><AiFillCloseCircle className="h-6 w-auto text-red-500"/></button>
                            <div className="mb-4 flex flex-col items-center">
                                       <img
@@ -435,7 +435,7 @@ const columns = [
                               </div>
                           <div className="grid grid-cols-1  gap-2 my-10">
                             <div className="flex justify-between items-end mx-1">
-                              <label htmlFor="Poste" className="font-inter font-bold text-vertblanc"> Poste :</label>
+                              <label htmlFor="Poste" className="font-dexery text-vertblanc"> Poste :</label>
                             <input type="text" 
                                    className=" h-10 p-3  focus:outline-none text-vertblanc focus:text-white focus:border
                                                            bg-transparent border-b border-b-white focus:rounded transition-opacity duration-300
@@ -445,11 +445,11 @@ const columns = [
                             </div>
                             <div className="grid grid-cols-1 gap-2 w-full my-5 m-1">
                             <div className="flex flex-row justify-between items-center ">
-                                <label className="text-md font-inter font-bold text-vertblanc">Administrateur</label>
+                                <label className="text-md font-dexery text-vertblanc">Administrateur</label>
                                 <input type="checkbox" name="" id="" className="h-5 w-5" checked={estAdmin} onChange={adminch} />
                             </div>
                             <div className="flex flex-row justify-between items-center ">
-                                <label className="font-inter font-bold text-vertblanc">Employé</label>
+                                <label className="font-dexery  text-vertblanc">Employé</label>
                                 <input type="checkbox" name="" id="" className="h-5 w-5" checked={estEmploye} onChange={employech}/>
                             </div>
                              

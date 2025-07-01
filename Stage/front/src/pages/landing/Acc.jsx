@@ -1,3 +1,6 @@
+import { TbMessageChatbot } from "react-icons/tb"; 
+import { CgBot } from "react-icons/cg"; 
+import { BiLogInCircle } from "react-icons/bi"; 
 import { AiFillCloseCircle } from "react-icons/ai"; 
 import wosh from '../../assets/img/womanshoping.png'
 import { useNavigate } from 'react-router'
@@ -376,6 +379,10 @@ const closehistorique = () => setHistorique(false)
                                                 <div className="text-sm font-semibold text-slate-950">{ustilisateur.member_code}</div>
                                                 <div className="text-sm font-semibold font-inter text-vertblanc">Email : </div>
                                                 <div className="text-sm font-semibold text-slate-950">{profileU.email}</div>
+                                                <div className={`text-sm font-semibold font-inter text-vertblanc ${ustilisateur.is_active ? "" : "hidden"} `}>Status : </div>
+                                                <div className={`text-sm font-semibold text-white ${ustilisateur.is_active ? "" : "hidden"}`}>{ustilisateur.is_active ? "En attent de confirmation !!!" : "Confirmée"}</div>
+                                                
+
 
                                             </div>
                                           
@@ -386,6 +393,14 @@ const closehistorique = () => setHistorique(false)
                                             > 
                                               Mise à jour
                                             </button> */}
+                                            {ustilisateur.is_active && (
+                                              <div className="flex justify-center items-center h-full w-full p-4 text-red-700 font-bold text-xl bg-white/50 rounded m-4">
+                                               Votre compte n'est pas encore activé.
+                                                <br /> Veuillez patienter jusqu'à la confirmation de l'administrateur.
+                                              </div>
+                                            )}
+                                            {!ustilisateur.is_active && (
+
                                                  <div className="bg-white/50 h-72 w-full mt-4 rounded p-3 flex flex-col">
                                                      <div className="flex-1 overflow-y-auto scrollbar-none">
                                                         <div className="border border-none rounded m-2 text-vertsombre">Equipe</div>
@@ -417,10 +432,14 @@ const closehistorique = () => setHistorique(false)
                                                         )}
                                                       </div>
                                                     </div>
+                                            )}
                                           </div>
 
                                           {/* Colonne droite : Infos membre */}
-                                          <div className="flex-1 rounded-lg p-6 flex flex-col gap-3 ">
+
+                                              {!ustilisateur.is_active && (
+
+                                             <div className="flex-1 rounded-lg p-6 flex flex-col gap-3 ">
                                           
                                             <div className="grid grid-cols-2 gap-2">
                                               
@@ -504,6 +523,8 @@ const closehistorique = () => setHistorique(false)
                                               Enregistrer
                                             </button>
                                           </div>
+                                              )}
+                                       
                                         </div>
                                         {/* End User Profile Two Columns */}
 
@@ -560,7 +581,8 @@ const closehistorique = () => setHistorique(false)
                             duration:1.2
                         }}
                         className='flex w-1/2 mt-3 m-5 font-inter'>
-                            Bienvenue dans le Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur, aliquam?
+                            Bienvenue {profileU.first_name}! Vous faites déjà partie de l’équipe. Veuillez vous connecter ou créer un compte, puis attendre la confirmation de l’administrateur.
+                          En attendant, vous avez déjà accès au chatbot pour poser vos questions ou demander des conseils médicaux.   
                         </motion.div>
                         <motion.div
                          initial={{ opacity:0 ,y:100 }}
@@ -573,8 +595,10 @@ const closehistorique = () => setHistorique(false)
                             duration:1.2
                         }}
                         >
-                            <button className='h-12 m-2 bg-vert mt-20 px-10 rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
-                            >Voire plus</button>
+                            {profileU.is_active ?? (
+                              <button onClick={openBot} className='h-12 m-2 bg-vert mt-20 px-10 flex gap-6 justify-center items-center rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
+                            >Besoins d'un Conseils  <TbMessageChatbot className="h-6 w-auto"/></button>
+                            )}
                         </motion.div>
                     </div>
                     <div className=' w-screen justify-center items-center flex p-10'>

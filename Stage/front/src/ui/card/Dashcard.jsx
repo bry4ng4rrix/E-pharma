@@ -35,7 +35,7 @@ export const Dashcard = () => {
         },
      
         { 
-          title: "Employer", 
+          title: "Employé", 
           value: stats?.user || 0,
           icon: <FaUsersCog className="text-3xl flex items-center text-yellow-500"/>,
           color: 'green'

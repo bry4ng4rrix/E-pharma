@@ -25,13 +25,13 @@ const [stats,setStats] = useState([]);
   const data = [
   {
     subject: 'Utilisateurs',
-    A: stats.user,
+    A: 25,
     B: 110,
     fullMark: 150,
   },
   {
     subject: 'Produits',
-    A: stats?.produit,
+    A: 20,
     B: 130,
     fullMark: 150,
   },
@@ -43,7 +43,7 @@ const [stats,setStats] = useState([]);
   },
   {
     subject: 'Membres',
-    A: 99,
+    A: 50,
     B: 100,
     fullMark: 150,
   },

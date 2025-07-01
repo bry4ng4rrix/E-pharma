@@ -80,9 +80,6 @@ fetchUtilisateur();
             
                 <ul className=' hidden sm:flex gap-10 cursor-pointer   font-bold    font-wenssep texy-center  text-green-950 transition-all duration-300 '>
                   
-                    <Link to="/">Acceuil</Link>
-                    <Link to="/">Contacte</Link>
-                    <button className={`${utilisateur.is_active ? "block":"hidden"} `} onClick={openBot}>Bot</button>
                     <button onClick={openmessage} className={`${utilisateur.is_active ? "block":"hidden"} `}>Message</button>
                     <button onClick={openVarotra} className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</button>
                  
@@ -92,10 +89,10 @@ fetchUtilisateur();
                 </ul>
             
         </div>
-        <div className='h-12 gap-4 rounded-md  p-5  items-center text-white justify-center flex '> 
-            <div className='rounded-lg justify-center items-center p-2   flex gap-6 '>
-                <Link to={`${utilisateur.is_active ? ``:"/login"}`}><CgProfile className={`h-6 w-auto text-vertsombre `}/></Link>
-                <button><BsFillMoonFill className="h-5 w-auto text-vertsombre"/></button>
+        <div className='h-12 gap-4 rounded-md   items-center text-white justify-center flex '> 
+            <div className='justify-center items-center   rounded-full px-3 flex gap-3   '>
+                <Link to={`${utilisateur.is_active ? ``:"/login"}`} className=" flex gap-3 text-vertsombre  p-3 "><CgProfile className={`h-6 w-auto text-vertsombre `}/></Link>
+                
                 <button onClick={handleLogout}>
                 <HiOutlineLogout className={`h-6 w-auto text-vertsombre ${utilisateur.is_active ? 'block':'hidden'}`}  /></button>
                 </div> 
@@ -105,4 +102,4 @@ fetchUtilisateur();
   )
 }
 
-export default navbarmodern
+export default navbarmodern 

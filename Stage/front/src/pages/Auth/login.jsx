@@ -71,7 +71,7 @@ const Login = () => {
 
 
   return (
-    <div className=" text-fonddark flex items-center justify-center min-h-screen   bg-slate-300">
+    <div className=" text-fonddark flex items-center justify-center min-h-screen   bg-slate-200">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -91,8 +91,8 @@ const Login = () => {
         {/* gauche */}
         <div className=" hidden md:block flex-1 p-8 md:rounded rounded-l-md  bg-cover bg-center" style={{ backgroundImage: `url(${loginBg})` }}>
           <div className="flex items-center justify-center h-full">
-            <div className=" font-istok text-5xl font-bold text-white">
-              Tongasoa <br /> Ianao !
+            <div className=" font-wenseep text-5xl font-bold text-white">
+              Bienvenue!
             </div>
           </div>
         </div>
@@ -100,27 +100,27 @@ const Login = () => {
 
         <div className=" bg-white  h-[90vh] flex-1 p-8 rounded-r-md">
           <div className="w-full max-w-md mx-auto p-5">
-            <div className='font-inter font-bold text-4xl mb-5'>Connexion</div>
-            <div className='font-inter text-md opacity-50 mb-2'>Cher Client ! Veuiller remplire tous les <br />champs</div>
+            <div className='font-wenssep font-bold text-4xl mb-5'>Connexion</div>
+            <div className='font-inter text-md opacity-50 mb-2 '>Cher Client ! Veuiller remplire tous les <br />champs</div>
 
-            <div className='font-inter mb-1 text-sm opacity-50 px-2'>Email</div>
+            <div className='font-inter mb-1 text-sm opacity-50 px-2 mt-7'>Email</div>
             <input type="email" placeholder="exemple@gmail.com" className='rounded-md mt-2 h-10 p-3 w-full border border-gray-500 focus:border-none focus:rounded-sm' onChange={(e) => setEmail(e.target.value)} />
             <div className='font-inter mb-1 mt-4 text-sm opacity-50 px-2'>Mot de pass</div>
               <input type="password" placeholder="* * * * * * " className='rounded-md mt-2 h-10 p-3 w-full border border-gray-500 focus:border-none focus:rounded-sm' onChange={(e) => setPassword(e.target.value)} />
 
 
-            <div className='text-end text-sm mt-10 opacity-50'>Mot de pass oublier ?</div>
+            <div className='text-end font-amorien text-sm mt-10 opacity-50'>Mot de pass oublier ?</div>
             <button type="submit"
               className='flex items-center justify-between px-4 py-2 font-bold
                                          text-white bg-[#224F59] rounded-md mt-6 w-full h-10
                                         shadow-xl hover:bg-vertdark'
               onClick={Login}
             >
-              <span className="flex-1 text-center">Connexion</span>
+              <span className="flex-1  text-center">Connexion</span>
               <BsRocketTakeoffFill className="w-5 h-5" />
 
             </button>
-            <div className="mt-10 text-sm px-2 text-gray-700">Nouveau? <a href="/register" className="text-[#224F59] font-semibold">Inscription</a></div>
+            <div className="mt-10 text-sm px-2 font-amorien text-gray-700">Nouveau? <a href="/register" className="text-[#224F59] font-semibold">Inscription</a></div>
           </div>
         </div>
       </div>
