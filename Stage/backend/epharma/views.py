@@ -196,6 +196,15 @@ class UserListView(viewsets.ModelViewSet):
     pagination_class = None
 
 
+class UserListAuth(viewsets.ModelViewSet):
+    serializer_class = UserSerialiser
+    queryset = User.objects.filter(confirmed=False)
+
+class Usersans(viewsets.ModelViewSet):
+    serializer_class = UserSerialiser
+    queryset = User.objects.all()
+
+
 class EmployerListView(generics.ListAPIView):
     serializer_class = EmployerSerialiser
     permission_classes = [IsAuthenticated]
@@ -275,10 +284,6 @@ class FactureParUserView(ListAPIView):
         except Profile.DoesNotExist:
             return Vente.objects.none()
         return Vente.objects.filter(vendeur=profile)
-
-
-
-
 
 
 class DownlineView(ListAPIView):
@@ -371,9 +376,12 @@ class RendevousView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = None
     
+class UserConfirmed(viewsets.ModelViewSet):
+    serializer_class = UserSerialiser
+    permission_classes = [IsAuthenticated]
+    queryset_classes = User.objects.filter(confirmed=False)
 
-
-
+    
 
 class IMCCalculatorAPIView(APIView):
     def post(self, request):
@@ -470,6 +478,7 @@ class ProfileUpdateByMemberCodeEmailView(APIView):
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
 from .models import Profile
 from .serializers import ProfileSerializer
 
@@ -507,7 +516,6 @@ from .serializers import ProfileSerializer
 
 class UtilisateursParGradeView(APIView):
     permission_classes = [IsAuthenticated]
-
     def get(self, request):
         grade = request.query_params.get('grade')
         if not grade:

@@ -7,7 +7,7 @@ from epharma.views import(
         EmployerSuprimeView,ProfileUpdateByMemberCodeEmailView,
         profilUpdate,Userprofile,LogoutView,FactureViews,
         MessageDetailView,SendMessage,MessageDetailView,
-        DownlineView,UtilisateurParIdProfile
+        DownlineView,UtilisateurParIdProfile,UserListAuth,Usersans
         )
 from django.conf.urls.static import static
 from rest_framework import routers
@@ -25,6 +25,8 @@ router.register('/ajoutmembre',views.AjoutMembre,'ajoute_membre')
 router.register('/rendevous',views.RendevousView,'rendevous')
 router.register('/user',views.UserListView,'utilisateur')
 router.register('/facture',views.FactureViews,'facture')
+router.register('/userc',views.UserListAuth,'utilisateurconfirmed')
+router.register('/users',views.Usersans,'utilisateursimple')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api',include(router.urls)),

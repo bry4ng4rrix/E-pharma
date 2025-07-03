@@ -127,7 +127,6 @@ const itemVariants = {
 const [image,setImage] = useState(null)
 const AjoutProfile = async (e) => {
   e.preventDefault();
-
   if (!image) {
     toast.success("Aucune image sélectionnée !");
     return;
@@ -148,7 +147,7 @@ const AjoutProfile = async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      toast.success("Photo de profil mise à jour !");
+      toast.success("Photo de profil mise à jour!");
       fetchUtilisateur();
       setTimeout(() => {
         closeProfile();
@@ -206,6 +205,7 @@ const[Branch,setBranch] = useState('');
 
               }
             setTimeout(() => {
+              toast.success('vita oooo ')
               closeProfile()
             }, 1000);
 
@@ -420,7 +420,7 @@ const closehistorique = () => setHistorique(false)
                                                               <motion.div
                                                                 key={member.id}
                                                                 variants={itemVariants}
-                                                                whileHover={{ scale: 1.03 }}
+                                                                whileHover={{ scale: 1.020 }}
                                                                 className="h-10 w-full bg-vertgris p-2 rounded flex justify-between shadow-md hover:shadow-2xl hober-rounded  px-3
                                                                           hover:font-bold hover:bg-white/50 hover:text-slate-800 text-white"
                                                                                                                               >
@@ -595,10 +595,10 @@ const closehistorique = () => setHistorique(false)
                             duration:1.2
                         }}
                         >
-                            {profileU.is_active ?? (
+                            
                               <button onClick={openBot} className='h-12 m-2 bg-vert mt-20 px-10 flex gap-6 justify-center items-center rounded text-white font-bold text-lg shadow-lg hover:bg-gray-400' 
                             >Besoins d'un Conseils  <TbMessageChatbot className="h-6 w-auto"/></button>
-                            )}
+                            
                         </motion.div>
                     </div>
                     <div className=' w-screen justify-center items-center flex p-10'>

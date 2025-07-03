@@ -51,7 +51,7 @@ const Sidebard = () => {
         { nom: "Tableau de Bord", link: "/admin", icon: MdOutlineDashboard },
         { nom: "Ventes", link: "/admin/vente", icon: MdOutlineAddShoppingCart, margin: true },
         { nom: "Produits", link: "/admin/produits", icon: MdOutlineSpoke },
-        { nom: "Rendez-vous", link: "/admin/rendevous", icon: MdOutlineDashboard },
+        { nom: "Demande", link: "/admin/rendevous", icon: MdOutlineDashboard },
         { nom: "Programme", link: "/admin/programe", icon: MdOutlineListAlt },
         { nom: "Employé", link: "/admin/employer", icon: MdOutlineAdminPanelSettings, margin: true },
         { nom: "Membres", link: "/admin/membre", icon: MdOutlineGroup },

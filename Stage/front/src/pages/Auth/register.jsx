@@ -7,9 +7,20 @@ const Register = () => {
   const [Nom, setNom] = useState("");
   const [Prenom, setPrenom] = useState("");
   const [Codemember, setCodemember] = useState("");
+  const [Codeparent, setCodeparent] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [Password1, setPassword1] = useState("");
+
+
+  const fetchAll = async () => {
+    try {
+          const response = await fetch ('http://localhost:8000/api/user')
+    }
+    catch {
+
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +56,7 @@ const Register = () => {
       first_name: Nom,
       last_name: Prenom,
       member_code: Codemember,
+      directline: Codeparent ,
       email: Email,
       password: Password,
       password1: Password1,
@@ -179,12 +191,22 @@ const Register = () => {
                 onChange={(e) => setPrenom(e.target.value)}
               />
             </div>
-            <input
+           <div className="flex gap-2 ">
+             <input
               type="number"
               placeholder="Code du Membre"
               className="mb-2 placeholder-text-sm rounded-sm  mt-2 h-10 p-3 w-full border border-gray-400 focus:border-none focus:rounded-sm"
               onChange={(e) => setCodemember(e.target.value)}
+            /> 
+            <input
+              type="number"
+              placeholder="Code parent"
+              className="mb-2 placeholder-text-sm rounded-sm  mt-2 h-10 p-3 w-full border border-gray-400 focus:border-none focus:rounded-sm"
+              onChange={(e) => setCodeparent(e.target.value)}
             />
+
+           
+           </div>
             <input
               type="email"
               placeholder="Email"

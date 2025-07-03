@@ -213,7 +213,7 @@ if(!newposte) {
 
 
 
-      const handleDeleteClick = async (id) => {
+    const handleDeleteClick = async (id) => {
        
         try {
           const response = await fetch(`http://localhost:8000/profiles/${id}`, {

@@ -20,12 +20,13 @@ from django.contrib.auth import authenticate
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True)
     password1 = serializers.CharField(write_only=True, required=True)
-    member_code = serializers.CharField(max_length=50, required=True)
+    member_code = serializers.CharField(max_length=50, required=True)   
+    directline = serializers.CharField(max_length=50, required=True)
     poste = serializers.CharField(required=False)
     is_staff = serializers.BooleanField(default=False)
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email', 'member_code','poste', 'password', 'password1','is_staff','image')
+        fields = ('first_name', 'last_name', 'email', 'member_code','directline','poste', 'password', 'password1','is_staff','image')
     def validate(self, data):
         if data.get('password') != data.get('password1'):
             raise serializers.ValidationError({"password1": "Les deux mots de passe ne correspondent pas"})
@@ -41,7 +42,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         profile_data = {
             'member_code': validated_data.pop('member_code'),
             'member_name': f"{validated_data['first_name']} {validated_data['last_name']}",
-            'depth': 0,'directline': 0,'sponsor': 0,'registration_date': '','grade': 0,'gbv': 0,'cpbv': 0,'cnbv': 0,'pbv': 0,'tnbv': 0,'branch': '',
+            'depth': 0,'directline': validated_data['directline'],'sponsor': 0,'registration_date': '','grade': 0,'gbv': 0,'cpbv': 0,'cnbv': 0,'pbv': 0,'tnbv': 0,'branch': '',
         }
         username = validated_data['email'].split('@')[0] + '_' + str(uuid.uuid4())[:8]
         while User.objects.filter(username=username).exists():
@@ -91,9 +92,10 @@ class UserprofileSerialiser(serializers.ModelSerializer):
     
 
 class UserSerialiser(serializers.ModelSerializer):
+    member_code = serializers.CharField(source='profile.member_code',read_only=True)
     class Meta :
         model = User
-        fields = ['id','username','email','first_name','image','last_name','poste','is_staff','is_superuser']
+        fields = ['id','username','email','first_name','image','last_name','poste','is_staff','is_superuser','confirmed','member_code']
 
     
 
