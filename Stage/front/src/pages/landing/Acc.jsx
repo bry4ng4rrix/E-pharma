@@ -14,6 +14,7 @@ import Vente from './vente'
 import { useEffect, useState } from "react";
 import Chat from "./Chat/chat";
 import Message from './message/message';
+import Rdv from "./Rdv";
 
 
 
@@ -72,15 +73,6 @@ fetchuserprofile();
 }
 },[])
 
-const updatebv = async () => {
-  try {
-
-  }
-  catch {
-
-  }
-}
-
 const fetchUtilisateur = async()=> {
   
 
@@ -94,6 +86,7 @@ const fetchUtilisateur = async()=> {
             });
             const data = await response.json();
             setUtilsateur(data);
+
            
            
     }
@@ -128,7 +121,7 @@ const [image,setImage] = useState(null)
 const AjoutProfile = async (e) => {
   e.preventDefault();
   if (!image) {
-    toast.success("Aucune image sélectionnée !");
+    toast.error("Aucune image sélectionnée !");
     return;
   }
 
@@ -224,6 +217,7 @@ const [message,setmessage] = useState(false)
 const [Bot,setBot] = useState(false)
 const [varotra,setVarotra] = useState(false)
 const [historique,setHistorique] = useState(false)
+const [rdv,setRdv] = useState(false)
 const openBot = () => setBot(true)
 const closeBot = () => setBot(false)
 const openProfile = () => setProfile(true)
@@ -234,7 +228,8 @@ const openVarotra = () => setVarotra(true)
 const closeVarotra = () => setVarotra(false)
 const openhistorique = () => setHistorique(true)
 const closehistorique = () => setHistorique(false)
-
+const openRdv = () => setRdv(true)
+const closeRdv = () => setRdv(false)
 
  
 
@@ -260,8 +255,22 @@ const closehistorique = () => setHistorique(false)
                           openmessage={openmessage} 
                           openhistorique={openhistorique}
                           openVarotra={openVarotra}
+                          openRdv={openRdv}
                           />
                        
+                          {rdv && (
+                            <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
+                                                 z-50 flex items-center justify-center p-5"
+
+                        initial={{ opacity: 0  }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                      <Rdv closeRdv={closeRdv} />
+
+                            </motion.div>
+                          )}  
                           {message && (
                             <motion.div className="fixed inset-0 bg-black/80 backdrop-blur
                                                  z-50 flex items-center justify-center p-5"
@@ -359,15 +368,17 @@ const closehistorique = () => setHistorique(false)
                                                
                                                 className="w-24 h-24 rounded-full object-cover border-2 border-teal-400 shadow"
                                               />
-                                              <div className="grid grid-cols-2 gap-2 mt-3">
+                                            
+                                                <div className={`${profileU.confirmed ?  "grid grid-cols-2 gap-2 mt-3":"hidden"}`}>
                                                 <input
                                                 type="file"
                                                 accept="image/*"
                                                  onChange={(e) => setImage(e.target.files[0])}
-                                                className=" p-1 rounded text-sm  "
+                                                className=" p-1 rounded text-sm bg-transparent"
                                               />
                                               <button onClick={AjoutProfile } className="bg-teal-500 text-white p-1  rounded shadow-md">Ajouter</button>
                                               </div>
+                                             
                                             </div>
 
                                             <div className="grid grid-cols-2 w-full mt-3 border p-5 border-dashed rounded">
@@ -379,8 +390,10 @@ const closehistorique = () => setHistorique(false)
                                                 <div className="text-sm font-semibold text-slate-950">{ustilisateur.member_code}</div>
                                                 <div className="text-sm font-semibold font-inter text-vertblanc">Email : </div>
                                                 <div className="text-sm font-semibold text-slate-950">{profileU.email}</div>
-                                                <div className={`text-sm font-semibold font-inter text-vertblanc ${ustilisateur.is_active ? "" : "hidden"} `}>Status : </div>
-                                                <div className={`text-sm font-semibold text-white ${ustilisateur.is_active ? "" : "hidden"}`}>{ustilisateur.is_active ? "En attent de confirmation !!!" : "Confirmée"}</div>
+                                                <div className="text-sm font-semibold font-inter text-vertblanc">Parent : </div>
+                                                <div className="text-sm font-semibold text-slate-950">{ustilisateur.directline}</div>
+                                                <div className={`text-sm font-semibold font-inter text-vertblanc ${profileU.confirmed ? "hidden" : ""} `}>Status : </div>
+                                                <div className={`text-sm font-semibold text-white ${profileU.confirmed ? "hidden" : ""}`}>{profileU.confirmed ? "" : "En attent de confirmation !!!"}</div>
                                                 
 
 
@@ -393,13 +406,13 @@ const closehistorique = () => setHistorique(false)
                                             > 
                                               Mise à jour
                                             </button> */}
-                                            {ustilisateur.is_active && (
+                                            {!profileU.confirmed && (
                                               <div className="flex justify-center items-center h-full w-full p-4 text-red-700 font-bold text-xl bg-white/50 rounded m-4">
                                                Votre compte n'est pas encore activé.
                                                 <br /> Veuillez patienter jusqu'à la confirmation de l'administrateur.
                                               </div>
                                             )}
-                                            {!ustilisateur.is_active && (
+                                            {profileU.confirmed && (
 
                                                  <div className="bg-white/50 h-72 w-full mt-4 rounded p-3 flex flex-col">
                                                      <div className="flex-1 overflow-y-auto scrollbar-none">
@@ -437,12 +450,11 @@ const closehistorique = () => setHistorique(false)
 
                                           {/* Colonne droite : Infos membre */}
 
-                                              {!ustilisateur.is_active && (
+                                              {profileU.confirmed && (
 
                                              <div className="flex-1 rounded-lg p-6 flex flex-col gap-3 ">
                                           
                                             <div className="grid grid-cols-2 gap-2">
-                                              
                                             
                                               <div className="font-semibold text-vertblanc">Depth :</div>
                                              <input
@@ -451,13 +463,7 @@ const closehistorique = () => setHistorique(false)
                                               placeholder={ustilisateur.depth}
                                               onChange={e => setDepth(e.target.value)}
                                             />
-                                              <div className="font-semibold text-vertblanc">Directline :</div>
-                                              <input
-                                              type="text"
-                                              className="w-full p-2 justify-center items-center rounded outline-none foucus:border-none shadow-xl"
-                                              placeholder={ustilisateur.directline}
-                                              onChange={e => setDirectline(e.target.value)}
-                                            />
+                                              
                                               <div className="font-semibold text-vertblanc">Sponsor :</div>
                                              <input
                                               type="text"

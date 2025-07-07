@@ -91,7 +91,7 @@ const fetchVente = async () => {
             main: '#2F403E'
           },
           background: {
-            default: '#BBF2F2',
+            default: '#BBF2F',
           },
         },
         components: {

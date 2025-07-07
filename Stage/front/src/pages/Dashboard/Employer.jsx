@@ -57,9 +57,9 @@ const Employer = () => {
 
 
     useEffect(() => {
-       if(token){
+       
         fetchEmployers();
-       }
+       
     },[])
     const   fetchEmployers = async () => {
         try {
@@ -127,10 +127,15 @@ const Employer = () => {
                                     Liste des Employer 
                                    
                                 </div>
-                            <div className="grid  md:grid-cols-3   gap-5 ">
+                            <div className="grid  md:grid-cols-3   gap-5 p-3 border border-dashed border-vertsombre rounded ">
                                    
-                                   {employer.map((employer) =>(
-                                     <div key={employer.id}  className="bg-green-500 min-w-80 w-full  text-white backdrop-blur h-28 justify-between 
+                                   {employer.map((employer,index) =>(
+                                     <motion.div 
+                                     initial={{ opacity: 0, y: 20 }}
+                                     animate={{ opacity: 1, y: 0 }}
+                                     transition={{ delay: index * 0.2 }}
+                                     key={employer.id}  
+                                     className="bg-green-500 min-w-80 w-full  text-white backdrop-blur h-28 justify-between 
                                         shadow-lg items-center px-3 rounded-lg grid grid-cols-3">
                                        <img src={employer.image} alt="" className="bg-white h-24 w-24 rounded-full  justify-start"/>
                                         <ul className="text-sm">
@@ -144,7 +149,7 @@ const Employer = () => {
                                            
                                             <button className={`${employer.is_superuser ? "hidden": "block"} text-2xl text-red-500 bg-vertblanc rounded-full p-2 hover:bg-red-500 hover:text-vertblanc hover:cursor-wait`}><BsFillTrashFill onClick={() =>suprimer(employer.id)} /></button>
                                         </div>
-                                    </div>
+                                    </motion.div>
 
                                    ))}
                                    

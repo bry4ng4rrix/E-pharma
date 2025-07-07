@@ -31,6 +31,7 @@ const Rendevous = () => {
                 });
                 const responseData = await response.json();
                 setUtilisateur(responseData)
+                
             }
             catch {
                 
@@ -209,7 +210,7 @@ const oneaccepte = async (id) => {
                     <motion.div
                         
                                                           
-                    className="w-full h-96 p-3  justify-center gap-2 m-1 border border-dashed border-vertsombre grid grid-cols-1 sm:grid-cols-2  rounded-md overflow-y-auto scrollbar-none">
+                    className="w-full h-auto p-3  justify-center gap-2 m-1 border border-dashed border-vertsombre grid grid-cols-1 sm:grid-cols-2  rounded-md overflow-y-auto scrollbar-none">
                            {utilisateur.map((util,index) => (
                          <motion.div 
                             key={util.id}
@@ -217,9 +218,9 @@ const oneaccepte = async (id) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.2 }}
                             className="p-5 shadow-lg rounded-md h-28 w-full bg-green-100  ">
-                                    <div className="flex   justify-between">
+                                    <div className="flex justify-around">
                                         <img src={util.image} className="h-20  w-auto rounded-lg"/>
-                                        <div className="   mx-4">
+                                        <div className="flex flex-col text-start  ">
                                             <p className="text-sm"> Nom : {util.first_name} </p>
                                             <p className="text-sm"> Prenom : {util.last_name}</p>
                                             <p className="text-sm"> Email : {util.email}</p>

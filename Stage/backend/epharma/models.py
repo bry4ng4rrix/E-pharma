@@ -4,6 +4,8 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 from django.db.models.signals import post_save
 
+from datetime import time
+
 class UserManager(BaseUserManager):
     def _create_user(self,username,email,password,is_active,is_staff,is_superuser,**extra_fields):
         now = timezone.now()
@@ -67,7 +69,8 @@ class Profile(models.Model):
 
 class Rendevous(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,null=True,blank=True) 
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(auto_now_add=False )
+    heure = models.TimeField(unique=True,default=time(6,0))
     message = models.CharField(max_length=50)
 
     def __str__(self):

@@ -366,20 +366,46 @@ class SendMessage(generics.CreateAPIView):
         instance = serializer.save(expediteur=self.request.user)
         destinataire = instance.destinataire
         
-
-
     
 
 class RendevousView(viewsets.ModelViewSet):
     serializer_class = RendevousSerialiser
     queryset = Rendevous.objects.all()
-    permission_classes = [IsAuthenticated]
     pagination_class = None
     
 class UserConfirmed(viewsets.ModelViewSet):
     serializer_class = UserSerialiser
     permission_classes = [IsAuthenticated]
     queryset_classes = User.objects.filter(confirmed=False)
+
+
+
+class RequestRendezvousView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        # Récupérer l'utilisateur connecté
+        user = request.user
+
+        # Préparer les données pour le rendez-vous
+        data = request.data.copy()
+        data['user'] = user.id  # Associer l'utilisateur connecté
+
+        # Créer le rendez-vous
+        serializer = RendevousSerialiser(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "message": "Demande de rendez-vous envoyée avec succès.",
+                "rendezvous": serializer.data
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+
 
     
 

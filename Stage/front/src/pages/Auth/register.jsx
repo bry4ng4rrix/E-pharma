@@ -1,26 +1,47 @@
 import { FaUserCheck } from "react-icons/fa"; 
 import loginBg from '../../assets/img/login.png'
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { toast, ToastContainer ,Bounce} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Register = () => {
   const [Nom, setNom] = useState("");
   const [Prenom, setPrenom] = useState("");
   const [Codemember, setCodemember] = useState("");
-  const [Codeparent, setCodeparent] = useState("");
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const [Password1, setPassword1] = useState("");
+  const [utilisateur,setUtilisateur] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState();
+  
+ useEffect(() => {
+  fetchAll();
+}, []);
 
+useEffect(() => {
+  if (utilisateur.length > 0 && !selected) {
+    setSelected(utilisateur[0].member_code);
+  } 
+}, [utilisateur]);
 
   const fetchAll = async () => {
     try {
-          const response = await fetch ('http://localhost:8000/api/user')
+          const response = await fetch("http://localhost:8000/api/users", {
+                    method : "GET",
+                    headers : {
+                        "Content-type": "application/json",
+                    },
+                });
+                const responseData = await response.json();
+                setUtilisateur(responseData)
+                setTimeout(() => {
+                  setLoading(false)
+                }, 1000);
     }
     catch {
 
     }
-  }
+    }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,7 +77,7 @@ const Register = () => {
       first_name: Nom,
       last_name: Prenom,
       member_code: Codemember,
-      directline: Codeparent ,
+      directline: selected ,
       email: Email,
       password: Password,
       password1: Password1,
@@ -198,12 +219,15 @@ const Register = () => {
               className="mb-2 placeholder-text-sm rounded-sm  mt-2 h-10 p-3 w-full border border-gray-400 focus:border-none focus:rounded-sm"
               onChange={(e) => setCodemember(e.target.value)}
             /> 
-            <input
-              type="number"
-              placeholder="Code parent"
-              className="mb-2 placeholder-text-sm rounded-sm  mt-2 h-10 p-3 w-full border border-gray-400 focus:border-none focus:rounded-sm"
-              onChange={(e) => setCodeparent(e.target.value)}
-            />
+           
+            <select name="" id=""
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+              className="mb-2 placeholder-text-sm rounded-sm text-gray-500 mt-2 h-10 p-3 w-full border border-gray-400 focus:border-none focus:rounded-sm">
+              {utilisateur.map((item) => (
+                <option key={item.id} value={item.member_code}>{loading ? 'chargement ....' : `${item.first_name} ${item.last_name}`}</option>
+              )) }
+            </select>
 
            
            </div>

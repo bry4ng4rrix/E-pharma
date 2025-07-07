@@ -82,8 +82,32 @@ const Membre = () => {
         setAjout(!ajout)
         toast.success(ajout)
     }
-    
-    
+
+
+const [utilisateur,setUtilsateur] = useState([])
+const fetchUtilisateur = async()=> {
+    try {
+         const response = await fetch('http://localhost:8000/profiles/user' , {
+              method : 'GET',
+                headers : {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
+            const data = await response.json();
+            setUtilsateur(data);
+
+    }
+    catch {
+        
+    }
+}
+useEffect(() => {
+if(token){
+
+fetchUtilisateur();
+}
+},[])
 
     
 
@@ -289,38 +313,43 @@ if(!newposte) {
     </GridToolbarContainer>
   );
 const columns = [
-    { field: 'member_code', headerName: 'Member Code', flex: 1 },
-    { field: 'member_name', headerName: 'Member Name', flex: 1 },
-    { field: 'depth', headerName: 'Depth', flex: 1 },
-    { field: 'directline', headerName: 'Directline', flex: 1 },
-    { field: 'sponsor', headerName: 'SPonsor', flex: 1 },
-    { field: 'registration_date', headerName: 'Registration Date', flex: 1 },
-    { field: 'grade', headerName: 'Grade', flex: 1 },
-    { field: 'gbv', headerName: 'Gbv', flex: 1 },
-    { field: 'cpbv', headerName: 'Cpbv', flex: 1 },
-    { field: 'cnbv', headerName: 'Cnbv', flex: 1 },
-    { field: 'pbv', headerName: 'Pbv', flex: 1 },
-    { field: 'tnbv', headerName: 'Tnbv', flex: 1 },
-    { field: 'branch', headerName: 'Branch', flex: 1 },
-    {
-      field: 'actions',
-      type: 'actions',
-      headerName: 'Actions',
-      width: 100,
-      getActions: (params) => [
-        <GridActionsCellItem
-          icon={<EditIcon />}
-          label="Modifier"
-          onClick={() => handleEditClick(params.id)}
-        />,
-        <GridActionsCellItem
-          icon={<DeleteIcon />}
-          label="Supprimer"
-          onClick={() => handleDeleteClick(params.id)}
-        />
-      ],
-    }
-  ];
+  { field: 'member_code', headerName: 'Member Code', flex: 1 },
+  { field: 'member_name', headerName: 'Member Name', flex: 1 },
+  { field: 'depth', headerName: 'Depth', flex: 1 },
+  { field: 'directline', headerName: 'Directline', flex: 1 },
+  { field: 'sponsor', headerName: 'Sponsor', flex: 1 },
+  { field: 'registration_date', headerName: 'Registration Date', flex: 1 },
+  { field: 'grade', headerName: 'Grade', flex: 1 },
+  { field: 'gbv', headerName: 'Gbv', flex: 1 },
+  { field: 'cpbv', headerName: 'Cpbv', flex: 1 },
+  { field: 'cnbv', headerName: 'Cnbv', flex: 1 },
+  { field: 'pbv', headerName: 'Pbv', flex: 1 },
+  { field: 'tnbv', headerName: 'Tnbv', flex: 1 },
+  { field: 'branch', headerName: 'Branch', flex: 1 },
+  {
+    field: 'actions',
+    type: 'actions',
+    headerName: 'Actions',
+    width: 100,
+    getActions: (params) => [
+      ...(utilisateur?.is_superuser
+        ? [
+            <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Modifier"
+              onClick={() => handleEditClick(params.id)}
+            />
+          ]
+        : []),
+      <GridActionsCellItem
+        icon={<DeleteIcon />}
+        label="Supprimer"
+        onClick={() => handleDeleteClick(params.id)}
+      />
+    ]
+  }
+];
+
 
   
     return (

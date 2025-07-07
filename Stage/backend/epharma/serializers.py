@@ -86,7 +86,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class UserprofileSerialiser(serializers.ModelSerializer):
     class Meta :
         model = User
-        fields = ('id','email','first_name','image','last_name','is_active','is_staff','is_superuser')
+        fields = ('id','email','first_name','image','last_name','is_active','is_staff','is_superuser','confirmed')
 
     
     
@@ -152,12 +152,9 @@ class MessageSerializer(serializers.ModelSerializer):
 class RendevousSerialiser(serializers.ModelSerializer):
     class Meta:
         model = Rendevous 
-        fields = ['nom','message','date','user']
+        fields = ['user','message','date','heure']
 
 
-    ###########################
-
-    
 
 
 class VenteS(serializers.ModelSerializer):

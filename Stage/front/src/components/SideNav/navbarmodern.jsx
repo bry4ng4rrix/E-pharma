@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 
 
-const navbarmodern = ({openProfile,openBot,openmessage,openhistorique,openVarotra}) => {
+const navbarmodern = ({openProfile,openBot,openmessage,openhistorique,openVarotra,openRdv}) => {
 
 const navigate = useNavigate();
 const [utilisateur,setUtilsateur] = useState([])
@@ -80,12 +80,12 @@ fetchUtilisateur();
             
                 <ul className=' hidden sm:flex gap-10 cursor-pointer   font-bold    font-wenssep texy-center  text-green-950 transition-all duration-300 '>
                   
-                    <button onClick={openmessage} className={`${utilisateur.is_active ? "block":"hidden"} `}>Message</button>
-                    <button onClick={openVarotra} className={`${utilisateur.is_active ? "block":"hidden"} `}>Produits</button>
-                 
-                    <button onClick={openhistorique} className={`${utilisateur.is_active ? "block":"hidden"} `}>Historique</button>
-                    <button onClick={openProfile} className={`${utilisateur.is_active ? "block":"hidden"} `}>Profile</button>
-                    <Link to='/admin' className={`${utilisateur.is_superuser ? "block" : "hidden"}`}>Administrateur</Link>
+                    <button onClick={openmessage} className={`${!utilisateur.confirmed ? "hidden":""} `}>Message</button>
+                    <button onClick={openVarotra} className={`${!utilisateur.confirmed ? "hidden":""} `}>Produits</button>
+                    <button onClick={openhistorique} className={`${!utilisateur.confirmed ? "hidden":""} `}>Historique</button>
+                    <button onClick={openRdv} className={`${utilisateur.is_active ? "":"hidden"} `}>Rendez-vous</button>
+                    <button onClick={openProfile} className={`${utilisateur.is_active ? "":"hidden"} `}>Profile</button>
+                    <Link to='/admin' className={`  ${utilisateur.is_superuser ? "block" : "hidden"}`}>Administrateur</Link>
                 </ul>
             
         </div>
