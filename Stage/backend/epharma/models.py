@@ -29,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=50 ,unique=True)
     first_name = models.CharField(max_length=50 ,unique=False)
     last_name = models.CharField(max_length=50 ,unique=False)
-    image = models.ImageField(default="default.jpg",upload_to="uploads/")
+    image = models.ImageFieldmodels.CharField(max_length=50)(default="default.jpg",upload_to="uploads/")
     mobile = models.CharField(max_length=50)
     poste = models.CharField(max_length=50 ,null=True ,default='')
     is_active = models.BooleanField(default=False)
